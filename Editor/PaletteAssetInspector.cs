@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.SelectionGroups;
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace Unity.PaletteSwitch
@@ -41,13 +42,20 @@ namespace Unity.PaletteSwitch
     public class PaletteAssetInspector : Editor
     {
 
+        ReorderableList colorChangeList;
+
         public override void OnInspectorGUI()
         {
             var paletteAsset = target as PaletteAsset;
             var paletteProperty = serializedObject.FindProperty("palette");
-            EditorGUI.BeginChangeCheck();
+
+            if (colorChangeList == null)
+            {
+                colorChangeList = new ReorderableList(serializedObject, paletteProperty, false, true, true, true);
+                colorChangeList.drawElementCallback = DrawElement;
+                colorChangeList.drawHeaderCallback += DrawListHeader;
+            }
             EditorGUILayout.PropertyField(serializedObject.FindProperty("groupName"));
-            EditorGUILayout.PropertyField(paletteProperty, true);
 
             if (GUILayout.Button("Init from Group"))
             {
@@ -74,7 +82,31 @@ namespace Unity.PaletteSwitch
                     }
                 }
             }
+            colorChangeList.DoLayoutList();
             serializedObject.ApplyModifiedProperties();
+        }
+
+        private void DrawListHeader(Rect rect)
+        {
+            var width = rect.width;
+            rect.width = width * 0.375f;
+            GUI.Label(rect, "Name");
+            rect.x += rect.width;
+            rect.width = width * 0.125f;
+            GUI.Label(rect, "Material");
+            rect.x += rect.width;
+            rect.width = width * 0.3f;
+            GUI.Label(rect, "Property");
+            rect.x += rect.width;
+            rect.width = width * 0.2f;
+            GUI.Label(rect, "Color");
+        }
+
+        private void DrawElement(Rect rect, int index, bool isActive, bool isFocused)
+        {
+            rect.height = EditorGUIUtility.singleLineHeight;
+            var property = colorChangeList.serializedProperty.GetArrayElementAtIndex(index);
+            EditorGUI.PropertyField(rect, property);
         }
     }
 }

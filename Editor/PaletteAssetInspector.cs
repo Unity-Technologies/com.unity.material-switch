@@ -55,38 +55,45 @@ namespace Unity.PaletteSwitch
                 colorChangeList.drawElementCallback = DrawElement;
                 colorChangeList.drawHeaderCallback += DrawListHeader;
             }
+            GUILayout.BeginHorizontal();
             EditorGUILayout.PropertyField(serializedObject.FindProperty("groupName"));
-
-            if (GUILayout.Button("Init from Group"))
+            if (GUILayout.Button(new GUIContent("Init", "Intialize pallete using materials from selected group.")))
             {
-                paletteProperty.ClearArray();
-                foreach (var i in SelectionGroupUtility.GetComponents<Renderer>(paletteAsset.groupName))
-                {
-                    for (var index = 0; index < i.sharedMaterials.Length; index++)
-                    {
-                        //required to work around bug in GetMaterialProperties
-                        var singleMaterial = new[] { i.sharedMaterials[index] };
-                        foreach (var p in MaterialEditor.GetMaterialProperties(singleMaterial))
-                        {
-                            if (p.type == MaterialProperty.PropType.Color)
-                            {
-                                paletteProperty.InsertArrayElementAtIndex(0);
-                                var colorChange = paletteProperty.GetArrayElementAtIndex(0);
-                                colorChange.FindPropertyRelative("memberNameQuery").stringValue = i.name;
-                                colorChange.FindPropertyRelative("materialIndex").intValue = index;
-                                colorChange.FindPropertyRelative("propertyDisplayName").stringValue = p.displayName;
-                                colorChange.FindPropertyRelative("propertyName").stringValue = p.name;
-                                colorChange.FindPropertyRelative("color").colorValue = Random.ColorHSV(0, 1, 0.7f, 1, 0.5f, 1f);
-                            }
-                        }
-                    }
-                }
+                InitPalette(paletteAsset, paletteProperty);
             }
+            GUILayout.EndHorizontal();
+            GUILayout.Space(4);
             colorChangeList.DoLayoutList();
             serializedObject.ApplyModifiedProperties();
         }
 
-        private void DrawListHeader(Rect rect)
+        static void InitPalette(PaletteAsset paletteAsset, SerializedProperty paletteProperty)
+        {
+            paletteProperty.ClearArray();
+            foreach (var i in SelectionGroupUtility.GetComponents<Renderer>(paletteAsset.groupName))
+            {
+                for (var index = 0; index < i.sharedMaterials.Length; index++)
+                {
+                    //required to work around bug in GetMaterialProperties
+                    var singleMaterial = new[] { i.sharedMaterials[index] };
+                    foreach (var p in MaterialEditor.GetMaterialProperties(singleMaterial))
+                    {
+                        if (p.type == MaterialProperty.PropType.Color)
+                        {
+                            paletteProperty.InsertArrayElementAtIndex(0);
+                            var colorChange = paletteProperty.GetArrayElementAtIndex(0);
+                            colorChange.FindPropertyRelative("memberNameQuery").stringValue = i.name;
+                            colorChange.FindPropertyRelative("materialIndex").intValue = index;
+                            colorChange.FindPropertyRelative("propertyDisplayName").stringValue = p.displayName;
+                            colorChange.FindPropertyRelative("propertyName").stringValue = p.name;
+                            colorChange.FindPropertyRelative("color").colorValue = Random.ColorHSV(0, 1, 0.7f, 1, 0.5f, 1f);
+                        }
+                    }
+                }
+            }
+        }
+
+        void DrawListHeader(Rect rect)
         {
             var width = rect.width;
             rect.width = width * 0.375f;
@@ -102,7 +109,7 @@ namespace Unity.PaletteSwitch
             GUI.Label(rect, "Color");
         }
 
-        private void DrawElement(Rect rect, int index, bool isActive, bool isFocused)
+        void DrawElement(Rect rect, int index, bool isActive, bool isFocused)
         {
             rect.height = EditorGUIUtility.singleLineHeight;
             var property = colorChangeList.serializedProperty.GetArrayElementAtIndex(index);

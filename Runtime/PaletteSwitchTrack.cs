@@ -8,11 +8,9 @@ namespace Unity.PaletteSwitch
     [TrackBindingType(typeof(SelectionGroup))]
     public class PaletteSwitchTrack : TrackAsset
     {
-        // public override Playable CreateTrackMixer(UnityEngine.Playables.PlayableGraph graph, UnityEngine.GameObject go, int inputCount)
-        // {
-        //     return ScriptPlayable<PaletteSwitchBehaviour>.Create(graph, inputCount);
-        // }
-
-
+        public override Playable CreateTrackMixer(UnityEngine.Playables.PlayableGraph graph, UnityEngine.GameObject go, int inputCount)
+        {
+            return ScriptPlayable<PaletteSwitchMixerBehaviour>.Create(graph, inputCount);
+        }
     }
 }

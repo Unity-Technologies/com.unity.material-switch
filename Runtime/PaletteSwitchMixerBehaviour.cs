@@ -18,11 +18,6 @@ namespace Unity.PaletteSwitch
             var inputCount = playable.GetInputCount();
 
             var totalWeight = 0f;
-            for (var i = 0; i < inputCount; i++)
-            {
-                var weight = playable.GetInputWeight(i);
-                totalWeight += weight;
-            }
 
             for (var i = 0; i < inputCount; i++)
             {
@@ -31,6 +26,7 @@ namespace Unity.PaletteSwitch
                 totalWeight += weight;
 
                 var paletteSwitchBehaviour = ((ScriptPlayable<PaletteSwitchBehaviour>)playable.GetInput(i)).GetBehaviour();
+                if (paletteSwitchBehaviour.paletteAsset == null) continue;
                 var palette = paletteSwitchBehaviour.paletteAsset.palette;
 
                 foreach (var cc in palette)

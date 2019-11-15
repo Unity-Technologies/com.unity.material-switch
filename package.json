@@ -9,6 +9,10 @@
   "contributors": [
     "Simon Wittber <simonwittber@unity3d.com> (https://github.com/smnwttbr)",
     "Unity Technologies Japan"    
-  ]        
+  ],
+  "dependencies": {
+        "com.unity.selection-groups": "https://github.com/Unity-Technologies/selectiongroups.git#master"
+  }
+  
   
 }

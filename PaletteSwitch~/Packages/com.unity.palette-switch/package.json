@@ -11,7 +11,7 @@
     "Unity Technologies Japan"    
   ],
   "dependencies": {
-    "com.unity.selection-groups": "https://github.com/Unity-Technologies/selectiongroups.git#master"
+    "com.unity.selection-groups": "0.0.1-preview"
   }
   
   

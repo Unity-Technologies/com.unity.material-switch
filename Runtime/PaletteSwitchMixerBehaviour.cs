@@ -27,7 +27,7 @@ namespace Unity.PaletteSwitch
 
                 var paletteSwitchBehaviour = ((ScriptPlayable<PaletteSwitchBehaviour>)playable.GetInput(i)).GetBehaviour();
                 if (paletteSwitchBehaviour.paletteAsset == null) continue;
-                var palette = paletteSwitchBehaviour.paletteAsset.palette;
+                var palette = paletteSwitchBehaviour.paletteAsset.colorChanges.items.Concat(paletteSwitchBehaviour.colorOverrides.items).ToArray();
 
                 foreach (var cc in palette)
                 {
@@ -51,7 +51,7 @@ namespace Unity.PaletteSwitch
                 for (var i = 0; i < finalColors.Length; i++)
                 {
                     var cc = finalColors[i];
-                    if (PaletteAsset.GetDefaultColor(group, cc, out Color color))
+                    if (ColorChangeCollection.GetDefaultColor(group, cc, out Color color))
                     {
                         cc.color = Color.Lerp(color, cc.color, totalWeight);
                         finalColors[i] = cc;
@@ -59,7 +59,7 @@ namespace Unity.PaletteSwitch
                 }
             }
             // foreach (var cc in colorMap.Values) Debug.Log(cc.color);
-            PaletteAsset.SetPropertyBlock(group, finalColors);
+            ColorChangeCollection.SetPropertyBlock(group, finalColors);
         }
 
 

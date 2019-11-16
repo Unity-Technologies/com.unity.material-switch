@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.SelectionGroups;
@@ -15,23 +16,26 @@ namespace Unity.PaletteSwitch
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return EditorGUIUtility.singleLineHeight;
+            return EditorGUIUtility.singleLineHeight + 3;
         }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             var rect = position;
             var width = position.width;
+            rect.y += 1f;
             rect.width = width * 0.375f;
             EditorGUI.PropertyField(rect, property.FindPropertyRelative("memberNameQuery"), GUIContent.none);
             rect.x += rect.width;
             rect.width = width * 0.125f;
             EditorGUI.PropertyField(rect, property.FindPropertyRelative("materialIndex"), GUIContent.none);
             displayLabel = new GUIContent(string.Empty);
-            displayLabel.tooltip = property.FindPropertyRelative("propertyDisplayName").stringValue;
+            displayLabel.text = property.FindPropertyRelative("propertyDisplayName").stringValue;
+            displayLabel.tooltip = property.FindPropertyRelative("propertyName").stringValue;
             rect.x += rect.width;
             rect.width = width * 0.3f;
-            EditorGUI.PropertyField(rect, property.FindPropertyRelative("propertyName"), displayLabel);
+            // EditorGUI.LabelField(rect, displayLabel);
+            EditorGUI.PropertyField(rect, property.FindPropertyRelative("propertyName"), GUIContent.none);
             rect.x += rect.width;
             rect.width = width * 0.2f;
             EditorGUI.PropertyField(rect, property.FindPropertyRelative("color"), GUIContent.none);
@@ -43,6 +47,7 @@ namespace Unity.PaletteSwitch
     {
 
         ReorderableList colorChangeList;
+        bool enableEdit = false;
 
         public override void OnInspectorGUI()
         {
@@ -56,15 +61,23 @@ namespace Unity.PaletteSwitch
                 colorChangeList.drawHeaderCallback += DrawListHeader;
             }
             GUILayout.BeginHorizontal();
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("groupName"));
-            if (GUILayout.Button(new GUIContent("Init", "Intialize pallete using materials from selected group.")))
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("groupName"), GUILayout.ExpandWidth(true));
+            if (EditorGUILayout.DropdownButton(EditorGUIUtility.IconContent("_Popup"), FocusType.Passive, EditorStyles.label, GUILayout.ExpandWidth(false)))
             {
-                InitPalette(paletteAsset, paletteProperty);
+                ShowPopupMenu(paletteAsset, paletteProperty);
             }
             GUILayout.EndHorizontal();
             GUILayout.Space(4);
             colorChangeList.DoLayoutList();
             serializedObject.ApplyModifiedProperties();
+        }
+
+        private void ShowPopupMenu(PaletteAsset paletteAsset, SerializedProperty paletteProperty)
+        {
+            var menu = new GenericMenu();
+            menu.AddItem(new GUIContent("Initialize from Selection Group"), false, () => InitPalette(paletteAsset, paletteProperty));
+            menu.AddItem(new GUIContent("Enable Property Editing"), enableEdit, () => enableEdit = !enableEdit);
+            menu.ShowAsContext();
         }
 
         static void InitPalette(PaletteAsset paletteAsset, SerializedProperty paletteProperty)
@@ -86,11 +99,12 @@ namespace Unity.PaletteSwitch
                             colorChange.FindPropertyRelative("materialIndex").intValue = index;
                             colorChange.FindPropertyRelative("propertyDisplayName").stringValue = p.displayName;
                             colorChange.FindPropertyRelative("propertyName").stringValue = p.name;
-                            colorChange.FindPropertyRelative("color").colorValue = Random.ColorHSV(0, 1, 0.7f, 1, 0.5f, 1f);
+                            colorChange.FindPropertyRelative("color").colorValue = UnityEngine.Random.ColorHSV(0, 1, 0.7f, 1, 0.5f, 1f);
                         }
                     }
                 }
             }
+            paletteProperty.serializedObject.ApplyModifiedProperties();
         }
 
         void DrawListHeader(Rect rect)
@@ -113,7 +127,25 @@ namespace Unity.PaletteSwitch
         {
             rect.height = EditorGUIUtility.singleLineHeight;
             var property = colorChangeList.serializedProperty.GetArrayElementAtIndex(index);
-            EditorGUI.PropertyField(rect, property);
+            if (isActive && enableEdit)
+                EditorGUI.PropertyField(rect, property);
+            else
+            {
+                var width = rect.width;
+                rect.y += 1f;
+                rect.width = width * 0.375f;
+                EditorGUI.LabelField(rect, property.FindPropertyRelative("memberNameQuery").stringValue);
+                rect.x += rect.width;
+                rect.width = width * 0.125f;
+                EditorGUI.LabelField(rect, property.FindPropertyRelative("materialIndex").intValue.ToString());
+                rect.x += rect.width;
+                rect.width = width * 0.3f;
+                // EditorGUI.LabelField(rect, displayLabel);
+                EditorGUI.LabelField(rect, property.FindPropertyRelative("propertyDisplayName").stringValue);
+                rect.x += rect.width;
+                rect.width = width * 0.2f;
+                EditorGUI.PropertyField(rect, property.FindPropertyRelative("color"), GUIContent.none);
+            }
         }
     }
 }

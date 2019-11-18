@@ -34,3 +34,7 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+
+# Unity Logs
+PaletteSwitch~/Logs

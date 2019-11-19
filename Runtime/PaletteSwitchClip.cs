@@ -10,14 +10,14 @@ namespace Unity.PaletteSwitch
     {
         public PaletteAsset paletteAsset;
         [Space]
-        public ColorChangeCollection colorOverrides;
+        public PropertyChangeCollection propertyOverrides;
 
         public override Playable CreatePlayable(PlayableGraph graph, GameObject owner)
         {
             var playable = ScriptPlayable<PaletteSwitchBehaviour>.Create(graph);
             var behaviour = playable.GetBehaviour();
             behaviour.paletteAsset = paletteAsset;
-            behaviour.colorOverrides = colorOverrides;
+            behaviour.propertyOverrides = propertyOverrides;
             return playable;
         }
     }

@@ -10,6 +10,6 @@ namespace Unity.PaletteSwitch
     [CreateAssetMenu]
     public class PaletteAsset : ScriptableObject
     {
-        public ColorChangeCollection colorChanges = new ColorChangeCollection();
+        public PropertyChangeCollection propertyChanges = new PropertyChangeCollection();
     }
 }

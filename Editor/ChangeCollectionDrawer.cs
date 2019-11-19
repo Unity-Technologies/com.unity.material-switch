@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Unity.PaletteSwitch
 {
-    [CustomPropertyDrawer(typeof(ColorChangeCollection))]
-    public class ColorChangeCollectionDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(PropertyChangeCollection), true)]
+    public class ChangeCollectionDrawer : PropertyDrawer
     {
-        ReorderableList colorChangeList;
+        ReorderableList changeList;
         bool enableEdit = false;
         SerializedProperty property, itemsProperty;
 
@@ -24,27 +24,27 @@ namespace Unity.PaletteSwitch
             this.property = property;
             itemsProperty = property.FindPropertyRelative("items");
 
-            if (colorChangeList == null)
+            if (changeList == null)
             {
-                colorChangeList = new ReorderableList(property.serializedObject, itemsProperty, false, true, true, true);
-                colorChangeList.drawElementCallback = DrawElement;
-                colorChangeList.drawHeaderCallback += DrawListHeader;
+                changeList = new ReorderableList(property.serializedObject, itemsProperty, false, true, true, true);
+                changeList.drawElementCallback = DrawElement;
+                changeList.drawHeaderCallback += DrawListHeader;
             }
-            position = EditorGUI.PrefixLabel(position, label);
-            colorChangeList.DoList(position);
+            // position = EditorGUI.PrefixLabel(position, label);
+            changeList.DoList(position);
         }
 
         void ShowPopupMenu()
         {
             var menu = new GenericMenu();
-            foreach(var i in SelectionGroupUtility.GetGroupNames())
-                menu.AddItem(new GUIContent($"Initialize from Selection Group/{i}"), false, InitPalette, i);
+            foreach (var i in SelectionGroupUtility.GetGroupNames())
+                menu.AddItem(new GUIContent($"Initialize from Selection Group/{i}"), false, InitChangeList, i);
             menu.AddItem(new GUIContent("Enable Property Editing"), enableEdit, () => enableEdit = !enableEdit);
             menu.ShowAsContext();
         }
 
-        void InitPalette(object menuData)
-        { 
+        void InitChangeList(object menuData)
+        {
             var groupName = menuData as string;
             itemsProperty.ClearArray();
             foreach (var i in SelectionGroupUtility.GetComponents<Renderer>(groupName))
@@ -55,15 +55,34 @@ namespace Unity.PaletteSwitch
                     var singleMaterial = new[] { i.sharedMaterials[index] };
                     foreach (var p in MaterialEditor.GetMaterialProperties(singleMaterial))
                     {
-                        if (p.type == MaterialProperty.PropType.Color)
+                        if (p.type == MaterialProperty.PropType.Color
+                        || p.type == MaterialProperty.PropType.Float
+                        || p.type == MaterialProperty.PropType.Range
+                        || p.type == MaterialProperty.PropType.Vector)
                         {
                             itemsProperty.InsertArrayElementAtIndex(0);
-                            var colorChange = itemsProperty.GetArrayElementAtIndex(0);
-                            colorChange.FindPropertyRelative("memberNameQuery").stringValue = i.name;
-                            colorChange.FindPropertyRelative("materialIndex").intValue = index;
-                            colorChange.FindPropertyRelative("propertyDisplayName").stringValue = p.displayName;
-                            colorChange.FindPropertyRelative("propertyName").stringValue = p.name;
-                            colorChange.FindPropertyRelative("color").colorValue = UnityEngine.Random.ColorHSV(0, 1, 0.7f, 1, 0.5f, 1f);
+                            var change = itemsProperty.GetArrayElementAtIndex(0);
+                            change.FindPropertyRelative("memberNameQuery").stringValue = i.name;
+                            change.FindPropertyRelative("materialIndex").intValue = index;
+                            change.FindPropertyRelative("propertyDisplayName").stringValue = p.displayName;
+                            change.FindPropertyRelative("propertyName").stringValue = p.name;
+                            var typeProperty = change.FindPropertyRelative("propertyType");
+                            switch (p.type)
+                            {
+                                case MaterialProperty.PropType.Color:
+                                    change.FindPropertyRelative("colorValue").colorValue = UnityEngine.Random.ColorHSV(0, 1, 0.7f, 1, 0.5f, 1f);
+                                    typeProperty.intValue = PropertyChange.COLOR;
+                                    break;
+                                case MaterialProperty.PropType.Float:
+                                case MaterialProperty.PropType.Range:
+                                    change.FindPropertyRelative("floatValue").floatValue = 0;
+                                    typeProperty.intValue = PropertyChange.FLOAT;
+                                    break;
+                                case MaterialProperty.PropType.Vector:
+                                    typeProperty.intValue = PropertyChange.VECTOR;
+                                    change.FindPropertyRelative("vectorValue").vector4Value = Vector4.zero;
+                                    break;
+                            }
                         }
                     }
                 }
@@ -84,7 +103,7 @@ namespace Unity.PaletteSwitch
             GUI.Label(rect, "Property");
             rect.x += rect.width;
             rect.width = width * 0.2f;
-            GUI.Label(rect, "Color");
+            GUI.Label(rect, "Value");
             rect.x = rect.xMax - 16;
             rect.width = 16;
             if (EditorGUI.DropdownButton(rect, EditorGUIUtility.IconContent("_Popup"), FocusType.Passive, EditorStyles.label))
@@ -96,7 +115,7 @@ namespace Unity.PaletteSwitch
         void DrawElement(Rect rect, int index, bool isActive, bool isFocused)
         {
             rect.height = EditorGUIUtility.singleLineHeight;
-            var property = colorChangeList.serializedProperty.GetArrayElementAtIndex(index);
+            var property = changeList.serializedProperty.GetArrayElementAtIndex(index);
             if (isActive && enableEdit)
                 EditorGUI.PropertyField(rect, property);
             else
@@ -114,7 +133,19 @@ namespace Unity.PaletteSwitch
                 EditorGUI.LabelField(rect, property.FindPropertyRelative("propertyDisplayName").stringValue);
                 rect.x += rect.width;
                 rect.width = width * 0.2f;
-                EditorGUI.PropertyField(rect, property.FindPropertyRelative("color"), GUIContent.none);
+                var typePropertyID = property.FindPropertyRelative("propertyType").intValue;
+                switch (typePropertyID)
+                {
+                    case PropertyChange.VECTOR:
+                        EditorGUI.PropertyField(rect, property.FindPropertyRelative("vectorValue"), GUIContent.none);
+                        break;
+                    case PropertyChange.FLOAT:
+                        EditorGUI.PropertyField(rect, property.FindPropertyRelative("floatValue"), GUIContent.none);
+                        break;
+                    case PropertyChange.COLOR:
+                        EditorGUI.PropertyField(rect, property.FindPropertyRelative("colorValue"), GUIContent.none);
+                        break;
+                }
             }
         }
     }

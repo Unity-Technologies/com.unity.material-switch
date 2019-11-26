@@ -54,8 +54,11 @@ namespace Unity.PaletteSwitch
             {
                 if (Match(p.memberNameQuery, r.name))
                 {
-                    color = r.sharedMaterials[p.materialIndex].GetColor(p.propertyName);
-                    return true;
+                    if (r.sharedMaterials[p.materialIndex].HasProperty(p.propertyName))
+                    {
+                        color = r.sharedMaterials[p.materialIndex].GetColor(p.propertyName);
+                        return true;
+                    }
                 }
             }
             color = Color.white;
@@ -69,8 +72,11 @@ namespace Unity.PaletteSwitch
             {
                 if (Match(p.memberNameQuery, r.name))
                 {
-                    value = r.sharedMaterials[p.materialIndex].GetFloat(p.propertyName);
-                    return true;
+                    if (r.sharedMaterials[p.materialIndex].HasProperty(p.propertyName))
+                    {
+                        value = r.sharedMaterials[p.materialIndex].GetFloat(p.propertyName);
+                        return true;
+                    }
                 }
             }
             value = 0;
@@ -84,8 +90,11 @@ namespace Unity.PaletteSwitch
             {
                 if (Match(p.memberNameQuery, r.name))
                 {
-                    vector = r.sharedMaterials[p.materialIndex].GetVector(p.propertyName);
-                    return true;
+                    if (r.sharedMaterials[p.materialIndex].HasProperty(p.propertyName))
+                    {
+                        vector = r.sharedMaterials[p.materialIndex].GetVector(p.propertyName);
+                        return true;
+                    }
                 }
             }
             vector = Vector4.zero;

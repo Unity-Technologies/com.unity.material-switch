@@ -28,7 +28,10 @@ namespace Unity.PaletteSwitch
                 var paletteSwitchBehaviour = ((ScriptPlayable<PaletteSwitchBehaviour>)playable.GetInput(i)).GetBehaviour();
                 var changes = paletteSwitchBehaviour.propertyOverrides.items;
                 if (paletteSwitchBehaviour.paletteAsset != null)
-                    changes = changes.Concat(paletteSwitchBehaviour.paletteAsset.propertyChanges.items).ToArray();
+                {
+                    if (paletteSwitchBehaviour.paletteAsset.propertyChanges.items != null)
+                        changes = changes.Concat(paletteSwitchBehaviour.paletteAsset.propertyChanges.items).ToArray();
+                }
 
                 foreach (var cc in changes)
                 {

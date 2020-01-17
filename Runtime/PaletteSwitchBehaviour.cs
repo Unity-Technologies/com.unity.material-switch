@@ -5,7 +5,6 @@ namespace Unity.PaletteSwitch
 {
     public class PaletteSwitchBehaviour : PlayableBehaviour
     {
-        public PaletteAsset paletteAsset;
-        public PropertyChangeCollection propertyOverrides;
+        public Material[] targetMaterials;
     }
 }

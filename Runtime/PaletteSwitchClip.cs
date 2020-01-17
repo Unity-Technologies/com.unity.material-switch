@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.SelectionGroups;
 using UnityEngine;
@@ -5,19 +6,16 @@ using UnityEngine.Playables;
 
 namespace Unity.PaletteSwitch
 {
-    // [CreateAssetMenu]
+
     public class PaletteSwitchClip : PlayableAsset
     {
-        public PaletteAsset paletteAsset;
-        [Space]
-        public PropertyChangeCollection propertyOverrides;
+        public Material[] targetMaterials;
 
         public override Playable CreatePlayable(PlayableGraph graph, GameObject owner)
         {
             var playable = ScriptPlayable<PaletteSwitchBehaviour>.Create(graph);
             var behaviour = playable.GetBehaviour();
-            behaviour.paletteAsset = paletteAsset;
-            behaviour.propertyOverrides = propertyOverrides;
+            behaviour.targetMaterials = targetMaterials;
             return playable;
         }
     }

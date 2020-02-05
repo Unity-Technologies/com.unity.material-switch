@@ -5,11 +5,26 @@ using UnityEngine;
 
 namespace Unity.PaletteSwitch
 {
+    [ExecuteAlways]
     [RequireComponent(typeof(SelectionGroups.Runtime.SelectionGroup))]
     public class MaterialPropertyGroup : MonoBehaviour
     {
         public Material[] sharedMaterials;
-        public Material[] originalMaterials;
+
+        Dictionary<Material, MaterialPropertyBlock> materialPropertyBlocks = new Dictionary<Material, MaterialPropertyBlock>();
+
+        public MaterialPropertyBlock GetMaterialPropertyBlock(Material material)
+        {
+            return materialPropertyBlocks[material];
+        }
+
+        void OnEnable()
+        {
+            foreach (var i in sharedMaterials)
+            {
+                materialPropertyBlocks[i] = new MaterialPropertyBlock();
+            }
+        }
 
         void Reset()
         {
@@ -20,28 +35,6 @@ namespace Unity.PaletteSwitch
                 materials.UnionWith(i.sharedMaterials);
             }
             this.sharedMaterials = materials.ToArray();
-            originalMaterials = new Material[this.sharedMaterials.Length];
-            for (var i = 0; i < this.sharedMaterials.Length; i++)
-            {
-                originalMaterials[i] = new Material(this.sharedMaterials[i]);
-            }
-        }
-
-        [ContextMenu("Restore Original Materials")]
-        public void RestoreOriginalMaterials()
-        {
-            for (var i = 0; i < sharedMaterials.Length; i++)
-            {
-                sharedMaterials[i].CopyPropertiesFromMaterial(originalMaterials[i]);
-            }
-        }
-
-        public void LerpTowards(Material[] targetMaterials, float v)
-        {
-            for (var i = 0; i < sharedMaterials.Length; i++)
-            {
-                sharedMaterials[i].Lerp(sharedMaterials[i], targetMaterials[i], v);
-            }
         }
     }
 }

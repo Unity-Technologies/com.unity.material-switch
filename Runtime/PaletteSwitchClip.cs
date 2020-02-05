@@ -29,18 +29,21 @@ namespace Unity.PaletteSwitch
     public class PaletteSwitchClip : PlayableAsset
     {
         public PalettePropertyMap[] palettePropertyMap;
-        
+
         void OnValidate()
         {
-            foreach(var ppm in palettePropertyMap) {
-                for (int i = 0; i < ppm.colorCoordinates.Count; i++) {
+            foreach (var ppm in palettePropertyMap)
+            {
+                if (ppm.texture == null) continue;
+                for (int i = 0; i < ppm.colorCoordinates.Count; i++)
+                {
                     var cc = ppm.colorCoordinates[i];
                     cc.sampledColor = ppm.texture.GetPixel((int)cc.uv.x, (int)cc.uv.y);
                     ppm.colorCoordinates[i] = cc;
                 }
             }
         }
-        
+
         public override Playable CreatePlayable(PlayableGraph graph, GameObject owner)
         {
             var playable = ScriptPlayable<PaletteSwitchBehaviour>.Create(graph);

@@ -16,26 +16,48 @@ namespace Unity.PaletteSwitch
 
             var totalWeight = 0f;
             group.RestoreOriginalMaterials();
+
+            //a group has many renderers.
+            var renderers = group.GetComponent<SelectionGroups.Runtime.SelectionGroup>().GetMemberComponents<Renderer>();
+
+            for (var i = 0; i < inputCount; i++)
+            {
+                var weight = playable.GetInputWeight(i);
+                totalWeight += weight;
+            }
+            var missingWeight = 1f - totalWeight;
+
+            //get materials from each renderer, then match to palettePropertyMap.
+
             for (var i = 0; i < inputCount; i++)
             {
                 var weight = playable.GetInputWeight(i);
                 if (weight == 0) continue;
-                totalWeight += weight;
 
                 var paletteSwitchBehaviour = ((ScriptPlayable<PaletteSwitchBehaviour>)playable.GetInput(i)).GetBehaviour();
-                
-                group.LerpTowards(paletteSwitchBehaviour.targetMaterials, weight);
-                
+                //each renderer in the group can have many materials.
+                foreach (var renderer in renderers)
+                {
+                    for (var index = 0; index < renderer.sharedMaterials.Length; index++)
+                    {
+                        var material = renderer.sharedMaterials[index];
+                        //get the matching property map from this clip for a material.
+                        var ppm = paletteSwitchBehaviour.GetMap(material);
+                        if (ppm.materialPropertyBlock == null) ppm.materialPropertyBlock = new MaterialPropertyBlock();
+                        renderer.SetPropertyBlock(ppm.materialPropertyBlock, index);
+                        foreach (var cc in ppm.colorCoordinates)
+                        {
+                            var color = ppm.materialPropertyBlock.GetColor(cc.propertyId);
+                            if(missingWeight > 0) {
+                                color = Color.Lerp(color, cc.originalColor, missingWeight);
+                            }
+                            color = Color.Lerp(color, cc.sampledColor, weight);
+                            ppm.materialPropertyBlock.SetColor(cc.propertyId, color);
+                        }
+                    }
+                }
             }
 
-
-            //if total weight is less than one, we need to mix in original material values.
-            if (totalWeight < 1)
-            {
-               group.LerpTowards(group.originalMaterials, 1f-totalWeight);
-            }
-            
-            //set material property block on group
         }
 
     }

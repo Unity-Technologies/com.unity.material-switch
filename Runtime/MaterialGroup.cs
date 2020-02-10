@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Unity.PaletteSwitch
+namespace Unity.MaterialSwitch
 {
     [ExecuteAlways]
     [RequireComponent(typeof(SelectionGroups.Runtime.SelectionGroup))]
-    public class MaterialPropertyGroup : MonoBehaviour
+    public class MaterialGroup : MonoBehaviour
     {
         public Material[] sharedMaterials;
 
@@ -15,15 +15,18 @@ namespace Unity.PaletteSwitch
 
         public MaterialPropertyBlock GetMaterialPropertyBlock(Material material)
         {
-            return materialPropertyBlocks[material];
+            if(materialPropertyBlocks.TryGetValue(material, out MaterialPropertyBlock mpb))
+                return mpb;
+            return null;
         }
 
         void OnEnable()
         {
-            foreach (var i in sharedMaterials)
-            {
-                materialPropertyBlocks[i] = new MaterialPropertyBlock();
-            }
+            if (sharedMaterials != null)
+                foreach (var i in sharedMaterials)
+                {
+                    materialPropertyBlocks[i] = new MaterialPropertyBlock();
+                }
         }
 
         void Reset()

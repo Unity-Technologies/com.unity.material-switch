@@ -1,32 +1,12 @@
-using System;
-using System.Collections.Generic;
+﻿using System;
 using Unity.SelectionGroups;
 using UnityEngine;
 using UnityEngine.Playables;
 
-namespace Unity.PaletteSwitch
+namespace Unity.MaterialSwitch
 {
-    [System.Serializable]
-    public struct ColorCoordinate
-    {
-        public Vector2 uv;
-        public string propertyName;
-        public int propertyId;
-        public Color sampledColor;
-        public Color originalColor;
-    }
 
-    [System.Serializable]
-    public class PalettePropertyMap
-    {
-        public Texture2D texture;
-        public List<ColorCoordinate> colorCoordinates = new List<ColorCoordinate>();
-        public Material material;
-        public MaterialPropertyBlock materialPropertyBlock;
-        public bool showCoords = false;
-    }
-
-    public class PaletteSwitchClip : PlayableAsset
+    public class MaterialSwitchClip : PlayableAsset
     {
         public PalettePropertyMap[] palettePropertyMap;
 
@@ -46,7 +26,7 @@ namespace Unity.PaletteSwitch
 
         public override Playable CreatePlayable(PlayableGraph graph, GameObject owner)
         {
-            var playable = ScriptPlayable<PaletteSwitchBehaviour>.Create(graph);
+            var playable = ScriptPlayable<MaterialSwitchPlayableBehaviour>.Create(graph);
             var behaviour = playable.GetBehaviour();
             behaviour.palettePropertyMap = palettePropertyMap;
             return playable;

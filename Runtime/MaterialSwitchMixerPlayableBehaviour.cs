@@ -1,15 +1,15 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Playables;
 
-namespace Unity.PaletteSwitch
+namespace Unity.MaterialSwitch
 {
-    public class PaletteSwitchMixerBehaviour : PlayableBehaviour
+    public class MaterialSwitchMixerPlayableBehaviour : PlayableBehaviour
     {
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
-            var group = playerData as MaterialPropertyGroup;
+            var group = playerData as MaterialGroup;
             if (group == null) return;
 
             //a group has many renderers.
@@ -38,7 +38,7 @@ namespace Unity.PaletteSwitch
                 var weight = playable.GetInputWeight(i);
                 if (weight == 0) continue;
 
-                var paletteSwitchBehaviour = ((ScriptPlayable<PaletteSwitchBehaviour>)playable.GetInput(i)).GetBehaviour();
+                var paletteSwitchBehaviour = ((ScriptPlayable<MaterialSwitchPlayableBehaviour>)playable.GetInput(i)).GetBehaviour();
 
                 //each renderer in the group can have many materials.
                 //calculate the colors coming from this clip and update relevant property block
@@ -72,7 +72,7 @@ namespace Unity.PaletteSwitch
 
         }
 
-        private static void AssignMaterialPropertyBlocks(MaterialPropertyGroup group, IEnumerable<Renderer> renderers)
+        private static void AssignMaterialPropertyBlocks(MaterialGroup group, IEnumerable<Renderer> renderers)
         {
             foreach (var r in renderers)
             {

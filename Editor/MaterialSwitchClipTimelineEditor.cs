@@ -4,21 +4,21 @@ using UnityEngine;
 using UnityEditor.Timeline;
 using UnityEngine.Timeline;
 
-namespace Unity.PaletteSwitch
+namespace Unity.MaterialSwitch
 {
-    [CustomTimelineEditor(typeof(PaletteSwitchClip))]
-    internal class PaletteSwitchTimelineClipEditor : ClipEditor
+    [CustomTimelineEditor(typeof(MaterialSwitchClip))]
+    internal class MaterialSwitchClipTimelineEditor : ClipEditor
     {
 
         public override void OnCreate(TimelineClip clip, TrackAsset track, TimelineClip clonedFrom)
         {
-            var asset = clip.asset as PaletteSwitchClip;
+            var asset = clip.asset as MaterialSwitchClip;
             if (asset == null)
             {
                 Debug.LogError("Asset is not a PaletteSwitchClip: " + clip.asset);
                 return;
             }
-            var materialPropertyGroup = TimelineEditor.inspectedDirector.GetGenericBinding(track) as MaterialPropertyGroup;
+            var materialPropertyGroup = TimelineEditor.inspectedDirector.GetGenericBinding(track) as MaterialGroup;
             if (materialPropertyGroup == null)
                 return;
             if(asset.palettePropertyMap != null)

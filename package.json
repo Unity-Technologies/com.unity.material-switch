@@ -1,8 +1,8 @@
 {
-  "displayName": "Palette Switch",
-  "name": "com.unity.palette-switch",
+  "displayName": "Material Switch",
+  "name": "com.unity.material-switch",
   "unity": "2019.3",
-  "version": "0.0.2-dev",
+  "version": "0.0.3-dev",
   "description": "Provides tools for switch material attributes over a number of renderers at once.",
   "author": "Simon Wittber <simonwittber@unity3d.com> (https://github.com/smnwttbr)",
   "contributors": [

@@ -1,6 +1,6 @@
 using Unity.SelectionGroups;
 
-namespace Unity.PaletteSwitch
+namespace Unity.MaterialSwitch
 {
     public class MaterialPropertyTool
     {

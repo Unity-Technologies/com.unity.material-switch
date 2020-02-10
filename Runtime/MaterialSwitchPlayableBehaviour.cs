@@ -1,9 +1,9 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Playables;
 
-namespace Unity.PaletteSwitch
+namespace Unity.MaterialSwitch
 {
-    public class PaletteSwitchBehaviour : PlayableBehaviour
+    public class MaterialSwitchPlayableBehaviour : PlayableBehaviour
     {
         public PalettePropertyMap[] palettePropertyMap;
         public PalettePropertyMap GetMap(Material material)

@@ -6,7 +6,7 @@ using UnityEngine.Timeline;
 namespace Unity.MaterialSwitch
 {
     [TrackClipType(typeof(MaterialSwitchClip))]
-    [TrackBindingType(typeof(MaterialGroup))]
+    [TrackBindingType(typeof(SelectionGroup))]
     public class MaterialSwitchTrack : TrackAsset
     {
         UnityEngine.Playables.PlayableGraph graph;

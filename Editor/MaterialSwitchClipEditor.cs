@@ -19,7 +19,8 @@ namespace Unity.MaterialSwitch
                 var ppm = palettePropertyMap.GetArrayElementAtIndex(i);
                 GUILayout.BeginVertical();
                 EditorGUILayout.PropertyField(ppm.FindPropertyRelative("material"));
-                EditorGUILayout.PropertyField(ppm.FindPropertyRelative("texture"));
+                var textureProperty = ppm.FindPropertyRelative("texture");
+                EditorGUILayout.PropertyField(textureProperty);
                 var showCoords = ppm.FindPropertyRelative("showCoords");
                 showCoords.boolValue = EditorGUILayout.Foldout(showCoords.boolValue, "Color Coordinates");
                 if (showCoords.boolValue)
@@ -39,10 +40,12 @@ namespace Unity.MaterialSwitch
                         GUILayout.EndHorizontal();
                         GUILayout.BeginHorizontal();
                         EditorGUILayout.PropertyField(cc.FindPropertyRelative("uv"));
+                        GUI.enabled = textureProperty.objectReferenceValue != null;
                         if (GUILayout.Button("Pick"))
                         {
                             CoordPickerWindow.Open(this, ppm.FindPropertyRelative("texture").objectReferenceValue as Texture2D, cc);
                         }
+                        GUI.enabled = true;
                         GUILayout.EndHorizontal();
                         GUILayout.EndVertical();
                     }
@@ -53,7 +56,7 @@ namespace Unity.MaterialSwitch
 
             }
 
-            EditorGUILayout.PropertyField(palettePropertyMap);
+            // EditorGUILayout.PropertyField(palettePropertyMap);
 
             serializedObject.ApplyModifiedProperties();
         }

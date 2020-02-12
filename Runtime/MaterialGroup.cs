@@ -15,21 +15,12 @@ namespace Unity.MaterialSwitch
 
         public MaterialPropertyBlock GetMaterialPropertyBlock(Material material)
         {
-            if(materialPropertyBlocks.TryGetValue(material, out MaterialPropertyBlock mpb))
+            if (materialPropertyBlocks.TryGetValue(material, out MaterialPropertyBlock mpb))
                 return mpb;
             return null;
         }
 
         void OnEnable()
-        {
-            if (sharedMaterials != null)
-                foreach (var i in sharedMaterials)
-                {
-                    materialPropertyBlocks[i] = new MaterialPropertyBlock();
-                }
-        }
-
-        void Reset()
         {
             var group = GetComponent<SelectionGroups.Runtime.SelectionGroup>();
             var materials = new HashSet<Material>();
@@ -38,6 +29,13 @@ namespace Unity.MaterialSwitch
                 materials.UnionWith(i.sharedMaterials);
             }
             this.sharedMaterials = materials.ToArray();
+
+            if (sharedMaterials != null)
+                foreach (var i in sharedMaterials)
+                {
+                    materialPropertyBlocks[i] = new MaterialPropertyBlock();
+                }
         }
+
     }
 }

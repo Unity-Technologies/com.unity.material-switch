@@ -9,11 +9,13 @@ namespace Unity.MaterialSwitch
     {
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
-            var group = playerData as MaterialGroup;
-            if (group == null) return;
+            var group = playerData as SelectionGroups.Runtime.SelectionGroup;
+            if(group == null) return;
+            var materialGroup = group.GetComponent<MaterialGroup>();
+            if (materialGroup == null) return;
 
             //a group has many renderers.
-            var renderers = group.GetComponent<SelectionGroups.Runtime.SelectionGroup>().GetMemberComponents<Renderer>();
+            var renderers = group.GetMemberComponents<Renderer>();
 
             var inputCount = playable.GetInputCount();
             var totalWeight = 0f;
@@ -30,7 +32,7 @@ namespace Unity.MaterialSwitch
                 return;
             } 
 
-            AssignMaterialPropertyBlocks(group, renderers);
+            AssignMaterialPropertyBlocks(materialGroup, renderers);
 
             //get materials from each renderer, then match to palettePropertyMap.
             for (var i = 0; i < inputCount; i++)
@@ -52,7 +54,7 @@ namespace Unity.MaterialSwitch
                         //the property map contains colors that added into the property block.
                         var ppm = paletteSwitchBehaviour.GetMap(material);
 
-                        var mpb = group.GetMaterialPropertyBlock(material);
+                        var mpb = materialGroup.GetMaterialPropertyBlock(material);
                         if(mpb.isEmpty) {
                             foreach (var cc in ppm.colorCoordinates) {
                                 mpb.SetColor(cc.propertyId, cc.originalColor);

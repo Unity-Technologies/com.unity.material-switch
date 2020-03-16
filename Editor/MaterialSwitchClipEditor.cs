@@ -9,6 +9,7 @@ namespace Unity.MaterialSwitch
     [CustomEditor(typeof(MaterialSwitchClip))]
     public class MaterialSwitchClipEditor : Editor
     {
+        bool showTextureProperties;
 
         public override void OnInspectorGUI()
         {
@@ -52,6 +53,26 @@ namespace Unity.MaterialSwitch
                     GUILayout.EndVertical();
 
                 }
+
+                showTextureProperties = EditorGUILayout.Foldout(showTextureProperties, "Texture Properties");
+                if (showTextureProperties)
+                {
+                    GUILayout.BeginVertical("box");
+                    var textureProperties = ppm.FindPropertyRelative("textureProperties");
+                    if (textureProperties != null)
+                        for (var j = 0; j < textureProperties.arraySize; j++)
+                        {
+                            var tp = textureProperties.GetArrayElementAtIndex(j);
+                            GUILayout.BeginVertical("box");
+                            EditorGUILayout.LabelField($"Property: {tp.FindPropertyRelative("propertyName").stringValue}");
+
+                            EditorGUILayout.PropertyField(tp.FindPropertyRelative("originalValue"));
+                            EditorGUILayout.PropertyField(tp.FindPropertyRelative("targetValue"), new GUIContent("New Value"));
+                            GUILayout.EndVertical();
+                        }
+                    GUILayout.EndVertical();
+                }
+
                 GUILayout.EndVertical();
 
             }

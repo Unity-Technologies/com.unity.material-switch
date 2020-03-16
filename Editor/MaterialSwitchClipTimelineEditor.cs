@@ -68,6 +68,18 @@ namespace Unity.MaterialSwitch
                             }
                         );
                     }
+
+                    if (mp.type == MaterialProperty.PropType.Texture)
+                    {
+                        ppm.textureProperties.Add(
+                            new TextureProperty()
+                            {
+                                propertyName = mp.displayName,
+                                propertyId = Shader.PropertyToID(mp.name),
+                                originalValue = (Texture2D)mp.textureValue
+                            }
+                        );
+                    }
                 }
             }
         }

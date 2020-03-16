@@ -11,5 +11,6 @@ namespace Unity.MaterialSwitch
         public Material material;
         public MaterialPropertyBlock materialPropertyBlock;
         public bool showCoords = false;
+        public List<TextureProperty> textureProperties = new List<TextureProperty>();
     }
 }

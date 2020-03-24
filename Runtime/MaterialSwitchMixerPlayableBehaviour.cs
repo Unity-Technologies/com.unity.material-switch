@@ -10,6 +10,17 @@ namespace Unity.MaterialSwitch
     {
         Material textureLerpMaterial;
 
+        HashSet<RenderTexture> renderTextures = new HashSet<RenderTexture>();
+        HashSet<MaterialPropertyBlock> activeMaterialPropertyBlocks = new HashSet<MaterialPropertyBlock>();
+
+        public override void OnPlayableDestroy(Playable playable) {
+            foreach(var i in renderTextures) {
+                GameObject.Destroy(i);
+            }
+            renderTextures.Clear();
+            activeMaterialPropertyBlocks.Clear();
+        }
+
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
             var group = playerData as SelectionGroups.Runtime.SelectionGroup;
@@ -66,8 +77,10 @@ namespace Unity.MaterialSwitch
                         var mpb = materialGroup.GetMaterialPropertyBlock(material);
 
                         //if the block is empty, populate it with base values from the original material so they can be lerped towards target values.
-                        if (mpb.isEmpty)
+                        if (!activeMaterialPropertyBlocks.Contains(mpb)) {
                             InitPropertyBlock(ppm, mpb);
+                            activeMaterialPropertyBlocks.Add(mpb);
+                        }
 
                         LerpCurrentColorsToTargetColors(weight, ppm, mpb);
                         LerpCurrentTexturesToTargetTextures(weight, ppm, mpb);
@@ -137,6 +150,7 @@ namespace Unity.MaterialSwitch
                     {
                         var texture = tp.originalValue;
                         finalTexture = new RenderTexture(texture.width, texture.height, 0, RenderTextureFormat.ARGB32);
+                        renderTextures.Add((RenderTexture)finalTexture);
                         //copy original color values into the new texture.
                         Graphics.Blit(texture, (RenderTexture)finalTexture);
                         mpb.SetTexture(tp.propertyId, finalTexture);

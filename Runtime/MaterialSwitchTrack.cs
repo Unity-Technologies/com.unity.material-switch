@@ -1,20 +1,20 @@
-using Unity.SelectionGroups.Runtime;
+﻿using Unity.SelectionGroups.Runtime;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-namespace Unity.PaletteSwitch
+namespace Unity.MaterialSwitch
 {
-    [TrackClipType(typeof(PaletteSwitchClip))]
-    [TrackBindingType(typeof(MaterialPropertyGroup))]
-    public class PaletteSwitchTrack : TrackAsset
+    [TrackClipType(typeof(MaterialSwitchClip))]
+    [TrackBindingType(typeof(SelectionGroup))]
+    public class MaterialSwitchTrack : TrackAsset
     {
         UnityEngine.Playables.PlayableGraph graph;
 
         public override Playable CreateTrackMixer(UnityEngine.Playables.PlayableGraph graph, UnityEngine.GameObject go, int inputCount)
         {
             var director = go.GetComponent<PlayableDirector>();
-            return ScriptPlayable<PaletteSwitchMixerBehaviour>.Create(graph, inputCount);
+            return ScriptPlayable<MaterialSwitchMixerPlayableBehaviour>.Create(graph, inputCount);
         }
 
     }

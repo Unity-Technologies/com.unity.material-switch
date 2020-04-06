@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Unity.PaletteSwitch
+namespace Unity.MaterialSwitch
 {
     public static class SelectionGroupExtensions
     {

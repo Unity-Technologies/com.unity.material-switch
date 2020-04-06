@@ -1,4 +1,4 @@
-## Palette-switch
+## Material-Switch
 
 copyright © 2019 Unity Technologies ApS
 

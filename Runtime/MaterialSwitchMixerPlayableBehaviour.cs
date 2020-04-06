@@ -15,7 +15,7 @@ namespace Unity.MaterialSwitch
 
         public override void OnPlayableDestroy(Playable playable) {
             foreach(var i in renderTextures) {
-                GameObject.Destroy(i);
+                Object.DestroyImmediate(i);
             }
             renderTextures.Clear();
             activeMaterialPropertyBlocks.Clear();

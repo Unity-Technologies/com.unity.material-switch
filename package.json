@@ -10,7 +10,8 @@
     "Unity Technologies Japan"
   ],
   "dependencies": {
-    "com.unity.selection-groups": "0.0.3-dev"
+    "com.unity.selection-groups": "0.0.3-dev",
+    "com.unity.timeline": "1.2.9"
   },
   "type": "tool"
 }

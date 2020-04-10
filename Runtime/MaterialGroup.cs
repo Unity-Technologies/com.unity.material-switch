@@ -13,6 +13,8 @@ namespace Unity.MaterialSwitch
 
         Dictionary<Material, MaterialPropertyBlock> materialPropertyBlocks = new Dictionary<Material, MaterialPropertyBlock>();
 
+        public bool isDirty = true;
+
         public MaterialPropertyBlock GetMaterialPropertyBlock(Material material)
         {
             if (materialPropertyBlocks.TryGetValue(material, out MaterialPropertyBlock mpb))
@@ -22,20 +24,35 @@ namespace Unity.MaterialSwitch
 
         void OnEnable()
         {
+            CollectMaterials();
+        }
+
+        void Update()
+        {
+            if (isDirty)
+            {
+                isDirty = false;
+                CollectMaterials();
+            }
+        }
+
+        public void CollectMaterials()
+        {
             var group = GetComponent<SelectionGroups.Runtime.SelectionGroup>();
             var materials = new HashSet<Material>();
             foreach (var i in group.GetMemberComponents<Renderer>())
             {
                 materials.UnionWith(i.sharedMaterials);
             }
-            this.sharedMaterials = materials.ToArray();
+            sharedMaterials = materials.ToArray();
 
             if (sharedMaterials != null)
+            {
                 foreach (var i in sharedMaterials)
                 {
                     materialPropertyBlocks[i] = new MaterialPropertyBlock();
                 }
+            }
         }
-
     }
 }

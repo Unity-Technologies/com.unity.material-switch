@@ -27,7 +27,9 @@ namespace Unity.MaterialSwitch
             if (group == null) return;
             var materialGroup = group.GetComponent<MaterialGroup>();
             if (materialGroup == null) return;
-
+            if(Application.isEditor && !Application.isPlaying) {
+                materialGroup.CollectMaterials();
+            }
             //a group has many renderers, get them all.
             var renderers = group.GetMemberComponents<Renderer>();
 
@@ -40,7 +42,6 @@ namespace Unity.MaterialSwitch
                 var weight = playable.GetInputWeight(i);
                 totalWeight += weight;
             }
-
             //weights should add up to 1.0, therefore calculate any missing weight using 1 - total.
             var missingWeight = 1f - totalWeight;
 
@@ -53,7 +54,6 @@ namespace Unity.MaterialSwitch
 
             //make sure renderers have property blocks so we can adjust the material properties.
             AssignMaterialPropertyBlocks(materialGroup, renderers);
-
             //get materials from each renderer, then match to a palettePropertyMap to assign values.
             for (var i = 0; i < inputCount; i++)
             {

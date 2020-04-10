@@ -125,9 +125,9 @@ namespace Unity.MaterialSwitch
             //lerp the colors towards targets.
             foreach (var cc in ppm.colorCoordinates)
             {
-                var color = mpb.GetColor(cc.propertyId);
+                var color = mpb.GetColor(cc._propertyName);
                 color = Color.Lerp(color, cc.sampledColor, weight);
-                mpb.SetColor(cc.propertyId, color);
+                mpb.SetColor(cc._propertyName, color);
             }
         }
 
@@ -136,7 +136,7 @@ namespace Unity.MaterialSwitch
             //colors
             foreach (var cc in ppm.colorCoordinates)
             {
-                mpb.SetColor(cc.propertyId, cc.originalColor);
+                mpb.SetColor(cc._propertyName, cc.originalColor);
             }
             //textures
             foreach (var tp in ppm.textureProperties)

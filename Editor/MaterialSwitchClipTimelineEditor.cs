@@ -62,6 +62,7 @@ namespace Unity.MaterialSwitch
                             {
                                 uv = Vector2.zero,
                                 propertyName = mp.displayName,
+                                _propertyName = mp.name,
                                 propertyId = Shader.PropertyToID(mp.name),
                                 sampledColor = Color.clear,
                                 originalColor = mp.colorValue

@@ -7,6 +7,7 @@ namespace Unity.MaterialSwitch
     {
         public Vector2 uv;
         public string propertyName;
+        public string _propertyName;
         public int propertyId;
         public Color sampledColor;
         public Color originalColor;

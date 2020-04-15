@@ -11,7 +11,7 @@ namespace Unity.MaterialSwitch
         SerializedProperty uvProperty;
         MaterialSwitchClipEditor inspector;
 
-        public static void Open(MaterialSwitchClipEditor inspector, Texture2D texture, SerializedProperty cc)
+        public static void Open(MaterialSwitchClipEditor inspector, Texture2D texture, SerializedProperty cc, Rect rect)
         {
             var window = ScriptableObject.CreateInstance<CoordPickerWindow>();
             window.inspector = inspector;
@@ -19,11 +19,17 @@ namespace Unity.MaterialSwitch
             window.ccProperty = cc;
             window.sampledColorProperty = cc.FindPropertyRelative("sampledColor");
             window.uvProperty = cc.FindPropertyRelative("uv");
-            window.ShowModalUtility(); //<-- HAHA LOL Modal is not modal. :facepalm:
+            // window.ShowModalUtility(); //<-- HAHA LOL Modal is not modal. :facepalm:
+            window.ShowAsDropDown(rect, new Vector2(texture.width, texture.height));
         }
 
         void OnGUI()
         {
+            if (sampledColorProperty == null)
+            {
+                Close(); 
+                return;
+            }
             position = new Rect(position.x, position.y, texture.width, texture.height);
             var rect = position;
             rect.x = 0;
@@ -40,6 +46,7 @@ namespace Unity.MaterialSwitch
                     uvProperty.vector2Value = uv;
                     inspector.serializedObject.ApplyModifiedProperties();
                     inspector.Repaint();
+                    Close();
                     break;
                 case EventType.MouseUp:
                     break;

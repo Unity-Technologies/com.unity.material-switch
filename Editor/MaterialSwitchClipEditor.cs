@@ -20,8 +20,10 @@ namespace Unity.MaterialSwitch
             {
                 var ppm = palettePropertyMap.GetArrayElementAtIndex(i);
                 GUILayout.BeginVertical("box");
+                EditorGUI.indentLevel --;
                 EditorGUILayout.PropertyField(ppm.FindPropertyRelative("material"));
                 var textureProperty = ppm.FindPropertyRelative("texture");
+                EditorGUI.indentLevel += 1;
                 EditorGUILayout.PropertyField(textureProperty, new GUIContent("Palette Texture"));
                 if (textureProperty.objectReferenceValue != null)
                 {
@@ -37,6 +39,7 @@ namespace Unity.MaterialSwitch
                     else
                     {
                         var showCoords = ppm.FindPropertyRelative("showCoords");
+                        EditorGUI.indentLevel += 1;
                         showCoords.boolValue = EditorGUILayout.Foldout(showCoords.boolValue, "Color Coordinates");
                         if (showCoords.boolValue)
                         {
@@ -57,7 +60,8 @@ namespace Unity.MaterialSwitch
                                 GUI.enabled = textureProperty.objectReferenceValue != null;
                                 if (GUILayout.Button("Pick"))
                                 {
-                                    CoordPickerWindow.Open(this, ppm.FindPropertyRelative("texture").objectReferenceValue as Texture2D, cc);
+                                    rect = GUIUtility.GUIToScreenRect(rect);
+                                    CoordPickerWindow.Open(this, ppm.FindPropertyRelative("texture").objectReferenceValue as Texture2D, cc, rect);
                                 }
                                 GUI.enabled = true;
                                 GUILayout.EndHorizontal();

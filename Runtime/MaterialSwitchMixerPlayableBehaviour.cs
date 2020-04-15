@@ -73,7 +73,10 @@ namespace Unity.MaterialSwitch
                         //get the matching property map from this clip for a material.
                         //the property map contains properties that are added into the appropriate property block.
                         var ppm = paletteSwitchBehaviour.GetMap(material);
-
+                        if(ppm == null) {
+                            //this will happen when a material is added or removed after the clip has been created in the timeline. Cannot avoid this for now.
+                            continue;
+                        }
                         var mpb = materialGroup.GetMaterialPropertyBlock(material);
 
                         //if the block is empty, populate it with base values from the original material so they can be lerped towards target values.
@@ -81,7 +84,7 @@ namespace Unity.MaterialSwitch
                             InitPropertyBlock(ppm, mpb);
                             activeMaterialPropertyBlocks.Add(mpb);
                         }
-
+                        
                         LerpCurrentColorsToTargetColors(weight, ppm, mpb);
                         LerpCurrentTexturesToTargetTextures(weight, ppm, mpb);
                         renderer.SetPropertyBlock(mpb, index);
@@ -122,6 +125,8 @@ namespace Unity.MaterialSwitch
 
         static void LerpCurrentColorsToTargetColors(float weight, PalettePropertyMap ppm, MaterialPropertyBlock mpb)
         {
+            //if palette texture is set to null, don't lerp the colors.
+            if(ppm.texture == null) return;
             //lerp the colors towards targets.
             foreach (var cc in ppm.colorCoordinates)
             {

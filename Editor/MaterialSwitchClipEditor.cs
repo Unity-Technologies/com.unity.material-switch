@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -18,42 +19,55 @@ namespace Unity.MaterialSwitch
             for (var i = 0; i < palettePropertyMap.arraySize; i++)
             {
                 var ppm = palettePropertyMap.GetArrayElementAtIndex(i);
-                GUILayout.BeginVertical();
+                GUILayout.BeginVertical("box");
                 EditorGUILayout.PropertyField(ppm.FindPropertyRelative("material"));
                 var textureProperty = ppm.FindPropertyRelative("texture");
-                EditorGUILayout.PropertyField(textureProperty);
-                var showCoords = ppm.FindPropertyRelative("showCoords");
-                showCoords.boolValue = EditorGUILayout.Foldout(showCoords.boolValue, "Color Coordinates");
-                if (showCoords.boolValue)
+                EditorGUILayout.PropertyField(textureProperty, new GUIContent("Palette Texture"));
+                if (textureProperty.objectReferenceValue != null)
                 {
-                    GUILayout.BeginVertical("box");
-
-                    var ccs = ppm.FindPropertyRelative("colorCoordinates");
-                    for (var j = 0; j < ccs.arraySize; j++)
+                    var t = textureProperty.objectReferenceValue as Texture;
+                    if (!t.isReadable)
                     {
-                        var cc = ccs.GetArrayElementAtIndex(j);
-                        GUILayout.BeginVertical("box");
-                        EditorGUILayout.LabelField($"Property: {cc.FindPropertyRelative("propertyName").stringValue}");
                         GUILayout.BeginHorizontal();
-                        GUILayout.Label("Sampled Color");
-                        var rect = GUILayoutUtility.GetRect(18, 18);
-                        EditorGUI.DrawRect(rect, cc.FindPropertyRelative("sampledColor").colorValue);
+                        EditorGUILayout.HelpBox("Texture is not marked as readable!", MessageType.Error);
+                        if (GUILayout.Button("Fix"))
+                            MakeTextureReadable(t);
                         GUILayout.EndHorizontal();
-                        GUILayout.BeginHorizontal();
-                        EditorGUILayout.PropertyField(cc.FindPropertyRelative("uv"));
-                        GUI.enabled = textureProperty.objectReferenceValue != null;
-                        if (GUILayout.Button("Pick"))
-                        {
-                            CoordPickerWindow.Open(this, ppm.FindPropertyRelative("texture").objectReferenceValue as Texture2D, cc);
-                        }
-                        GUI.enabled = true;
-                        GUILayout.EndHorizontal();
-                        GUILayout.EndVertical();
                     }
-                    GUILayout.EndVertical();
+                    else
+                    {
+                        var showCoords = ppm.FindPropertyRelative("showCoords");
+                        showCoords.boolValue = EditorGUILayout.Foldout(showCoords.boolValue, "Color Coordinates");
+                        if (showCoords.boolValue)
+                        {
+                            GUILayout.BeginVertical("box");
+                            var ccs = ppm.FindPropertyRelative("colorCoordinates");
+                            for (var j = 0; j < ccs.arraySize; j++)
+                            {
+                                var cc = ccs.GetArrayElementAtIndex(j);
+                                GUILayout.BeginVertical("box");
+                                EditorGUILayout.LabelField($"Property: {cc.FindPropertyRelative("propertyName").stringValue}");
+                                GUILayout.BeginHorizontal();
+                                GUILayout.Label("Sampled Color");
+                                var rect = GUILayoutUtility.GetRect(18, 18);
+                                EditorGUI.DrawRect(rect, cc.FindPropertyRelative("sampledColor").colorValue);
+                                GUILayout.EndHorizontal();
+                                GUILayout.BeginHorizontal();
+                                EditorGUILayout.PropertyField(cc.FindPropertyRelative("uv"));
+                                GUI.enabled = textureProperty.objectReferenceValue != null;
+                                if (GUILayout.Button("Pick"))
+                                {
+                                    CoordPickerWindow.Open(this, ppm.FindPropertyRelative("texture").objectReferenceValue as Texture2D, cc);
+                                }
+                                GUI.enabled = true;
+                                GUILayout.EndHorizontal();
+                                GUILayout.EndVertical();
+                            }
+                            GUILayout.EndVertical();
 
+                        }
+                    }
                 }
-
                 showTextureProperties = EditorGUILayout.Foldout(showTextureProperties, "Texture Properties");
                 if (showTextureProperties)
                 {
@@ -80,6 +94,15 @@ namespace Unity.MaterialSwitch
             // EditorGUILayout.PropertyField(palettePropertyMap);
 
             serializedObject.ApplyModifiedProperties();
+        }
+
+        void MakeTextureReadable(Texture texture)
+        {
+            var path = AssetDatabase.GetAssetPath(texture);
+            AssetImporter.GetAtPath(path);
+            var importer = (TextureImporter)TextureImporter.GetAtPath(path);
+            importer.isReadable = true;
+            AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
         }
     }
 }

@@ -87,6 +87,8 @@ namespace Unity.MaterialSwitch
                         
                         LerpCurrentColorsToTargetColors(weight, ppm, mpb);
                         LerpCurrentTexturesToTargetTextures(weight, ppm, mpb);
+                        LerpCurrentFloatsToTargetFloats(weight, ppm, mpb);
+
                         renderer.SetPropertyBlock(mpb, index);
                     }
                 }
@@ -113,7 +115,7 @@ namespace Unity.MaterialSwitch
                         textureLerpMaterial = CreateTextureLerpMaterial();
                     textureLerpMaterial.SetFloat("_Weight", weight);
                     if (tp.targetValue == null)
-                        textureLerpMaterial.SetTexture("_TargetTex", tp.originalValue);
+                        textureLerpMaterial.SetTexture("_TargetTex", tp.baseValue);
                     else
                         textureLerpMaterial.SetTexture("_TargetTex", tp.targetValue);
                     //finally interpolate textures and update the final texture.
@@ -136,6 +138,17 @@ namespace Unity.MaterialSwitch
             }
         }
 
+         static void LerpCurrentFloatsToTargetFloats(float weight, PalettePropertyMap ppm, MaterialPropertyBlock mpb)
+        {
+            //lerp the colors towards targets.
+            foreach (var cc in ppm.floatProperties)
+            {
+                var v = mpb.GetFloat(cc.propertyName);
+                v = Mathf.Lerp(v, cc.targetValue, weight);
+                mpb.SetFloat(cc.propertyName, v);
+            }
+        }
+
         void InitPropertyBlock(PalettePropertyMap ppm, MaterialPropertyBlock mpb)
         {
             //colors
@@ -146,14 +159,14 @@ namespace Unity.MaterialSwitch
             //textures
             foreach (var tp in ppm.textureProperties)
             {
-                if (tp.originalValue != null)
+                if (tp.baseValue != null)
                 {
                     //this is the texture to which all clips can contribute.
                     var finalTexture = mpb.GetTexture(tp.propertyId);
                     //if it has not been created on this property block, do it now.
                     if (finalTexture == null)
                     {
-                        var texture = tp.originalValue;
+                        var texture = tp.baseValue;
                         finalTexture = new RenderTexture(texture.width, texture.height, 0, RenderTextureFormat.ARGB32);
                         renderTextures.Add((RenderTexture)finalTexture);
                         //copy original color values into the new texture.

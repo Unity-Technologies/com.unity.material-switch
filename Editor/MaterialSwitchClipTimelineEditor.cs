@@ -75,9 +75,34 @@ namespace Unity.MaterialSwitch
                         ppm.textureProperties.Add(
                             new TextureProperty()
                             {
-                                propertyName = mp.displayName,
+                                displayName = mp.displayName,
+                                propertyName = mp.name,
                                 propertyId = Shader.PropertyToID(mp.name),
-                                originalValue = (Texture2D)mp.textureValue
+                                baseValue = (Texture2D)mp.textureValue
+                            }
+                        );
+                    }
+
+                    if(mp.type == MaterialProperty.PropType.Float) {
+                        ppm.floatProperties.Add(
+                            new FloatProperty() {
+                                displayName = mp.displayName,
+                                propertyName = mp.name,
+                                propertyId = Shader.PropertyToID(mp.name),
+                                baseValue = mp.floatValue,
+                                targetValue = mp.floatValue
+                            }
+                        );
+                    }
+                    if(mp.type == MaterialProperty.PropType.Range) {
+                        ppm.floatProperties.Add(
+                            new RangeProperty() {
+                                displayName = mp.displayName,
+                                propertyName = mp.name,
+                                propertyId = Shader.PropertyToID(mp.name),
+                                baseValue = mp.floatValue,
+                                targetValue = mp.floatValue,
+                                rangeLimits = mp.rangeLimits
                             }
                         );
                     }

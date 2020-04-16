@@ -11,6 +11,9 @@ namespace Unity.MaterialSwitch
         public Material material;
         public MaterialPropertyBlock materialPropertyBlock;
         public bool showCoords = false;
+        public bool showTextures = false;
+        public bool showFloats = false;
         public List<TextureProperty> textureProperties = new List<TextureProperty>();
+        public List<FloatProperty> floatProperties = new List<FloatProperty>();
     }
 }

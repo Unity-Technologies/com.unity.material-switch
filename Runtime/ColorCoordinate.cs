@@ -15,9 +15,10 @@ namespace Unity.MaterialSwitch
 
     public class MaterialProperty<T>
     {
+        public string displayName;
         public string propertyName;
         public int propertyId;
-        public T originalValue;
+        public T baseValue;
         public T targetValue;
     }
 
@@ -25,6 +26,12 @@ namespace Unity.MaterialSwitch
     public class FloatProperty : MaterialProperty<float>
     {
 
+    }
+
+    [System.Serializable]
+    public class RangeProperty : FloatProperty
+    {
+        public Vector2 rangeLimits;
     }
 
     [System.Serializable]

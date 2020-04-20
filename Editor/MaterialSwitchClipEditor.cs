@@ -22,6 +22,7 @@ namespace Unity.MaterialSwitch
                 GUILayout.BeginVertical("box");
                 EditorGUI.indentLevel--;
                 EditorGUILayout.PropertyField(ppm.FindPropertyRelative("material"));
+                // ShowMaterialEditor(ppm.FindPropertyRelative("material").objectReferenceValue as Material);
                 var textureProperty = ppm.FindPropertyRelative("texture");
                 EditorGUI.indentLevel += 1;
                 EditorGUILayout.PropertyField(textureProperty, new GUIContent("Palette Texture"));
@@ -108,7 +109,18 @@ namespace Unity.MaterialSwitch
 
                             EditorGUILayout.PropertyField(tp.FindPropertyRelative("baseValue"), new GUIContent("Base"));
                             var limits = tp.FindPropertyRelative("rangeLimits");
-                            EditorGUILayout.PropertyField(tp.FindPropertyRelative("targetValue"), new GUIContent("Target"));
+                            if(limits != null) {
+                                var targetValueProperty = tp.FindPropertyRelative("targetValue");
+                                var minmax = limits.vector2Value;
+                                var originalValue = targetValueProperty.floatValue;
+                                var newValue = EditorGUILayout.Slider(originalValue, minmax.x, minmax.y);
+                                if(originalValue != newValue) {
+                                    targetValueProperty.floatValue = newValue;
+                                }
+
+                            } else {
+                                EditorGUILayout.PropertyField(tp.FindPropertyRelative("targetValue"), new GUIContent("Target"));
+                            }
 
                             GUILayout.EndVertical();
                         }
@@ -124,6 +136,15 @@ namespace Unity.MaterialSwitch
             serializedObject.ApplyModifiedProperties();
         }
 
+        // void ShowMaterialEditor(Material material)
+        // {
+        //     if(!materialEditors.TryGetValue(material, out Editor editor)) {
+        //         MaterialEditor.CreateCachedEditor(editor, null, ref editor);
+        //         materialEditors[material] = editor;
+        //     }
+        //     editor.OnInspectorGUI();
+        // }
+
         void MakeTextureReadable(Texture texture)
         {
             var path = AssetDatabase.GetAssetPath(texture);
@@ -132,5 +153,12 @@ namespace Unity.MaterialSwitch
             importer.isReadable = true;
             AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
         }
+       
+        // Dictionary<Material, Editor> materialEditors = new Dictionary<Material, Editor>();
+
+        // void OnDestroy()
+        // {
+        //     foreach (var i in materialEditors.Values) DestroyImmediate(i);
+        // }
     }
 }

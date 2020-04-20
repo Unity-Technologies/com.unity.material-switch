@@ -55,6 +55,12 @@ namespace Unity.MaterialSwitch
                 var materialProperties = MaterialEditor.GetMaterialProperties(new[] { ppm.material });
                 foreach (var mp in materialProperties)
                 {
+                    if (mp.flags.HasFlag(MaterialProperty.PropFlags.HideInInspector))
+                        continue;
+                    if (mp.flags.HasFlag(MaterialProperty.PropFlags.PerRendererData))
+                        continue;
+
+
                     if (mp.type == MaterialProperty.PropType.Color)
                     {
                         ppm.colorCoordinates.Add(
@@ -83,9 +89,11 @@ namespace Unity.MaterialSwitch
                         );
                     }
 
-                    if(mp.type == MaterialProperty.PropType.Float) {
+                    if (mp.type == MaterialProperty.PropType.Float)
+                    {
                         ppm.floatProperties.Add(
-                            new FloatProperty() {
+                            new FloatProperty()
+                            {
                                 displayName = mp.displayName,
                                 propertyName = mp.name,
                                 propertyId = Shader.PropertyToID(mp.name),
@@ -94,9 +102,11 @@ namespace Unity.MaterialSwitch
                             }
                         );
                     }
-                    if(mp.type == MaterialProperty.PropType.Range) {
+                    if (mp.type == MaterialProperty.PropType.Range)
+                    {
                         ppm.floatProperties.Add(
-                            new RangeProperty() {
+                            new RangeProperty()
+                            {
                                 displayName = mp.displayName,
                                 propertyName = mp.name,
                                 propertyId = Shader.PropertyToID(mp.name),

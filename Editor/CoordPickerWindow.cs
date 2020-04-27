@@ -17,7 +17,7 @@ namespace Unity.MaterialSwitch
             window.inspector = inspector;
             window.texture = texture;
             window.ccProperty = cc;
-            window.sampledColorProperty = cc.FindPropertyRelative("sampledColor");
+            window.sampledColorProperty = cc.FindPropertyRelative("targetValue");
             window.uvProperty = cc.FindPropertyRelative("uv");
             // window.ShowModalUtility(); //<-- HAHA LOL Modal is not modal. :facepalm:
             window.ShowAsDropDown(rect, new Vector2(texture.width, texture.height));

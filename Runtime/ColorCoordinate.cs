@@ -2,22 +2,23 @@ using UnityEngine;
 
 namespace Unity.MaterialSwitch
 {
-    [System.Serializable]
-    public struct ColorCoordinate
-    {
-        public Vector2 uv;
-        public string propertyName;
-        public string _propertyName;
-        public int propertyId;
-        public Color sampledColor;
-        public Color originalColor;
-    }
+    // [System.Serializable]
+    // public struct ColorCoordinate
+    // {
+    //     public Vector2 uv;
+    //     public string propertyName;
+    //     public string _propertyName;
+    //     public int propertyId;
+    //     public Color sampledColor;
+    //     public Color originalColor;
+    // }
 
     public class MaterialProperty<T>
     {
         public string displayName;
         public string propertyName;
         public int propertyId;
+        public bool overrideBaseValue = false;
         public T baseValue;
         public T targetValue;
     }
@@ -49,7 +50,7 @@ namespace Unity.MaterialSwitch
     [System.Serializable]
     public class ColorProperty : MaterialProperty<Color>
     {
-
+        public Vector2 uv;
     }
 
 

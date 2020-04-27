@@ -18,7 +18,7 @@ namespace Unity.MaterialSwitch
                 for (int i = 0; i < ppm.colorCoordinates.Count; i++)
                 {
                     var cc = ppm.colorCoordinates[i];
-                    cc.sampledColor = ppm.texture.GetPixel((int)cc.uv.x, (int)cc.uv.y);
+                    cc.targetValue = ppm.texture.GetPixel((int)cc.uv.x, (int)cc.uv.y);
                     ppm.colorCoordinates[i] = cc;
                 }
             }

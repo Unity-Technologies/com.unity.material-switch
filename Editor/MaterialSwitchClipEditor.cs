@@ -22,7 +22,6 @@ namespace Unity.MaterialSwitch
                 GUILayout.BeginVertical("box");
                 EditorGUI.indentLevel--;
                 EditorGUILayout.PropertyField(ppm.FindPropertyRelative("material"));
-                // ShowMaterialEditor(ppm.FindPropertyRelative("material").objectReferenceValue as Material);
                 var textureProperty = ppm.FindPropertyRelative("texture");
                 EditorGUI.indentLevel += 1;
                 EditorGUILayout.PropertyField(textureProperty, new GUIContent("Palette Texture"));
@@ -39,111 +38,124 @@ namespace Unity.MaterialSwitch
                     }
                     else
                     {
-                        var showCoords = ppm.FindPropertyRelative("showCoords");
-                        EditorGUI.indentLevel += 1;
-                        showCoords.boolValue = EditorGUILayout.Foldout(showCoords.boolValue, "Color Coordinates");
-                        if (showCoords.boolValue)
+                        DrawPropertyOverrideList(ppm, "showCoords", "Color Properties", "colorCoordinates", (itemProperty) =>
                         {
+                            var displayNameProperty = itemProperty.FindPropertyRelative("displayName");
                             GUILayout.BeginVertical("box");
-                            var ccs = ppm.FindPropertyRelative("colorCoordinates");
-                            for (var j = 0; j < ccs.arraySize; j++)
+                            GUILayout.Label("x");
+                            EditorGUILayout.LabelField($"Property: {displayNameProperty.stringValue}");
+                            GUILayout.BeginHorizontal();
+                            GUILayout.Label("Sampled Color");
+                            var rect = GUILayoutUtility.GetRect(18, 18);
+                            EditorGUI.DrawRect(rect, itemProperty.FindPropertyRelative("targetValue").colorValue);
+                            GUILayout.EndHorizontal();
+                            GUILayout.BeginHorizontal();
+                            EditorGUILayout.PropertyField(itemProperty.FindPropertyRelative("uv"));
+                            GUI.enabled = textureProperty.objectReferenceValue != null;
+                            if (GUILayout.Button("Pick"))
                             {
-                                var cc = ccs.GetArrayElementAtIndex(j);
-                                GUILayout.BeginVertical("box");
-                                EditorGUILayout.LabelField($"Property: {cc.FindPropertyRelative("propertyName").stringValue}");
-                                GUILayout.BeginHorizontal();
-                                GUILayout.Label("Sampled Color");
-                                var rect = GUILayoutUtility.GetRect(18, 18);
-                                EditorGUI.DrawRect(rect, cc.FindPropertyRelative("sampledColor").colorValue);
-                                GUILayout.EndHorizontal();
-                                GUILayout.BeginHorizontal();
-                                EditorGUILayout.PropertyField(cc.FindPropertyRelative("uv"));
-                                GUI.enabled = textureProperty.objectReferenceValue != null;
-                                if (GUILayout.Button("Pick"))
-                                {
-                                    rect = GUIUtility.GUIToScreenRect(rect);
-                                    CoordPickerWindow.Open(this, ppm.FindPropertyRelative("texture").objectReferenceValue as Texture2D, cc, rect);
-                                }
-                                GUI.enabled = true;
-                                GUILayout.EndHorizontal();
-                                GUILayout.EndVertical();
+                                rect = GUIUtility.GUIToScreenRect(rect);
+                                CoordPickerWindow.Open(this, ppm.FindPropertyRelative("texture").objectReferenceValue as Texture2D, itemProperty, rect);
                             }
+                            GUI.enabled = true;
+                            GUILayout.EndHorizontal();
                             GUILayout.EndVertical();
-
-                        }
+                        });
                     }
                 }
-                var showTextures = ppm.FindPropertyRelative("showTextures");
-                showTextures.boolValue = EditorGUILayout.Foldout(showTextures.boolValue, "Texture Properties");
-                if (showTextures.boolValue)
+
+                DrawPropertyOverrideList(ppm, "showTextures", "Texture Properties", "textureProperties");
+                DrawPropertyOverrideList(ppm, "showFloats", "Float Properties", "floatProperties", (itemProperty) =>
                 {
                     GUILayout.BeginVertical("box");
-                    var textureProperties = ppm.FindPropertyRelative("textureProperties");
-                    if (textureProperties != null)
-                        for (var j = 0; j < textureProperties.arraySize; j++)
+                    EditorGUILayout.LabelField($"{itemProperty.FindPropertyRelative("displayName").stringValue}");
+                    EditorGUILayout.PropertyField(itemProperty.FindPropertyRelative("baseValue"));
+                    var limits = itemProperty.FindPropertyRelative("rangeLimits");
+                    if (limits != null)
+                    {
+                        var targetValueProperty = itemProperty.FindPropertyRelative("targetValue");
+                        var minmax = limits.vector2Value;
+                        var originalValue = targetValueProperty.floatValue;
+                        var newValue = EditorGUILayout.Slider(originalValue, minmax.x, minmax.y);
+                        if (originalValue != newValue)
                         {
-                            var tp = textureProperties.GetArrayElementAtIndex(j);
-                            GUILayout.BeginVertical("box");
-                            EditorGUILayout.LabelField($"{tp.FindPropertyRelative("displayName").stringValue}");
-
-                            EditorGUILayout.PropertyField(tp.FindPropertyRelative("baseValue"));
-                            EditorGUILayout.PropertyField(tp.FindPropertyRelative("targetValue"), new GUIContent("New Value"));
-                            GUILayout.EndVertical();
+                            targetValueProperty.floatValue = newValue;
                         }
+
+                    }
+                    else
+                    {
+                        EditorGUILayout.PropertyField(itemProperty.FindPropertyRelative("targetValue"));
+                    }
+
                     GUILayout.EndVertical();
-                }
+                });
 
-                var showFloats = ppm.FindPropertyRelative("showFloats");
-                showFloats.boolValue = EditorGUILayout.Foldout(showFloats.boolValue, "Float Properties");
-
-                if (showFloats.boolValue)
-                {
-                    GUILayout.BeginVertical("box");
-                    var floatProperties = ppm.FindPropertyRelative("floatProperties");
-                    if (floatProperties != null)
-                        for (var j = 0; j < floatProperties.arraySize; j++)
-                        {
-                            var tp = floatProperties.GetArrayElementAtIndex(j);
-                            GUILayout.BeginVertical("box");
-                            EditorGUILayout.LabelField($"{tp.FindPropertyRelative("displayName").stringValue}");
-
-                            EditorGUILayout.PropertyField(tp.FindPropertyRelative("baseValue"), new GUIContent("Base"));
-                            var limits = tp.FindPropertyRelative("rangeLimits");
-                            if(limits != null) {
-                                var targetValueProperty = tp.FindPropertyRelative("targetValue");
-                                var minmax = limits.vector2Value;
-                                var originalValue = targetValueProperty.floatValue;
-                                var newValue = EditorGUILayout.Slider(originalValue, minmax.x, minmax.y);
-                                if(originalValue != newValue) {
-                                    targetValueProperty.floatValue = newValue;
-                                }
-
-                            } else {
-                                EditorGUILayout.PropertyField(tp.FindPropertyRelative("targetValue"), new GUIContent("Target"));
-                            }
-
-                            GUILayout.EndVertical();
-                        }
-                    GUILayout.EndVertical();
-                }
 
                 GUILayout.EndVertical();
 
             }
 
-            // EditorGUILayout.PropertyField(palettePropertyMap);
-
             serializedObject.ApplyModifiedProperties();
         }
 
-        // void ShowMaterialEditor(Material material)
-        // {
-        //     if(!materialEditors.TryGetValue(material, out Editor editor)) {
-        //         MaterialEditor.CreateCachedEditor(editor, null, ref editor);
-        //         materialEditors[material] = editor;
-        //     }
-        //     editor.OnInspectorGUI();
-        // }
+        private void DrawPropertyOverrideList(SerializedProperty ppm, string togglePropertyPath, string heading, string arrayPropertyPath, System.Action<SerializedProperty> guiMethod = null)
+        {
+            var show = ppm.FindPropertyRelative(togglePropertyPath);
+            show.boolValue = EditorGUILayout.Foldout(show.boolValue, heading);
+            if (show.boolValue)
+            {
+                var propertyList = ppm.FindPropertyRelative(arrayPropertyPath);
+                if (propertyList != null)
+                {
+                    GUILayout.BeginVertical("box");
+                    var menu = new GenericMenu();
+
+                    for (var j = 0; j < propertyList.arraySize; j++)
+                    {
+                        var itemProperty = propertyList.GetArrayElementAtIndex(j);
+                        var displayNameProperty = itemProperty.FindPropertyRelative("displayName");
+
+                        var overrideBaseValueProperty = itemProperty.FindPropertyRelative("overrideBaseValue");
+                        menu.AddItem(new GUIContent(displayNameProperty.stringValue), overrideBaseValueProperty.boolValue, ToggleOverrideBaseValueProperty, itemProperty);
+                        if (!overrideBaseValueProperty.boolValue) continue;
+                        if (guiMethod == null)
+                        {
+                            GUILayout.BeginVertical("box");
+                            EditorGUILayout.LabelField($"{itemProperty.FindPropertyRelative("displayName").stringValue}");
+
+                            EditorGUILayout.PropertyField(itemProperty.FindPropertyRelative("baseValue"));
+                            EditorGUILayout.PropertyField(itemProperty.FindPropertyRelative("targetValue"), new GUIContent("New Value"));
+                            GUILayout.EndVertical();
+                        }
+                        else
+                        {
+                            guiMethod(itemProperty);
+                        }
+                    }
+                    ShowDropDownButton(menu, $"Choose {heading} Overrides");
+                    GUILayout.EndVertical();
+                }
+            }
+        }
+
+        void ShowDropDownButton(GenericMenu menu, string buttonLabel)
+        {
+            var buttonText = new GUIContent(buttonLabel);
+            var buttonRect = GUILayoutUtility.GetRect(buttonText, "button");
+            if (GUI.Button(buttonRect, buttonText))
+            {
+                menu.DropDown(buttonRect);
+            }
+        }
+
+        void ToggleOverrideBaseValueProperty(object property)
+        {
+            var p = property as SerializedProperty;
+            var overrideBaseValueProperty = p.FindPropertyRelative("overrideBaseValue");
+            overrideBaseValueProperty.boolValue = !overrideBaseValueProperty.boolValue;
+            p.serializedObject.ApplyModifiedProperties();
+        }
 
         void MakeTextureReadable(Texture texture)
         {
@@ -153,12 +165,6 @@ namespace Unity.MaterialSwitch
             importer.isReadable = true;
             AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
         }
-       
-        // Dictionary<Material, Editor> materialEditors = new Dictionary<Material, Editor>();
 
-        // void OnDestroy()
-        // {
-        //     foreach (var i in materialEditors.Values) DestroyImmediate(i);
-        // }
     }
 }

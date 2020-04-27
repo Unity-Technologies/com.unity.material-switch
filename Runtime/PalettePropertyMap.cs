@@ -7,7 +7,7 @@ namespace Unity.MaterialSwitch
     public class PalettePropertyMap
     {
         public Texture2D texture;
-        public List<ColorCoordinate> colorCoordinates = new List<ColorCoordinate>();
+        public List<ColorProperty> colorCoordinates = new List<ColorProperty>();
         public Material material;
         public MaterialPropertyBlock materialPropertyBlock;
         public bool showCoords = false;

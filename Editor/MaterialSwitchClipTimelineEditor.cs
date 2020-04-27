@@ -64,14 +64,13 @@ namespace Unity.MaterialSwitch
                     if (mp.type == MaterialProperty.PropType.Color)
                     {
                         ppm.colorCoordinates.Add(
-                            new ColorCoordinate()
+                            new ColorProperty()
                             {
                                 uv = Vector2.zero,
-                                propertyName = mp.displayName,
-                                _propertyName = mp.name,
-                                propertyId = Shader.PropertyToID(mp.name),
-                                sampledColor = Color.clear,
-                                originalColor = mp.colorValue
+                                displayName = mp.displayName,
+                                propertyName = mp.name,
+                                targetValue = Color.clear,
+                                baseValue = mp.colorValue
                             }
                         );
                     }

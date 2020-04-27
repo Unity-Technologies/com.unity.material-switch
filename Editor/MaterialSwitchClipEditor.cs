@@ -42,8 +42,7 @@ namespace Unity.MaterialSwitch
                         {
                             var displayNameProperty = itemProperty.FindPropertyRelative("displayName");
                             GUILayout.BeginVertical("box");
-                            GUILayout.Label("x");
-                            EditorGUILayout.LabelField($"Property: {displayNameProperty.stringValue}");
+                            EditorGUILayout.LabelField($"{displayNameProperty.stringValue}");
                             GUILayout.BeginHorizontal();
                             GUILayout.Label("Sampled Color");
                             var rect = GUILayoutUtility.GetRect(18, 18);

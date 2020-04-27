@@ -80,13 +80,11 @@ namespace Unity.MaterialSwitch
                         {
                             targetValueProperty.floatValue = newValue;
                         }
-
                     }
                     else
                     {
                         EditorGUILayout.PropertyField(itemProperty.FindPropertyRelative("targetValue"));
                     }
-
                     GUILayout.EndVertical();
                 });
 

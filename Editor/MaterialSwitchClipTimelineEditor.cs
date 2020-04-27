@@ -60,7 +60,6 @@ namespace Unity.MaterialSwitch
                     if (mp.flags.HasFlag(MaterialProperty.PropFlags.PerRendererData))
                         continue;
 
-
                     if (mp.type == MaterialProperty.PropType.Color)
                     {
                         ppm.colorCoordinates.Add(

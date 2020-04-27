@@ -13,8 +13,10 @@ namespace Unity.MaterialSwitch
         HashSet<RenderTexture> renderTextures = new HashSet<RenderTexture>();
         HashSet<MaterialPropertyBlock> activeMaterialPropertyBlocks = new HashSet<MaterialPropertyBlock>();
 
-        public override void OnPlayableDestroy(Playable playable) {
-            foreach(var i in renderTextures) {
+        public override void OnPlayableDestroy(Playable playable)
+        {
+            foreach (var i in renderTextures)
+            {
                 Object.DestroyImmediate(i);
             }
             renderTextures.Clear();
@@ -27,7 +29,8 @@ namespace Unity.MaterialSwitch
             if (group == null) return;
             var materialGroup = group.GetComponent<MaterialGroup>();
             if (materialGroup == null) return;
-            if(Application.isEditor && !Application.isPlaying) {
+            if (Application.isEditor && !Application.isPlaying)
+            {
                 materialGroup.CollectMaterials();
             }
             //a group has many renderers, get them all.
@@ -72,109 +75,134 @@ namespace Unity.MaterialSwitch
 
                         //get the matching property map from this clip for a material.
                         //the property map contains properties that are added into the appropriate property block.
-                        var ppm = paletteSwitchBehaviour.GetMap(material);
-                        if(ppm == null) {
+                        var map = paletteSwitchBehaviour.GetMap(material);
+                        if (map == null)
+                        {
                             //this will happen when a material is added or removed after the clip has been created in the timeline. Cannot avoid this for now.
                             continue;
                         }
-                        var mpb = materialGroup.GetMaterialPropertyBlock(material);
+                        var block = materialGroup.GetMaterialPropertyBlock(material);
 
                         //if the block is empty, populate it with base values from the original material so they can be lerped towards target values.
-                        if (!activeMaterialPropertyBlocks.Contains(mpb)) {
-                            InitPropertyBlock(ppm, mpb);
-                            activeMaterialPropertyBlocks.Add(mpb);
+                        if (!activeMaterialPropertyBlocks.Contains(block))
+                        {
+                            InitPropertyBlock(map, block);
+                            activeMaterialPropertyBlocks.Add(block);
                         }
-                        
-                        LerpCurrentColorsToTargetColors(weight, ppm, mpb);
-                        LerpCurrentTexturesToTargetTextures(weight, ppm, mpb);
-                        LerpCurrentFloatsToTargetFloats(weight, ppm, mpb);
 
-                        renderer.SetPropertyBlock(mpb, index);
+                        LerpCurrentColorsToTargetColors(weight, map, block);
+                        LerpCurrentTexturesToTargetTextures(weight, map, block);
+                        LerpCurrentFloatsToTargetFloats(weight, map, block);
+
+                        renderer.SetPropertyBlock(block, index);
                     }
                 }
             }
 
         }
 
-        void LerpCurrentTexturesToTargetTextures(float weight, PalettePropertyMap ppm, MaterialPropertyBlock mpb)
+        void LerpCurrentTexturesToTargetTextures(float weight, PalettePropertyMap map, MaterialPropertyBlock block)
         {
             // the material property block contains "final" textures which are used in rendering.
             // each textureProperty in the palette property map also has a reference to the final texture.
             // the palette property map contains textures which the user may have changed.
             // at the end of this function, each texture in the property block should have changes based on the weight and user textures.
-            foreach (var tp in ppm.textureProperties)
+            foreach (var i in map.textureProperties)
             {
-                var finalTex = tp.finalTexture;
-                if (finalTex != null)
+                var finalTex = i.finalTexture;
+                if (i.overrideBaseValue)
                 {
-                    //copy finalTex state then blend and assign new state.
-                    var finalTexCopy = RenderTexture.GetTemporary(finalTex.width, finalTex.height);
-                    Graphics.Blit(finalTex, finalTexCopy);
-                    //setup blit parameters for texture lerp. if there is no target to lerp towards, lerp back to original.
-                    if (textureLerpMaterial == null)
-                        textureLerpMaterial = CreateTextureLerpMaterial();
-                    textureLerpMaterial.SetFloat("_Weight", weight);
-                    if (tp.targetValue == null)
-                        textureLerpMaterial.SetTexture("_TargetTex", tp.baseValue);
-                    else
-                        textureLerpMaterial.SetTexture("_TargetTex", tp.targetValue);
-                    //finally interpolate textures and update the final texture.
-                    Graphics.Blit(finalTexCopy, finalTex, textureLerpMaterial);
-                    RenderTexture.ReleaseTemporary(finalTexCopy);
+                    if (finalTex != null)
+                    {
+                        //copy finalTex state then blend and assign new state.
+                        var finalTexCopy = RenderTexture.GetTemporary(finalTex.width, finalTex.height);
+                        Graphics.Blit(finalTex, finalTexCopy);
+                        //setup blit parameters for texture lerp. if there is no target to lerp towards, lerp back to original.
+                        if (textureLerpMaterial == null)
+                            textureLerpMaterial = CreateTextureLerpMaterial();
+                        textureLerpMaterial.SetFloat("_Weight", weight);
+                        if (i.targetValue == null)
+                            textureLerpMaterial.SetTexture("_TargetTex", i.baseValue);
+                        else
+                            textureLerpMaterial.SetTexture("_TargetTex", i.targetValue);
+                        //finally interpolate textures and update the final texture.
+                        Graphics.Blit(finalTexCopy, finalTex, textureLerpMaterial);
+                        RenderTexture.ReleaseTemporary(finalTexCopy);
+                    }
                 }
             }
         }
 
-        static void LerpCurrentColorsToTargetColors(float weight, PalettePropertyMap ppm, MaterialPropertyBlock mpb)
+        static void LerpCurrentColorsToTargetColors(float weight, PalettePropertyMap map, MaterialPropertyBlock block)
         {
             //if palette texture is set to null, don't lerp the colors.
-            if(ppm.texture == null) return;
+            if (map.texture == null) return;
             //lerp the colors towards targets.
-            foreach (var cc in ppm.colorCoordinates)
+            foreach (var i in map.colorCoordinates)
             {
-                var color = mpb.GetColor(cc.propertyName);
-                color = Color.Lerp(color, cc.targetValue, weight);
-                mpb.SetColor(cc.propertyName, color);
+                if (i.overrideBaseValue)
+                {
+                    var color = block.GetColor(i.propertyName);
+                    color = Color.Lerp(color, i.targetValue, weight);
+                    block.SetColor(i.propertyName, color);
+                }
             }
         }
 
-         static void LerpCurrentFloatsToTargetFloats(float weight, PalettePropertyMap ppm, MaterialPropertyBlock mpb)
+        static void LerpCurrentFloatsToTargetFloats(float weight, PalettePropertyMap map, MaterialPropertyBlock block)
         {
             //lerp the colors towards targets.
-            foreach (var cc in ppm.floatProperties)
+            foreach (var i in map.floatProperties)
             {
-                var v = mpb.GetFloat(cc.propertyName);
-                v = Mathf.Lerp(v, cc.targetValue, weight);
-                mpb.SetFloat(cc.propertyName, v);
+                if (i.overrideBaseValue)
+                {
+                    var v = block.GetFloat(i.propertyName);
+                    v = Mathf.Lerp(v, i.targetValue, weight);
+                    block.SetFloat(i.propertyName, v);
+                }
             }
         }
 
-        void InitPropertyBlock(PalettePropertyMap ppm, MaterialPropertyBlock mpb)
+        void InitPropertyBlock(PalettePropertyMap map, MaterialPropertyBlock block)
         {
             //colors
-            foreach (var cc in ppm.colorCoordinates)
+            foreach (var i in map.colorCoordinates)
             {
-                mpb.SetColor(cc.propertyName, cc.baseValue);
+                if (i.overrideBaseValue)
+                {
+                    block.SetColor(i.propertyName, i.baseValue);
+                }
+            }
+            //floats
+            foreach (var i in map.floatProperties)
+            {
+                if (i.overrideBaseValue)
+                {
+                    block.SetFloat(i.propertyName, i.baseValue);
+                }
             }
             //textures
-            foreach (var tp in ppm.textureProperties)
+            foreach (var i in map.textureProperties)
             {
-                if (tp.baseValue != null)
+                if (i.overrideBaseValue)
                 {
-                    //this is the texture to which all clips can contribute.
-                    var finalTexture = mpb.GetTexture(tp.propertyId);
-                    //if it has not been created on this property block, do it now.
-                    if (finalTexture == null)
+                    if (i.baseValue != null)
                     {
-                        var texture = tp.baseValue;
-                        finalTexture = new RenderTexture(texture.width, texture.height, 0, RenderTextureFormat.ARGB32);
-                        renderTextures.Add((RenderTexture)finalTexture);
-                        //copy original color values into the new texture.
-                        Graphics.Blit(texture, (RenderTexture)finalTexture);
-                        mpb.SetTexture(tp.propertyId, finalTexture);
+                        //this is the texture to which all clips can contribute.
+                        var finalTexture = block.GetTexture(i.propertyId);
+                        //if it has not been created on this property block, do it now.
+                        if (finalTexture == null)
+                        {
+                            var texture = i.baseValue;
+                            finalTexture = new RenderTexture(texture.width, texture.height, 0, RenderTextureFormat.ARGB32);
+                            renderTextures.Add((RenderTexture)finalTexture);
+                            //copy original color values into the new texture.
+                            Graphics.Blit(texture, (RenderTexture)finalTexture);
+                            block.SetTexture(i.propertyId, finalTexture);
+                        }
+                        //store a reference to the final texture in the texture property.
+                        i.finalTexture = (RenderTexture)finalTexture;
                     }
-                    //store a reference to the final texture in the texture property.
-                    tp.finalTexture = (RenderTexture)finalTexture;
                 }
             }
         }

@@ -19,6 +19,7 @@ namespace Unity.MaterialSwitch
                 materialPropertyGroup = selectionGroup.gameObject.AddComponent<MaterialGroup>();
         }
 
+
         public override void OnCreate(TimelineClip clip, TrackAsset track, TimelineClip clonedFrom)
         {
             var asset = clip.asset as MaterialSwitchClip;

@@ -12,13 +12,13 @@ namespace Unity.MaterialSwitch
 
         HashSet<RenderTexture> renderTextures = new HashSet<RenderTexture>();
         HashSet<MaterialPropertyBlock> activeMaterialPropertyBlocks = new HashSet<MaterialPropertyBlock>();
+        HashSet<Renderer> renderers;
 
         public override void OnPlayableDestroy(Playable playable)
         {
+            RemoveMaterialPropertyBlocks();
             foreach (var i in renderTextures)
-            {
                 Object.DestroyImmediate(i);
-            }
             renderTextures.Clear();
             activeMaterialPropertyBlocks.Clear();
         }
@@ -34,8 +34,8 @@ namespace Unity.MaterialSwitch
                 materialGroup.CollectMaterials();
             }
             //a group has many renderers, get them all.
-            var renderers = group.GetMemberComponents<Renderer>();
-
+            if (renderers == null)
+                renderers = new HashSet<Renderer>(group.GetMemberComponents<Renderer>());
             var inputCount = playable.GetInputCount();
 
             //get total weight of all playables that are currently being mixed.
@@ -47,11 +47,10 @@ namespace Unity.MaterialSwitch
             }
             //weights should add up to 1.0, therefore calculate any missing weight using 1 - total.
             var missingWeight = 1f - totalWeight;
-
             //there is nothing to do (missing weight = 1 or total weight = 0) remove any property blocks then exit.
             if (missingWeight >= 1f)
             {
-                RemoveMaterialPropertyBlocks(renderers);
+                RemoveMaterialPropertyBlocks();
                 return;
             }
 
@@ -226,7 +225,7 @@ namespace Unity.MaterialSwitch
             }
         }
 
-        static void RemoveMaterialPropertyBlocks(IEnumerable<Renderer> renderers)
+        void RemoveMaterialPropertyBlocks()
         {
             foreach (var r in renderers)
             {

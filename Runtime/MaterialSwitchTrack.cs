@@ -9,13 +9,10 @@ namespace Unity.MaterialSwitch
     [TrackBindingType(typeof(SelectionGroup))]
     public class MaterialSwitchTrack : TrackAsset
     {
-        UnityEngine.Playables.PlayableGraph graph;
-
         public override Playable CreateTrackMixer(UnityEngine.Playables.PlayableGraph graph, UnityEngine.GameObject go, int inputCount)
         {
             var director = go.GetComponent<PlayableDirector>();
             return ScriptPlayable<MaterialSwitchMixerPlayableBehaviour>.Create(graph, inputCount);
         }
-
     }
 }

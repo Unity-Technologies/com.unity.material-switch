@@ -127,6 +127,7 @@ namespace Unity.MaterialSwitch
                         //finally interpolate textures and update the final texture.
                         Graphics.Blit(finalTexCopy, finalTex, textureLerpMaterial);
                         RenderTexture.ReleaseTemporary(finalTexCopy);
+                        block.SetTexture(i.propertyName, i.finalTexture);
                     }
                 }
             }

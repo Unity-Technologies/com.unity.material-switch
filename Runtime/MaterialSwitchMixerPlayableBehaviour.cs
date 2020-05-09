@@ -228,14 +228,14 @@ namespace Unity.MaterialSwitch
 
         void RemoveMaterialPropertyBlocks()
         {
-            foreach (var r in renderers)
-            {
-                for (var i = 0; i < r.sharedMaterials.Length; i++)
+            if (renderers != null)
+                foreach (var r in renderers)
                 {
-                    r.SetPropertyBlock(null, i);
+                    for (var i = 0; i < r.sharedMaterials.Length; i++)
+                    {
+                        r.SetPropertyBlock(null, i);
+                    }
                 }
-            }
-            return;
         }
     }
 }

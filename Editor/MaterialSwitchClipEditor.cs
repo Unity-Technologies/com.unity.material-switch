@@ -14,7 +14,7 @@ namespace Unity.MaterialSwitch
 
         public override void OnInspectorGUI()
         {
-            serializedObject.Update();
+            // serializedObject.Update();
             var palettePropertyMap = serializedObject.FindProperty("palettePropertyMap");
             for (var i = 0; i < palettePropertyMap.arraySize; i++)
             {
@@ -46,12 +46,14 @@ namespace Unity.MaterialSwitch
                             GUILayout.BeginHorizontal();
                             GUILayout.Label("Sampled Color");
                             var rect = GUILayoutUtility.GetRect(18, 18);
-                            EditorGUI.DrawRect(rect, itemProperty.FindPropertyRelative("targetValue").colorValue);
+                            var targetValueProperty = itemProperty.FindPropertyRelative("targetValue");
+                            EditorGUI.DrawRect(rect, targetValueProperty.colorValue);
                             GUILayout.EndHorizontal();
                             GUILayout.BeginHorizontal();
                             EditorGUILayout.PropertyField(itemProperty.FindPropertyRelative("uv"));
                             GUI.enabled = textureProperty.objectReferenceValue != null;
-                            if (GUILayout.Button("Pick"))
+                            var texture = ppm.FindPropertyRelative("texture").objectReferenceValue as Texture2D;
+                            if (GUILayout.Button("Pick") || GUI.Button(rect, GUIContent.none, "label"))
                             {
                                 rect = GUIUtility.GUIToScreenRect(rect);
                                 CoordPickerWindow.Open(this, ppm.FindPropertyRelative("texture").objectReferenceValue as Texture2D, itemProperty, rect);
@@ -59,6 +61,7 @@ namespace Unity.MaterialSwitch
                             GUI.enabled = true;
                             GUILayout.EndHorizontal();
                             GUILayout.EndVertical();
+
                         });
                     }
                 }

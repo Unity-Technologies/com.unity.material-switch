@@ -1,5 +1,7 @@
+using System;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Playables;
 
 namespace Unity.MaterialSwitch
 {
@@ -44,8 +46,10 @@ namespace Unity.MaterialSwitch
                     uv.y = texture.height - uv.y;
                     sampledColorProperty.colorValue = texture.GetPixel((int)uv.x, (int)uv.y);
                     uvProperty.vector2Value = uv;
-                    inspector.serializedObject.ApplyModifiedProperties();
-                    inspector.Repaint();
+                    // HACK: to update timeline with selected value.
+                    foreach(var t in Resources.FindObjectsOfTypeAll<PlayableDirector>()) {
+                        EditorApplication.delayCall += t.Evaluate;
+                    }
                     Close();
                     break;
                 case EventType.MouseUp:
@@ -53,5 +57,6 @@ namespace Unity.MaterialSwitch
             }
         }
 
+        
     }
 }

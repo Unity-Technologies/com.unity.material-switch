@@ -231,6 +231,7 @@ namespace Unity.MaterialSwitch
             if (renderers != null)
                 foreach (var r in renderers)
                 {
+                    if(r == null) continue;
                     for (var i = 0; i < r.sharedMaterials.Length; i++)
                     {
                         r.SetPropertyBlock(null, i);

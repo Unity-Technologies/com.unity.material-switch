@@ -15,6 +15,7 @@ namespace Unity.MaterialSwitch
             foreach (var ppm in palettePropertyMap)
             {
                 if (ppm.texture == null) continue;
+                if(!ppm.texture.isReadable) continue;
                 for (int i = 0; i < ppm.colorCoordinates.Count; i++)
                 {
                     var cc = ppm.colorCoordinates[i];

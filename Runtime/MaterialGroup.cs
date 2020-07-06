@@ -13,7 +13,7 @@ namespace Unity.MaterialSwitch
 
         Dictionary<Material, MaterialPropertyBlock> materialPropertyBlocks = new Dictionary<Material, MaterialPropertyBlock>();
 
-        public bool isDirty = true;
+        [System.NonSerialized] public bool isDirty = true;
 
         public MaterialPropertyBlock GetMaterialPropertyBlock(Material material)
         {

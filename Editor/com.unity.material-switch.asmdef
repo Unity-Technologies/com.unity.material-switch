@@ -1,11 +1,11 @@
 {
     "name": "com.unity.material-switch",
     "references": [
-        "GUID:226734ca5fc3f4545a3780cbc7edb012",
         "GUID:a1f2a1ae20746f947b43a9e2da5b01fc",
         "GUID:02f771204943f4a40949438e873e3eff",
         "GUID:f06555f75b070af458a003d92f9efb00",
-        "GUID:dd0c3af278986724c94e16a73064c4e4"
+        "GUID:dd0c3af278986724c94e16a73064c4e4",
+        "GUID:ca4be1156066ae94a893e0236f6a75d6"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

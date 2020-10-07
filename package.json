@@ -2,14 +2,14 @@
   "displayName": "Material Switch",
   "name": "com.unity.material-switch",
   "unity": "2021.1",
-  "version": "1.0.0-pre.0",
+  "version": "1.0.0-pre.1",
   "description": "Provides tools for switch material attributes over a number of renderers at once.",
   "contributors": [
     "Simon Wittber <simonwittber@unity3d.com> (https://github.com/smnwttbr)",
     "Unity Technologies Japan"
   ],
   "dependencies": {
-    "com.unity.selection-groups": "1.0.0-pre.0",
+    "com.unity.selection-groups": "1.0.0-pre.1",
     "com.unity.timeline": "1.2.9"
   },
   "type": "tool"

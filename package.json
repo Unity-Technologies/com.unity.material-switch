@@ -1,7 +1,7 @@
 {
   "displayName": "Material Switch",
   "name": "com.unity.material-switch",
-  "unity": "2021.1",
+  "unity": "2019.4",
   "version": "1.0.0-pre.1",
   "description": "Provides tools for switch material attributes over a number of renderers at once.",
   "contributors": [

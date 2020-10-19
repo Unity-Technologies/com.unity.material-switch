@@ -8,7 +8,7 @@ namespace Unity.MaterialSwitch
 {
 
     [CustomEditor(typeof(MaterialSwitchClip))]
-    public class MaterialSwitchClipEditor : Editor
+    internal class MaterialSwitchClipEditor : Editor
     {
         bool showTextureProperties;
 

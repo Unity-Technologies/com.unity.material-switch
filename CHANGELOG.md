@@ -10,7 +10,7 @@ Pre-release version.
 
 ## [0.0.1-preview] - 2019-12-26
 
-Refactoed to use SelectionGroups 0.0.2-preview
+Refactored to use SelectionGroups 0.0.2-preview
 
 ## [0.0.0-preview] - 2019-10-17
 

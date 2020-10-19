@@ -6,7 +6,7 @@ using UnityEngine.Playables;
 
 namespace Unity.MaterialSwitch
 {
-    public partial class MaterialSwitchMixerPlayableBehaviour : PlayableBehaviour
+    internal partial class MaterialSwitchMixerPlayableBehaviour : PlayableBehaviour
     {
         Material textureLerpMaterial;
 

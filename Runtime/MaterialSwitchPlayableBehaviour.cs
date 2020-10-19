@@ -3,7 +3,7 @@ using UnityEngine.Playables;
 
 namespace Unity.MaterialSwitch
 {
-    public class MaterialSwitchPlayableBehaviour : PlayableBehaviour
+    internal class MaterialSwitchPlayableBehaviour : PlayableBehaviour
     {
         public PalettePropertyMap[] palettePropertyMap;
         public PalettePropertyMap GetMap(Material material)

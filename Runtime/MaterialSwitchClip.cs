@@ -6,7 +6,7 @@ using UnityEngine.Playables;
 namespace Unity.MaterialSwitch
 {
 
-    public class MaterialSwitchClip : PlayableAsset
+    internal class MaterialSwitchClip : PlayableAsset
     {
         public PalettePropertyMap[] palettePropertyMap;
 

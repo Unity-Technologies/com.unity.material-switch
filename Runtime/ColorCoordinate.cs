@@ -13,7 +13,7 @@ namespace Unity.MaterialSwitch
     //     public Color originalColor;
     // }
 
-    public class MaterialProperty<T>
+    internal class MaterialProperty<T>
     {
         public string displayName;
         public string propertyName;
@@ -24,31 +24,31 @@ namespace Unity.MaterialSwitch
     }
 
     [System.Serializable]
-    public class FloatProperty : MaterialProperty<float>
+    internal class FloatProperty : MaterialProperty<float>
     {
 
     }
 
     [System.Serializable]
-    public class RangeProperty : FloatProperty
+    internal class RangeProperty : FloatProperty
     {
         public Vector2 rangeLimits;
     }
 
     [System.Serializable]
-    public class VectorProperty : MaterialProperty<Vector4>
+    internal class VectorProperty : MaterialProperty<Vector4>
     {
 
     }
 
     [System.Serializable]
-    public class TextureProperty : MaterialProperty<Texture2D>
+    internal class TextureProperty : MaterialProperty<Texture2D>
     {
         public RenderTexture finalTexture;
     }
 
     [System.Serializable]
-    public class ColorProperty : MaterialProperty<Color>
+    internal class ColorProperty : MaterialProperty<Color>
     {
         public Vector2 uv;
     }

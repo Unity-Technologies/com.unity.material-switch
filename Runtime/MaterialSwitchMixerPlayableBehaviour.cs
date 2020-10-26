@@ -6,21 +6,25 @@ using UnityEngine.Playables;
 
 namespace Unity.MaterialSwitch
 {
-    internal partial class MaterialSwitchMixerPlayableBehaviour : PlayableBehaviour
+    public partial class MaterialSwitchMixerPlayableBehaviour : PlayableBehaviour
     {
         Material textureLerpMaterial;
 
-        HashSet<RenderTexture> renderTextures = new HashSet<RenderTexture>();
-        HashSet<MaterialPropertyBlock> activeMaterialPropertyBlocks = new HashSet<MaterialPropertyBlock>();
         HashSet<Renderer> renderers;
+
+        HashSet<PalettePropertyMap> activePalettePropertyMapInstances= new HashSet<PalettePropertyMap>();
 
         public override void OnPlayableDestroy(Playable playable)
         {
             RemoveMaterialPropertyBlocks();
-            foreach (var i in renderTextures)
-                Object.DestroyImmediate(i);
-            renderTextures.Clear();
-            activeMaterialPropertyBlocks.Clear();
+            foreach(var ppm in activePalettePropertyMapInstances) {
+                foreach(var i in ppm.textureProperties) {
+                    if(i.finalTexture != null) {
+                        i.finalTexture.Release();
+                        i.finalTexture = null;
+                    }
+                }
+            }
         }
 
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
@@ -54,8 +58,6 @@ namespace Unity.MaterialSwitch
                 return;
             }
 
-            //make sure renderers have property blocks so we can adjust the material properties.
-            AssignMaterialPropertyBlocks(materialGroup, renderers);
             //get materials from each renderer, then match to a palettePropertyMap to assign values.
             for (var i = 0; i < inputCount; i++)
             {
@@ -80,14 +82,9 @@ namespace Unity.MaterialSwitch
                             //this will happen when a material is added or removed after the clip has been created in the timeline. Cannot avoid this for now.
                             continue;
                         }
-                        var block = materialGroup.GetMaterialPropertyBlock(material);
 
-                        //if the block is empty, populate it with base values from the original material so they can be lerped towards target values.
-                        if (!activeMaterialPropertyBlocks.Contains(block))
-                        {
-                            InitPropertyBlock(map, block);
-                            activeMaterialPropertyBlocks.Add(block);
-                        }
+                        var block = new MaterialPropertyBlock();
+                        renderer.GetPropertyBlock(block, index);
 
                         LerpCurrentColorsToTargetColors(weight, map, block);
                         LerpCurrentTexturesToTargetTextures(weight, map, block);
@@ -106,29 +103,24 @@ namespace Unity.MaterialSwitch
             // each textureProperty in the palette property map also has a reference to the final texture.
             // the palette property map contains textures which the user may have changed.
             // at the end of this function, each texture in the property block should have changes based on the weight and user textures.
+            activePalettePropertyMapInstances.Add(map);
             foreach (var i in map.textureProperties)
             {
-                var finalTex = i.finalTexture;
                 if (i.overrideBaseValue)
                 {
-                    if (finalTex != null)
-                    {
-                        //copy finalTex state then blend and assign new state.
-                        var finalTexCopy = RenderTexture.GetTemporary(finalTex.width, finalTex.height);
-                        Graphics.Blit(finalTex, finalTexCopy);
-                        //setup blit parameters for texture lerp. if there is no target to lerp towards, lerp back to original.
-                        if (textureLerpMaterial == null)
-                            textureLerpMaterial = CreateTextureLerpMaterial();
-                        textureLerpMaterial.SetFloat("_Weight", weight);
-                        if (i.targetValue == null)
-                            textureLerpMaterial.SetTexture("_TargetTex", i.baseValue);
-                        else
-                            textureLerpMaterial.SetTexture("_TargetTex", i.targetValue);
-                        //finally interpolate textures and update the final texture.
-                        Graphics.Blit(finalTexCopy, finalTex, textureLerpMaterial);
-                        RenderTexture.ReleaseTemporary(finalTexCopy);
-                        block.SetTexture(i.propertyName, i.finalTexture);
-                    }
+                    if (i.finalTexture == null)
+                        i.finalTexture = new RenderTexture(i.baseValue.width, i.baseValue.height, 0, RenderTextureFormat.ARGB32);
+                    //setup blit parameters for texture lerp. if there is no target to lerp towards, lerp back to original.
+                    if (textureLerpMaterial == null)
+                        textureLerpMaterial = CreateTextureLerpMaterial();
+                    textureLerpMaterial.SetFloat("_Weight", weight);
+                    if (i.targetValue == null)
+                        textureLerpMaterial.SetTexture("_TargetTex", i.baseValue);
+                    else
+                        textureLerpMaterial.SetTexture("_TargetTex", i.targetValue);
+                    //finally interpolate textures and update the final texture.
+                    Graphics.Blit(i.baseValue, i.finalTexture, textureLerpMaterial);
+                    block.SetTexture(i.propertyName, i.finalTexture);
                 }
             }
         }
@@ -142,8 +134,7 @@ namespace Unity.MaterialSwitch
             {
                 if (i.overrideBaseValue)
                 {
-                    var color = block.GetColor(i.propertyName);
-                    color = Color.Lerp(color, i.targetValue, weight);
+                    var color = Color.Lerp(i.baseValue, i.targetValue, weight);
                     block.SetColor(i.propertyName, color);
                 }
             }
@@ -156,53 +147,8 @@ namespace Unity.MaterialSwitch
             {
                 if (i.overrideBaseValue)
                 {
-                    var v = block.GetFloat(i.propertyName);
-                    v = Mathf.Lerp(v, i.targetValue, weight);
+                    var v = Mathf.Lerp(i.baseValue, i.targetValue, weight);
                     block.SetFloat(i.propertyName, v);
-                }
-            }
-        }
-
-        void InitPropertyBlock(PalettePropertyMap map, MaterialPropertyBlock block)
-        {
-            //colors
-            foreach (var i in map.colorCoordinates)
-            {
-                if (i.overrideBaseValue)
-                {
-                    block.SetColor(i.propertyName, i.baseValue);
-                }
-            }
-            //floats
-            foreach (var i in map.floatProperties)
-            {
-                if (i.overrideBaseValue)
-                {
-                    block.SetFloat(i.propertyName, i.baseValue);
-                }
-            }
-            //textures
-            foreach (var i in map.textureProperties)
-            {
-                if (i.overrideBaseValue)
-                {
-                    if (i.baseValue != null)
-                    {
-                        //this is the texture to which all clips can contribute.
-                        var finalTexture = block.GetTexture(i.propertyId);
-                        //if it has not been created on this property block, do it now.
-                        if (finalTexture == null)
-                        {
-                            var texture = i.baseValue;
-                            finalTexture = new RenderTexture(texture.width, texture.height, 0, RenderTextureFormat.ARGB32);
-                            renderTextures.Add((RenderTexture)finalTexture);
-                            //copy original color values into the new texture.
-                            Graphics.Blit(texture, (RenderTexture)finalTexture);
-                            block.SetTexture(i.propertyId, finalTexture);
-                        }
-                        //store a reference to the final texture in the texture property.
-                        i.finalTexture = (RenderTexture)finalTexture;
-                    }
                 }
             }
         }
@@ -213,25 +159,12 @@ namespace Unity.MaterialSwitch
             return m;
         }
 
-        static void AssignMaterialPropertyBlocks(MaterialGroup group, IEnumerable<Renderer> renderers)
-        {
-            foreach (var r in renderers)
-            {
-                for (var i = 0; i < r.sharedMaterials.Length; i++)
-                {
-                    var mpb = group.GetMaterialPropertyBlock(r.sharedMaterials[i]);
-                    mpb.Clear();
-                    r.SetPropertyBlock(mpb, i);
-                }
-            }
-        }
-
         void RemoveMaterialPropertyBlocks()
         {
             if (renderers != null)
                 foreach (var r in renderers)
                 {
-                    if(r == null) continue;
+                    if (r == null) continue;
                     for (var i = 0; i < r.sharedMaterials.Length; i++)
                     {
                         r.SetPropertyBlock(null, i);

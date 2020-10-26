@@ -5,7 +5,7 @@ using UnityEngine.Playables;
 
 namespace Unity.MaterialSwitch
 {
-    internal class CoordPickerWindow : EditorWindow
+    public class CoordPickerWindow : EditorWindow
     {
         Texture2D texture;
         SerializedProperty ccProperty;

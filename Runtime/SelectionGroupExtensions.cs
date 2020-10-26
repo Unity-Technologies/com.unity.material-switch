@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Unity.MaterialSwitch
 {
-    internal static class SelectionGroupExtensions
+    public static class SelectionGroupExtensions
     {
         public static Material[] GetMaterials(this SelectionGroups.Runtime.SelectionGroup group)
         {

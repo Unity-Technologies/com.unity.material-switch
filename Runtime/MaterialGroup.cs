@@ -7,33 +7,13 @@ namespace Unity.MaterialSwitch
 {
     [ExecuteAlways]
     [RequireComponent(typeof(SelectionGroups.Runtime.SelectionGroup))]
-    internal class MaterialGroup : MonoBehaviour
+    public class MaterialGroup : MonoBehaviour
     {
         public Material[] sharedMaterials;
-
-        Dictionary<Material, MaterialPropertyBlock> materialPropertyBlocks = new Dictionary<Material, MaterialPropertyBlock>();
-
-        [System.NonSerialized] public bool isDirty = true;
-
-        public MaterialPropertyBlock GetMaterialPropertyBlock(Material material)
-        {
-            if (materialPropertyBlocks.TryGetValue(material, out MaterialPropertyBlock mpb))
-                return mpb;
-            return null;
-        }
 
         void OnEnable()
         {
             CollectMaterials();
-        }
-
-        void Update()
-        {
-            if (isDirty)
-            {
-                isDirty = false;
-                CollectMaterials();
-            }
         }
 
         public void CollectMaterials()
@@ -45,14 +25,6 @@ namespace Unity.MaterialSwitch
                 materials.UnionWith(i.sharedMaterials);
             }
             sharedMaterials = materials.ToArray();
-
-            if (sharedMaterials != null)
-            {
-                foreach (var i in sharedMaterials)
-                {
-                    materialPropertyBlocks[i] = new MaterialPropertyBlock();
-                }
-            }
         }
     }
 }

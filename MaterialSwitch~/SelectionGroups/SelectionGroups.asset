@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d77bebe0cb33ec45aad7d6b9259f66e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _keys: 000000000100000002000000
+  _values:
+  - _enabledTools: []
+    name: Group A
+    color: {r: 0.5748495, g: 0.024709772, b: 0.9534702, a: 1}
+    showMembers: 1
+    query: 
+    groupId: 0
+    _persistentReferenceCollection:
+      _objectIds:
+      - GlobalObjectId_V1-2-2bf581f95af548f4fb64cb6e604669ed-119136127-0
+      - GlobalObjectId_V1-2-2bf581f95af548f4fb64cb6e604669ed-38488958-0
+  - _enabledTools: []
+    name: Group B
+    color: {r: 0.96347374, g: 0.009007792, b: 0.48055536, a: 1}
+    showMembers: 1
+    query: 
+    groupId: 1
+    _persistentReferenceCollection:
+      _objectIds:
+      - GlobalObjectId_V1-2-2bf581f95af548f4fb64cb6e604669ed-1510964214-0
+  - _enabledTools: []
+    name: Group C
+    color: {r: 0.0037877015, g: 0.9023242, b: 0.5897427, a: 1}
+    showMembers: 1
+    query: 
+    groupId: 2
+    _persistentReferenceCollection:
+      _objectIds:
+      - GlobalObjectId_V1-2-2bf581f95af548f4fb64cb6e604669ed-1244513087-0
+  _groupCounter: 3
+  isDirty: 0
+  enablePlayModeSelectionGroups: 1

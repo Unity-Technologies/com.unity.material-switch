@@ -106,7 +106,7 @@ namespace Unity.MaterialSwitch
             activePalettePropertyMapInstances.Add(map);
             foreach (var i in map.textureProperties)
             {
-                if (i.overrideBaseValue)
+                if (i.overrideBaseValue && i.baseValue != null)
                 {
                     if (i.finalTexture == null)
                         i.finalTexture = new RenderTexture(i.baseValue.width, i.baseValue.height, 0, RenderTextureFormat.ARGB32);

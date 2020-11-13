@@ -1,10 +1,19 @@
 # Material Switch
 
+[![](https://badge-proxy.cds.internal.unity3d.com/9a68c90a-06a0-4728-a775-820084993acb)](https://badges.cds.internal.unity3d.com/packages/com.unity.material-switch/build-info?branch=dev&testWorkflow=package-isolation)
+[![](https://badge-proxy.cds.internal.unity3d.com/a28713b4-6604-403c-89b9-b22697beadbc)](https://badges.cds.internal.unity3d.com/packages/com.unity.material-switch/dependencies-info?branch=dev&testWorkflow=updated-dependencies)
+[![](https://badge-proxy.cds.internal.unity3d.com/0ae26932-f55f-467f-8327-7279449fa2c2)](https://badges.cds.internal.unity3d.com/packages/com.unity.material-switch/dependants-info)
+[![](https://badge-proxy.cds.internal.unity3d.com/87243542-b0f3-4709-9431-be781f7f248f)](https://badges.cds.internal.unity3d.com/packages/com.unity.material-switch/warnings-info?branch=dev)
+
+![ReleaseBadge](https://badge-proxy.cds.internal.unity3d.com/bf4a87d3-3baa-4977-9ccd-f58a315185ab)
+![ReleaseBadge](https://badge-proxy.cds.internal.unity3d.com/e54b07c0-f16e-4790-b214-65b7f306bfeb)
+
 A selection group is a collection of gameobjects.
 
 We want to change material properties for all materials being used in a selection group, using a timeline clip which contains a collection of target materials with modifications by the user.
 
-To enable this, we add a MaterialPropertyGroup component to the Runtime.SelectionGroup gameobject in the scene. 
+To enable this, we add a MaterialPropertyGroup component to the [Runtime.SelectionGroup](https://docs.unity3d.com/Packages/com.unity.selection-groups@latest) 
+gameobject in the scene. 
 
 The MaterialPropertyGroup component stores a reference to all the sharedMaterials used by the selection group, then creates a copy of all those materials into an array called 'originalMaterials'. This component has methods for restoring the original material properties, and lerping the array of sharedMaterials towards an array of target materials. 
 

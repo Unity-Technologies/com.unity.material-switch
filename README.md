@@ -12,7 +12,8 @@ A selection group is a collection of gameobjects.
 
 We want to change material properties for all materials being used in a selection group, using a timeline clip which contains a collection of target materials with modifications by the user.
 
-To enable this, we add a MaterialPropertyGroup component to the Runtime.SelectionGroup gameobject in the scene. 
+To enable this, we add a MaterialPropertyGroup component to the [Runtime.SelectionGroup](https://docs.unity3d.com/Packages/com.unity.selection-groups@latest) 
+gameobject in the scene. 
 
 The MaterialPropertyGroup component stores a reference to all the sharedMaterials used by the selection group, then creates a copy of all those materials into an array called 'originalMaterials'. This component has methods for restoring the original material properties, and lerping the array of sharedMaterials towards an array of target materials. 
 

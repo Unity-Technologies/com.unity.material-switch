@@ -602,6 +602,7 @@ GameObject:
   - component: {fileID: 1029314509}
   - component: {fileID: 1029314511}
   - component: {fileID: 1029314510}
+  - component: {fileID: 1029314512}
   m_Layer: 0
   m_Name: Group A
   m_TagString: Untagged
@@ -656,6 +657,21 @@ MonoBehaviour:
   members:
   - {fileID: 119136127}
   - {fileID: 38488958}
+--- !u!114 &1029314512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029314508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3742143744debf64889905b38d82df9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedMaterials:
+  - {fileID: 2100000, guid: 83f3f99b2b9ba854c87ac99eb6131ff1, type: 2}
+  - {fileID: 2100000, guid: 8c0bf6edd4f1c6e48b9e4b7a788e11cf, type: 2}
 --- !u!1 &1192746963
 GameObject:
   m_ObjectHideFlags: 0
@@ -977,6 +993,12 @@ PlayableDirector:
   - key: {fileID: 2244316677210699411, guid: f96bd54f25a8536439b4909e893f54ff, type: 2}
     value: {fileID: 1192746966}
   - key: {fileID: -4690675678662075651, guid: f96bd54f25a8536439b4909e893f54ff, type: 2}
+    value: {fileID: 78046434}
+  - key: {fileID: 6102479349535229780, guid: f96bd54f25a8536439b4909e893f54ff, type: 2}
+    value: {fileID: 1029314511}
+  - key: {fileID: -4446129482810982595, guid: f96bd54f25a8536439b4909e893f54ff, type: 2}
+    value: {fileID: 1192746966}
+  - key: {fileID: 4135901438457264822, guid: f96bd54f25a8536439b4909e893f54ff, type: 2}
     value: {fileID: 78046434}
   m_ExposedReferences:
     m_References: []

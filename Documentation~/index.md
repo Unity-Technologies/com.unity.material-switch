@@ -9,7 +9,6 @@ Material Switch uses the [Selection Groups](https://docs.unity3d.com/Packages/co
 You use a selection group to specify the set of renderers that have material parameters you want to use in Timeline with a Material Switch clip. 
 The Selection Group option "enable runtime groups" must be enabled in the Selection Group settings.
 
-
 # Getting Started
 1. In the timleline window, add a new Material Switch Track. <br> ![](images/image1.png)
 2. The new track has an object field which you must change to the Selection Group you want to modify. All renderers and materials in this selection group can be used in the clips you will add to this track. You will manually choose which properties to use per clip in a later step. <br> ![](images/image2.png)

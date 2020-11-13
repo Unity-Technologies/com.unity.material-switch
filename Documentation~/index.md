@@ -5,7 +5,7 @@ Material Switch User Documentation
 Material Switch allows you to change and blend between material parameters using Timeline.
 
 # Requirements
-Material Switch uses the Selection Groups package. 
+Material Switch uses the [Selection Groups](https://docs.unity3d.com/Packages/com.unity.selection-groups@latest) package. 
 You use a selection group to specify the set of renderers that have material parameters you want to use in Timeline with a Material Switch clip. 
 The Selection Group option "enable runtime groups" must be enabled in the Selection Group settings.
 

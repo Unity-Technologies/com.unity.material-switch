@@ -46,9 +46,9 @@ namespace Unity.MaterialSwitch
                     uv.y = texture.height - uv.y;
                     sampledColorProperty.colorValue = texture.GetPixel((int)uv.x, (int)uv.y);
                     uvProperty.vector2Value = uv;
-                    // HACK: to update timeline with selected value.
+                    ccProperty.serializedObject.ApplyModifiedProperties();
                     foreach(var t in Resources.FindObjectsOfTypeAll<PlayableDirector>()) {
-                        EditorApplication.delayCall += t.Evaluate;
+                        t.DeferredEvaluate();
                     }
                     Close();
                     break;

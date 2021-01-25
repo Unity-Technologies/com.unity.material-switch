@@ -1,4 +1,5 @@
 using Unity.SelectionGroups;
+using Unity.SelectionGroups.Runtime;
 
 namespace Unity.MaterialSwitch
 {

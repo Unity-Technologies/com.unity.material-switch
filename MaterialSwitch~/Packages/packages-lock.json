@@ -8,7 +8,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ext.nunit": {
-      "version": "1.0.0",
+      "version": "1.0.5",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -24,7 +24,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.vscode": {
-      "version": "1.2.2",
+      "version": "1.2.3",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -39,18 +39,17 @@
       }
     },
     "com.unity.selection-groups": {
-      "version": "https://github.com/Unity-Technologies/selectiongroups.git#dev",
+      "version": "file:E:/git/goku/com.unity.selection-groups",
       "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "331621b88b03d8a97198a62a4330911c95f150a7"
+      "source": "local",
+      "dependencies": {}
     },
     "com.unity.test-framework": {
-      "version": "1.1.18",
+      "version": "1.1.19",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.ext.nunit": "1.0.0",
+        "com.unity.ext.nunit": "1.0.5",
         "com.unity.modules.imgui": "1.0.0",
         "com.unity.modules.jsonserialize": "1.0.0"
       },

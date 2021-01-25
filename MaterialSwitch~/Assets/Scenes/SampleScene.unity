@@ -272,10 +272,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be40bfb66f1080540ad807eb78ccd866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groupId: 1
   color: {r: 0.96347374, g: 0.009007792, b: 0.48055536, a: 1}
   query: 
-  members:
+  scope: 1
+  _members:
   - {fileID: 1510964214}
 --- !u!1 &119136127
 GameObject:
@@ -554,7 +554,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1025246982}
-  - component: {fileID: 1025246981}
   m_Layer: 0
   m_Name: Selection Groups
   m_TagString: Untagged
@@ -562,18 +561,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1025246981
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1025246980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56d8ff4ce5e55724b8f27e2541582506, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1025246982
 Transform:
   m_ObjectHideFlags: 0
@@ -635,12 +622,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be40bfb66f1080540ad807eb78ccd866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groupId: 0
   color: {r: 0.5748495, g: 0.024709772, b: 0.9534702, a: 1}
   query: 
-  members:
+  scope: 1
+  _members:
   - {fileID: 119136127}
-  - {fileID: 38488958}
 --- !u!114 &1029314512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -655,7 +641,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sharedMaterials:
   - {fileID: 2100000, guid: 83f3f99b2b9ba854c87ac99eb6131ff1, type: 2}
-  - {fileID: 2100000, guid: 8c0bf6edd4f1c6e48b9e4b7a788e11cf, type: 2}
 --- !u!1 &1192746963
 GameObject:
   m_ObjectHideFlags: 0
@@ -701,7 +686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sharedMaterials:
-  - {fileID: 2100000, guid: 2744a0c67b039cb4aafef509d0145ba9, type: 2}
+  - {fileID: 2100000, guid: 8c0bf6edd4f1c6e48b9e4b7a788e11cf, type: 2}
 --- !u!114 &1192746966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -714,11 +699,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be40bfb66f1080540ad807eb78ccd866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groupId: 2
   color: {r: 0.0037877015, g: 0.9023242, b: 0.5897427, a: 1}
   query: 
-  members:
-  - {fileID: 1244513087}
+  scope: 1
+  _members:
+  - {fileID: 38488958}
 --- !u!1 &1244513087
 GameObject:
   m_ObjectHideFlags: 0

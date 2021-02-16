@@ -30,19 +30,21 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-    "com.unity.palette-switch": {
-      "version": "file:com.unity.palette-switch",
+    "com.unity.material-switch": {
+      "version": "file:com.unity.material-switch",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.unity.selection-groups": "0.0.1-preview"
+        "com.unity.selection-groups": "0.2.3-preview",
+        "com.unity.timeline": "1.2.9"
       }
     },
     "com.unity.selection-groups": {
-      "version": "file:E:/git/goku/com.unity.selection-groups",
+      "version": "0.2.3-preview",
       "depth": 0,
-      "source": "local",
-      "dependencies": {}
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {
       "version": "1.1.19",

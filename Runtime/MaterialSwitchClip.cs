@@ -1,12 +1,10 @@
-﻿using System;
-using Unity.SelectionGroups;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Playables;
 
 namespace Unity.MaterialSwitch
 {
 
-    public class MaterialSwitchClip : PlayableAsset
+    internal class MaterialSwitchClip : PlayableAsset
     {
         public PalettePropertyMap[] palettePropertyMap;
 

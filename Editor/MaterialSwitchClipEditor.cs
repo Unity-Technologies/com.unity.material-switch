@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace Unity.MaterialSwitch
 {
 
     [CustomEditor(typeof(MaterialSwitchClip))]
-    public class MaterialSwitchClipEditor : Editor
+    internal class MaterialSwitchClipEditor : Editor
     {
         bool showTextureProperties;
 
         public override void OnInspectorGUI()
         {
             // serializedObject.Update();
-            var palettePropertyMap = serializedObject.FindProperty("palettePropertyMap");
+            SerializedProperty palettePropertyMap = serializedObject.FindProperty("palettePropertyMap");
             for (var i = 0; i < palettePropertyMap.arraySize; i++)
             {
                 var ppm = palettePropertyMap.GetArrayElementAtIndex(i);

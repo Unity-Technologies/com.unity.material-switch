@@ -7,7 +7,7 @@ namespace Unity.MaterialSwitch
 {
     [TrackClipType(typeof(MaterialSwitchClip))]
     [TrackBindingType(typeof(SelectionGroup))]
-    public class MaterialSwitchTrack : TrackAsset
+    internal class MaterialSwitchTrack : TrackAsset
     {
         public override Playable CreateTrackMixer(UnityEngine.Playables.PlayableGraph graph, UnityEngine.GameObject go, int inputCount)
         {

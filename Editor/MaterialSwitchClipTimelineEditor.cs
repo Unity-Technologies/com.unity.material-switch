@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEditor.Timeline;
 using UnityEngine.Timeline;
+using Unity.FilmInternalUtilities;
 
 namespace Unity.MaterialSwitch
 {
@@ -10,7 +11,7 @@ namespace Unity.MaterialSwitch
     {
         public override void OnClipChanged(TimelineClip clip)
         {
-            var track = clip.parentTrack;
+            var track = clip.GetParentTrack();
             var selectionGroup = TimelineEditor.inspectedDirector.GetGenericBinding(track) as SelectionGroups.Runtime.SelectionGroup;
             if (selectionGroup == null)
                 return;

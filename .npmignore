@@ -4,7 +4,7 @@ build/**
 node_modules/**
 Documentation/ApiDocs/**
 Documentation~/ApiDocs/**
-PaletteSwitch~/**
+MaterialSwitch~/**
 .DS_Store
 .npmrc
 .npmignore

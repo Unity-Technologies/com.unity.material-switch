@@ -7,7 +7,7 @@ namespace Unity.MaterialSwitch
 {
     [ExecuteAlways]
     [RequireComponent(typeof(SelectionGroups.Runtime.SelectionGroup))]
-    public class MaterialGroup : MonoBehaviour
+    internal class MaterialGroup : MonoBehaviour
     {
         public Material[] sharedMaterials;
 

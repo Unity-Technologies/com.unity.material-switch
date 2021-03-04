@@ -1,5 +1,5 @@
 {
-    "name": "com.unity.material-switch",
+    "name": "Unity.MaterialSwitch.Editor",
     "references": [
         "GUID:a1f2a1ae20746f947b43a9e2da5b01fc",
         "GUID:02f771204943f4a40949438e873e3eff",

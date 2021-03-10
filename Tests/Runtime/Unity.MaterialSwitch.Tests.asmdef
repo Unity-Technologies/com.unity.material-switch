@@ -1,13 +1,11 @@
 {
-    "name": "com.unity.materialswitch.tests.editor",
+    "name": "Unity.MaterialSwitch.Tests",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"
     ],
     "includePlatforms": [],
-    "excludePlatforms": [
-        "Editor"
-    ],
+    "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [

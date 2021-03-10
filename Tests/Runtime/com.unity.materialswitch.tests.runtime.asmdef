@@ -1,6 +1,0 @@
-﻿{
-    "name": "com.unity.materialswitch.tests.runtime",
-    "optionalUnityReferences": [
-        "TestAssemblies"
-    ]
-}

@@ -3,16 +3,22 @@ using UnityEngine;
 using UnityEditor.Timeline;
 using UnityEngine.Timeline;
 using Unity.FilmInternalUtilities;
+using Unity.SelectionGroups.Runtime;
+using UnityEngine.Playables;
 
 namespace Unity.MaterialSwitch
 {
     [CustomTimelineEditor(typeof(MaterialSwitchClip))]
     internal class MaterialSwitchClipTimelineEditor : ClipEditor
     {
-        public override void OnClipChanged(TimelineClip clip)
+        public override void OnClipChanged(TimelineClip clip) 
         {
-            var track = clip.GetParentTrack();
-            var selectionGroup = TimelineEditor.inspectedDirector.GetGenericBinding(track) as SelectionGroups.Runtime.SelectionGroup;
+            PlayableDirector inspectedDirector = TimelineEditor.inspectedDirector;
+            if (null == inspectedDirector)
+                return;
+            
+            TrackAsset track = clip.GetParentTrack();
+            SelectionGroup selectionGroup = inspectedDirector.GetGenericBinding(track) as SelectionGroups.Runtime.SelectionGroup;
             if (selectionGroup == null)
                 return;
             if (!selectionGroup.TryGetComponent<MaterialGroup>(out MaterialGroup materialPropertyGroup))

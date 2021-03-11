@@ -45,12 +45,12 @@
       "source": "embedded",
       "dependencies": {
         "com.unity.film-internal-utilities": "0.8.2-preview",
-        "com.unity.selection-groups": "0.3.0-preview",
+        "com.unity.selection-groups": "0.3.1-preview",
         "com.unity.timeline": "1.2.9"
       }
     },
     "com.unity.selection-groups": {
-      "version": "0.3.0-preview",
+      "version": "0.3.1-preview",
       "depth": 1,
       "source": "registry",
       "dependencies": {},

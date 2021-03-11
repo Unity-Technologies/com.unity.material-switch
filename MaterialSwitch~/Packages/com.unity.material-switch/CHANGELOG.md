@@ -4,6 +4,12 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.2.0-preview] - 2021-03-11
+
+* fix: check null inspectedDirector during onClipChanged 
+* chore: depend on com.unity.film-internal-utilities@0.8.2-preview and rename assemblies
+* chore: depend on com.unity.selection-groups@0.3.1-preview 
+* chore: make functions and classes to internal
 
 ## [0.1.0-preview] - 2021-02-16
 

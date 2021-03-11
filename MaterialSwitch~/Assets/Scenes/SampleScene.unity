@@ -275,7 +275,7 @@ MonoBehaviour:
   color: {r: 0.96347374, g: 0.009007792, b: 0.48055536, a: 1}
   query: 
   scope: 1
-  _members:
+  members:
   - {fileID: 1510964214}
 --- !u!1 &119136127
 GameObject:
@@ -625,7 +625,7 @@ MonoBehaviour:
   color: {r: 0.5748495, g: 0.024709772, b: 0.9534702, a: 1}
   query: 
   scope: 1
-  _members:
+  members:
   - {fileID: 119136127}
 --- !u!114 &1029314512
 MonoBehaviour:
@@ -687,6 +687,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sharedMaterials:
   - {fileID: 2100000, guid: 8c0bf6edd4f1c6e48b9e4b7a788e11cf, type: 2}
+  - {fileID: 2100000, guid: 2744a0c67b039cb4aafef509d0145ba9, type: 2}
 --- !u!114 &1192746966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -702,8 +703,9 @@ MonoBehaviour:
   color: {r: 0.0037877015, g: 0.9023242, b: 0.5897427, a: 1}
   query: 
   scope: 1
-  _members:
+  members:
   - {fileID: 38488958}
+  - {fileID: 1244513087}
 --- !u!1 &1244513087
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ namespace Unity.MaterialSwitch
 
         void OnValidate()
         {
+            
             foreach (var ppm in palettePropertyMap)
             {
                 if (ppm.texture == null) continue;

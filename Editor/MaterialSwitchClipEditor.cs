@@ -137,7 +137,7 @@ namespace Unity.MaterialSwitch
                 }
             }
         }
-        
+
         void ShowDropDownButton(GenericMenu menu, string buttonLabel)
         {
             var buttonText = new GUIContent(buttonLabel);

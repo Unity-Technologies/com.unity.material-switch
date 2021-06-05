@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEditor.Timeline;
 using UnityEngine.Timeline;
@@ -14,7 +15,6 @@ namespace Unity.MaterialSwitch
         
         public override void OnClipChanged(TimelineClip clip) 
         {
-            
             PlayableDirector inspectedDirector = TimelineEditor.inspectedDirector;
             if (null == inspectedDirector)
                 return;
@@ -23,10 +23,9 @@ namespace Unity.MaterialSwitch
             SelectionGroup selectionGroup = inspectedDirector.GetGenericBinding(track) as SelectionGroups.Runtime.SelectionGroup;
             if (selectionGroup == null)
                 return;
-            if (!selectionGroup.TryGetComponent<MaterialGroup>(out MaterialGroup materialPropertyGroup))
-                materialPropertyGroup = selectionGroup.gameObject.AddComponent<MaterialGroup>();
+            if (!selectionGroup.TryGetComponent<MaterialGroup>(out MaterialGroup materialGroup))
+                materialGroup = selectionGroup.gameObject.AddComponent<MaterialGroup>();
         }
-
 
         public override void OnCreate(TimelineClip clip, TrackAsset track, TimelineClip clonedFrom)
         {
@@ -57,11 +56,11 @@ namespace Unity.MaterialSwitch
                 Debug.LogError("PalettePropertyMap is already created.");
                 return;
             }
-            asset.palettePropertyMap = new PalettePropertyMap[materialPropertyGroup.sharedMaterials.Length];
+            asset.palettePropertyMap = new List<PalettePropertyMap>(materialPropertyGroup.sharedMaterials.Length);
             for (var i = 0; i < materialPropertyGroup.sharedMaterials.Length; i++)
             {
                 var ppm = MaterialSwitchUtility.InitPalettePropertyMap(materialPropertyGroup.sharedMaterials[i]);
-                asset.palettePropertyMap[i] = ppm;
+                asset.palettePropertyMap.Add(ppm);
             }
         }
     }

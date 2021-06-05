@@ -5,6 +5,11 @@ namespace Unity.MaterialSwitch
 {
     public static class MaterialSwitchUtility
     {
+        [InitializeOnLoadMethod]
+        static void InitCallbacks()
+        {
+            MaterialSwitchPlayableBehaviour.CreatePalettePropertyMap = InitPalettePropertyMap;
+        }
         internal static PalettePropertyMap InitPalettePropertyMap(Material material)
         {
             var ppm = new PalettePropertyMap() { material = material };

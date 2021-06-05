@@ -35,7 +35,6 @@ namespace Unity.MaterialSwitch
             if (Application.isEditor && !Application.isPlaying)
             {
                 materialGroup.CollectMaterials();
-                
             }
             //a group has many renderers, get them all.
             if (renderers == null)

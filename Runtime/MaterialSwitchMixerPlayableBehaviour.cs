@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -63,7 +64,7 @@ namespace Unity.MaterialSwitch
                 if (weight == 0) continue;
 
                 var paletteSwitchBehaviour = ((ScriptPlayable<MaterialSwitchPlayableBehaviour>)playable.GetInput(i)).GetBehaviour();
-
+                
                 //each renderer in the group can have many materials.
                 //calculate the colors and textures coming from this clip and update relevant property block
                 foreach (var renderer in renderers)

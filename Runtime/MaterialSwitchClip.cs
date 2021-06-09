@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Playables;
 
 namespace Unity.MaterialSwitch
@@ -6,10 +7,11 @@ namespace Unity.MaterialSwitch
 
     internal class MaterialSwitchClip : PlayableAsset
     {
-        public PalettePropertyMap[] palettePropertyMap;
+        public List<PalettePropertyMap> palettePropertyMap;
 
         void OnValidate()
         {
+            
             foreach (var ppm in palettePropertyMap)
             {
                 if (ppm.texture == null) continue;
@@ -27,6 +29,7 @@ namespace Unity.MaterialSwitch
         {
             var playable = ScriptPlayable<MaterialSwitchPlayableBehaviour>.Create(graph);
             var behaviour = playable.GetBehaviour();
+            behaviour.clip = this;
             behaviour.palettePropertyMap = palettePropertyMap;
             return playable;
         }

@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+
 namespace Unity.MaterialSwitch
 {
     [ExecuteAlways]
@@ -14,6 +19,17 @@ namespace Unity.MaterialSwitch
         void OnEnable()
         {
             CollectMaterials();
+#if UNITY_EDITOR
+            EditorApplication.hierarchyChanged -= CollectMaterials;
+            EditorApplication.hierarchyChanged += CollectMaterials;
+#endif
+        }
+        
+        void OnDisable()
+        {
+#if UNITY_EDITOR
+            EditorApplication.hierarchyChanged -= CollectMaterials;
+#endif
         }
 
         public void CollectMaterials()

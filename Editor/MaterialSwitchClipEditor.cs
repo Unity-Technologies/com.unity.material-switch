@@ -5,7 +5,7 @@ using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.Timeline;
 
-namespace Unity.MaterialSwitch
+namespace Unity.MaterialSwitchhttps://github.com/Unity-Technologies/com.unity.material-switch/pull/20/conflict?name=Editor%252FMaterialSwitchClipTimelineEditor.cs&ancestor_oid=ff274cdce951a6db62150276a340bfd67258c7d1&base_oid=046881014f37831cca21eabdadd2d6426e4214e0&head_oid=b6206ca4a694195f99f0312c459599dc92aa708d
 {
 
     [CustomEditor(typeof(MaterialSwitchClip))]

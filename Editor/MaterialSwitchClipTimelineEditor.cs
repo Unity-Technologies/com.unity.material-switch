@@ -15,6 +15,7 @@ namespace Unity.MaterialSwitch
         
         public override void OnClipChanged(TimelineClip clip) 
         {
+            
             PlayableDirector inspectedDirector = TimelineEditor.inspectedDirector;
             if (null == inspectedDirector)
                 return;
@@ -60,7 +61,7 @@ namespace Unity.MaterialSwitch
             for (var i = 0; i < materialPropertyGroup.sharedMaterials.Length; i++)
             {
                 var ppm = MaterialSwitchUtility.InitPalettePropertyMap(materialPropertyGroup.sharedMaterials[i]);
-                asset.palettePropertyMap.Add(ppm);
+                asset.palettePropertyMap[i] = ppm;
             }
         }
     }

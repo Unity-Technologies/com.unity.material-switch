@@ -52,7 +52,7 @@ namespace Unity.MaterialSwitch
                 ValidatePalettePropertyMap();
                 
             }
-            
+            serializedObject.Update();
             SerializedProperty palettePropertyMap = serializedObject.FindProperty("palettePropertyMap");
             for (var i = 0; i < palettePropertyMap.arraySize; i++)
             {
@@ -176,7 +176,7 @@ namespace Unity.MaterialSwitch
                 }
             }
         }
-
+        
         void ShowDropDownButton(GenericMenu menu, string buttonLabel)
         {
             var buttonText = new GUIContent(buttonLabel);

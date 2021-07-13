@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
-using UnityEditor.Timeline;
+﻿using UnityEditor;
 using UnityEngine;
-using UnityEngine.Timeline;
 
 namespace Unity.MaterialSwitch
 {
@@ -12,46 +8,11 @@ namespace Unity.MaterialSwitch
     internal class MaterialSwitchClipEditor : Editor
     {
         bool showTextureProperties;
-        
-        void ValidatePalettePropertyMap()
-        {
-            // var clip = target as MaterialSwitchClip;
-            //
-            // var track = ((TimelineClip)clip).GetParentTrack();
-            //
-            // var selectionGroup = TimelineEditor.inspectedDirector.GetGenericBinding(track) as SelectionGroups.Runtime.SelectionGroup;
-            // if (selectionGroup == null)
-            // {
-            //     Debug.LogError("Generic Binding must be a SelectionGroup.");
-            //     return;
-            // }
-            // if (!selectionGroup.TryGetComponent<MaterialGroup>(out MaterialGroup materialPropertyGroup))
-            // {
-            //     materialPropertyGroup = selectionGroup.gameObject.AddComponent<MaterialGroup>();
-            //     Debug.Log("Adding Material Group to Selection Group.");
-            // }
-            //
-            // var mappedMaterials = new HashSet<int>();
-            //
-            // var newMap = clip.palettePropertyMap.ToList();
-            // foreach (var i in clip.palettePropertyMap)
-            //     mappedMaterials.Add(i.material.GetInstanceID());
-            // foreach (var i in materialGroup.sharedMaterials)
-            // {
-            //     if(mappedMaterials.Contains(i.GetInstanceID()))
-            //         continue;
-            //     //newMap.Add(MaterialSwitch.);
-            // }
-        }
 
         public override void OnInspectorGUI()
         {
             // serializedObject.Update();
-            if (GUILayout.Button("Refresh Materials"))
-            {
-                ValidatePalettePropertyMap();
-                
-            }
+            
             serializedObject.Update();
             SerializedProperty palettePropertyMap = serializedObject.FindProperty("palettePropertyMap");
             for (var i = 0; i < palettePropertyMap.arraySize; i++)

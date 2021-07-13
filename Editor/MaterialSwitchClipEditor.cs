@@ -12,11 +12,7 @@ namespace Unity.MaterialSwitch
         public override void OnInspectorGUI()
         {
             // serializedObject.Update();
-            if (GUILayout.Button("Refresh Materials"))
-            {
-                ValidatePalettePropertyMap();
-                
-            }
+            
             serializedObject.Update();
             SerializedProperty palettePropertyMap = serializedObject.FindProperty("palettePropertyMap");
             for (var i = 0; i < palettePropertyMap.arraySize; i++)

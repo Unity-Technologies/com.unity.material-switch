@@ -1,3 +1,7 @@
+# Latest official docs
+- [English](https://docs.unity3d.com/Packages/com.unity.material-switch@latest)
+- [日本語](https://docs.unity3d.com/ja/Packages/com.unity.material-switch@latest)
+
 # Material Switch
 
 [![](https://badge-proxy.cds.internal.unity3d.com/9a68c90a-06a0-4728-a775-820084993acb)](https://badges.cds.internal.unity3d.com/packages/com.unity.material-switch/build-info?branch=dev&testWorkflow=package-isolation)

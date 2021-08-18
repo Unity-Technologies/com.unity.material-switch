@@ -4,6 +4,19 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.4.0-preview] - 2021-08-18
+
+### Added
+* add global palette texture field to be used as the default palette texture
+* doc: put links to the official docs in the github top readme page
+
+### Changed
+* deps: update dependency to com.unity.film-internal-utilities@0.10.2-preview
+* test: add test against Unity 2021.2
+
+### Removed
+* doc: delete obsolete contents in the top readme
+
 ## [0.3.1-preview] - 2021-07-14
 
 ### Changed

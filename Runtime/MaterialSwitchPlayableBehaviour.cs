@@ -13,6 +13,7 @@ namespace Unity.MaterialSwitch
         // This magic method is only available in the editor.
         internal static System.Func<Material, PalettePropertyMap> CreatePalettePropertyMap;
 
+        public Texture2D GetGlobalTexture() => clip.globalTexture;
         public PalettePropertyMap GetMap(Material material)
         {
             foreach (var i in clip.palettePropertyMap)

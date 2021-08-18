@@ -8,11 +8,27 @@ namespace Unity.MaterialSwitch
     {
         bool              showTextureProperties;
 
+        void UpdateSampledColors()
+        {
+            var clip          = target as MaterialSwitchClip;
+            var globalTexture = clip.globalTexture;
+            foreach (var map in clip.palettePropertyMap)
+            {
+                var textureToUse = map.texture == null ? globalTexture : map.texture;
+                if (textureToUse == null) continue;
+                foreach (var c in map.colorCoordinates)
+                {
+                    c.targetValue = textureToUse.GetPixel((int) c.uv.x, (int) c.uv.y);
+                }
+            }
+        }
+
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
             
             var globalTextureProperty = serializedObject.FindProperty("globalTexture");
+            
             GUILayout.BeginVertical("box");
             EditorGUI.indentLevel--;
             GUILayout.Label("Global");
@@ -22,7 +38,7 @@ namespace Unity.MaterialSwitch
             {
                 GUILayout.BeginHorizontal();
                 EditorGUILayout.HelpBox("Texture is not marked as readable!", MessageType.Error);
-                if (GUILayout.Button("Fix"))
+                if (GUILayout.Button("Fix")) 
                     MakeTextureReadable(globalPaletteTexture);
                 GUILayout.EndHorizontal();
             }
@@ -116,7 +132,11 @@ namespace Unity.MaterialSwitch
                 GUILayout.EndVertical();
             }
 
-            serializedObject.ApplyModifiedProperties();
+            if (serializedObject.ApplyModifiedProperties())
+            {
+                UpdateSampledColors();
+                serializedObject.ApplyModifiedProperties();
+            }
         }
 
         private void DrawPropertyOverrideList(SerializedProperty ppm, string togglePropertyPath, string heading,
@@ -189,6 +209,7 @@ namespace Unity.MaterialSwitch
             var importer = (TextureImporter) TextureImporter.GetAtPath(path);
             importer.isReadable = true;
             AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
+            UpdateSampledColors();
         }
     }
 }

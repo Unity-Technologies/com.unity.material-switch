@@ -82,11 +82,11 @@ namespace Unity.MaterialSwitch
                             //this will happen when a material is added or removed after the clip has been created in the timeline. Cannot avoid this for now.
                             continue;
                         }
-
+                        
                         var block = new MaterialPropertyBlock();
                         renderer.GetPropertyBlock(block, index);
-
-                        LerpCurrentColorsToTargetColors(weight, map, block);
+                        var globalTexture = paletteSwitchBehaviour.GetGlobalTexture();
+                        LerpCurrentColorsToTargetColors(globalTexture, weight, map, block);
                         LerpCurrentTexturesToTargetTextures(weight, map, block);
                         LerpCurrentFloatsToTargetFloats(weight, map, block);
 
@@ -125,10 +125,11 @@ namespace Unity.MaterialSwitch
             }
         }
 
-        static void LerpCurrentColorsToTargetColors(float weight, PalettePropertyMap map, MaterialPropertyBlock block)
+        static void LerpCurrentColorsToTargetColors(Texture2D globalTexture, float weight, PalettePropertyMap map,
+            MaterialPropertyBlock block)
         {
             //if palette texture is set to null, don't lerp the colors.
-            if (map.texture == null) return;
+            if (globalTexture == null && map.texture == null) return;
             //lerp the colors towards targets.
             foreach (var i in map.colorCoordinates)
             {

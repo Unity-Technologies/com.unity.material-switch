@@ -8,6 +8,7 @@ namespace Unity.MaterialSwitch
     internal class MaterialSwitchClipEditor : Editor
     {
         bool              showTextureProperties;
+        private static MaterialSwitchClip copySource;
 
         void UpdateSampledColors()
         {
@@ -24,8 +25,31 @@ namespace Unity.MaterialSwitch
             }
         }
 
+        void HandleContextClick()
+        {
+            var e = Event.current;
+            var menu = new GenericMenu();
+            menu.AddItem(new GUIContent("Copy Settings"), false, () =>
+            {
+                copySource = Instantiate(target) as MaterialSwitchClip;
+            });
+            if(copySource == null)
+                menu.AddDisabledItem(new GUIContent("Paste Settings"));
+            else
+                menu.AddItem(new GUIContent("Paste Settings"), false, () =>
+                {
+                    EditorUtility.CopySerializedManagedFieldsOnly(copySource, target);
+                    serializedObject.ApplyModifiedProperties();
+                });
+            
+            menu.ShowAsContext();
+            e.Use();
+        }
+
         public override void OnInspectorGUI()
         {
+            if (Event.current.type == EventType.ContextClick)
+                HandleContextClick();
             serializedObject.Update();
             
             var globalTextureProperty = serializedObject.FindProperty("globalTexture");

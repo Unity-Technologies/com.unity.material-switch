@@ -4,6 +4,15 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.5.0-preview] - 2021-09-15
+
+### Added
+* feat: multi clip editing and copy paste.
+
+### Changed
+* deps: update dependencies to com.unity.film-internal-utilities@0.11.0-preview
+* deps: update dependencies to com.unity.selection-groups@0.5.0-preview
+
 ## [0.4.0-preview] - 2021-08-18
 
 ### Added

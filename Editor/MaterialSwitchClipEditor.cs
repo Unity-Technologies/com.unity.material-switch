@@ -4,6 +4,7 @@ using UnityEngine;
 namespace Unity.MaterialSwitch
 {
     [CustomEditor(typeof(MaterialSwitchClip))]
+    [CanEditMultipleObjects]
     internal class MaterialSwitchClipEditor : Editor
     {
         bool              showTextureProperties;

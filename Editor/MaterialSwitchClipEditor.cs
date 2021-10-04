@@ -18,6 +18,7 @@ namespace Unity.MaterialSwitch
             {
                 var textureToUse = map.texture == null ? globalTexture : map.texture;
                 if (textureToUse == null) continue;
+                if(!textureToUse.isReadable) continue;
                 foreach (var c in map.colorCoordinates)
                 {
                     c.targetValue = textureToUse.GetPixel((int) c.uv.x, (int) c.uv.y);

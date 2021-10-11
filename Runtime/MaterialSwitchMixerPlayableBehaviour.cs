@@ -128,8 +128,6 @@ namespace Unity.MaterialSwitch
         static void LerpCurrentColorsToTargetColors(Texture2D globalTexture, float weight, PalettePropertyMap map,
             MaterialPropertyBlock block)
         {
-            //if palette texture is set to null, don't lerp the colors.
-            if (globalTexture == null && map.texture == null) return;
             //lerp the colors towards targets.
             foreach (var i in map.colorCoordinates)
             {

@@ -95,37 +95,44 @@ namespace Unity.MaterialSwitch
                     }
                 }
 
-                if (globalPaletteTexture != null || textureProperty.objectReferenceValue != null)
-                {
-                    DrawPropertyOverrideList(ppm, "showCoords", "Color Properties", "colorCoordinates",
-                        (itemProperty) =>
+                
+                DrawPropertyOverrideList(ppm, "showCoords", "Color Properties", "colorCoordinates",
+                    (itemProperty) =>
+                    {
+                        var displayNameProperty = itemProperty.FindPropertyRelative("displayName");
+                        GUILayout.BeginVertical("box");
+                        EditorGUILayout.LabelField($"{displayNameProperty.stringValue}");
+                        GUILayout.BeginHorizontal();
+                        
+                        
+                        GUILayout.Label("Sampled Color");
+                        var texture = ppm.FindPropertyRelative("texture").objectReferenceValue as Texture2D;
+                        if (texture == null && globalPaletteTexture == null)
                         {
-                            var displayNameProperty = itemProperty.FindPropertyRelative("displayName");
-                            GUILayout.BeginVertical("box");
-                            EditorGUILayout.LabelField($"{displayNameProperty.stringValue}");
-                            GUILayout.BeginHorizontal();
-                            GUILayout.Label("Sampled Color");
-                            var rect                = GUILayoutUtility.GetRect(18, 18);
+                            EditorGUILayout.PropertyField(itemProperty.FindPropertyRelative("targetValue"), GUIContent.none);
+                        }
+                        else
+                        {
+                            var rect = GUILayoutUtility.GetRect(18, 18);
                             var targetValueProperty = itemProperty.FindPropertyRelative("targetValue");
                             EditorGUI.DrawRect(rect, targetValueProperty.colorValue);
                             GUILayout.EndHorizontal();
                             GUILayout.BeginHorizontal();
                             EditorGUILayout.PropertyField(itemProperty.FindPropertyRelative("uv"));
-                            var texture = ppm.FindPropertyRelative("texture").objectReferenceValue as Texture2D;
-
-                            var textureToUse = texture == null ? globalPaletteTexture:texture;
+                            var textureToUse = texture == null ? globalPaletteTexture : texture;
                             GUI.enabled = textureToUse != null;
                             if (GUILayout.Button("Pick") || GUI.Button(rect, GUIContent.none, "label"))
                             {
                                 rect = GUIUtility.GUIToScreenRect(rect);
                                 CoordPickerWindow.Open(this, textureToUse, itemProperty, rect);
                             }
+                        }
 
-                            GUI.enabled = true;
-                            GUILayout.EndHorizontal();
-                            GUILayout.EndVertical();
-                        });
-                }
+                        GUI.enabled = true;
+                        GUILayout.EndHorizontal();
+                        GUILayout.EndVertical();
+                    });
+            
 
 
                 DrawPropertyOverrideList(ppm, "showTextures", "Texture Properties", "textureProperties");

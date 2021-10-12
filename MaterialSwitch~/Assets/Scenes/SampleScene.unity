@@ -43,7 +43,7 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 11
+  serializedVersion: 12
   m_GIWorkflowMode: 0
   m_GISettings:
     serializedVersion: 2
@@ -98,7 +98,8 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 627f6995fdb57e44c865393eb689ee25,
+    type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -118,6 +119,8 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    maxJobWorkers: 0
+    preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
@@ -168,6 +171,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -192,6 +196,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &38488961
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -275,8 +280,10 @@ MonoBehaviour:
   color: {r: 0.96347374, g: 0.009007792, b: 0.48055536, a: 1}
   query: 
   scope: 1
+  _legacyMembers: []
   members:
   - {fileID: 1510964214}
+  sgVersion: 1
 --- !u!1 &119136127
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,6 +331,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -348,6 +356,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &119136130
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -446,6 +455,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!4 &705507995
@@ -625,8 +635,10 @@ MonoBehaviour:
   color: {r: 0.5748495, g: 0.024709772, b: 0.9534702, a: 1}
   query: 
   scope: 1
+  _legacyMembers: []
   members:
   - {fileID: 119136127}
+  sgVersion: 1
 --- !u!114 &1029314512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -703,9 +715,11 @@ MonoBehaviour:
   color: {r: 0.0037877015, g: 0.9023242, b: 0.5897427, a: 1}
   query: 
   scope: 1
+  _legacyMembers: []
   members:
   - {fileID: 38488958}
   - {fileID: 1244513087}
+  sgVersion: 1
 --- !u!1 &1244513087
 GameObject:
   m_ObjectHideFlags: 0
@@ -754,6 +768,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -778,6 +793,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1244513090
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -847,6 +863,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -871,6 +888,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1510964217
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -965,11 +983,7 @@ PlayableDirector:
     value: {fileID: 1192746966}
   - key: {fileID: -4690675678662075651, guid: f96bd54f25a8536439b4909e893f54ff, type: 2}
     value: {fileID: 78046434}
-  - key: {fileID: 6102479349535229780, guid: f96bd54f25a8536439b4909e893f54ff, type: 2}
-    value: {fileID: 1029314511}
-  - key: {fileID: -4446129482810982595, guid: f96bd54f25a8536439b4909e893f54ff, type: 2}
+  - key: {fileID: -5967989940060672166, guid: f96bd54f25a8536439b4909e893f54ff, type: 2}
     value: {fileID: 1192746966}
-  - key: {fileID: 4135901438457264822, guid: f96bd54f25a8536439b4909e893f54ff, type: 2}
-    value: {fileID: 78046434}
   m_ExposedReferences:
     m_References: []

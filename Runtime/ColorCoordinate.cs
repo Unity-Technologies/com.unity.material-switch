@@ -12,13 +12,17 @@ namespace Unity.MaterialSwitch
     //     public Color sampledColor;
     //     public Color originalColor;
     // }
-
-    internal class MaterialProperty<T>
+    
+    internal class MaterialSwitchProperty
     {
         public string displayName;
         public string propertyName;
         public int propertyId;
         public bool overrideBaseValue = false;
+    }
+
+    internal class MaterialProperty<T> : MaterialSwitchProperty
+    {
         public T baseValue;
         public T targetValue;
     }

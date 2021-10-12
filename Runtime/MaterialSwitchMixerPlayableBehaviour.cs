@@ -85,8 +85,13 @@ namespace Unity.MaterialSwitch
                         
                         var block = new MaterialPropertyBlock();
                         renderer.GetPropertyBlock(block, index);
-                        var globalTexture = paletteSwitchBehaviour.GetGlobalTexture();
-                        LerpCurrentColorsToTargetColors(globalTexture, weight, map, block);
+                        
+                        var globalMap = paletteSwitchBehaviour.GetGlobalMap();
+                        LerpCurrentColorsToTargetColors(weight, globalMap, block);
+                        LerpCurrentTexturesToTargetTextures(weight, globalMap, block);
+                        LerpCurrentFloatsToTargetFloats(weight, globalMap, block);
+                        
+                        LerpCurrentColorsToTargetColors(weight, map, block);
                         LerpCurrentTexturesToTargetTextures(weight, map, block);
                         LerpCurrentFloatsToTargetFloats(weight, map, block);
 
@@ -125,7 +130,7 @@ namespace Unity.MaterialSwitch
             }
         }
 
-        static void LerpCurrentColorsToTargetColors(Texture2D globalTexture, float weight, PalettePropertyMap map,
+        static void LerpCurrentColorsToTargetColors(float weight, PalettePropertyMap map,
             MaterialPropertyBlock block)
         {
             //lerp the colors towards targets.

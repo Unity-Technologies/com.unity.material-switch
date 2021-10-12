@@ -679,7 +679,7 @@ MonoBehaviour:
   - m_Version: 1
     m_Start: 5.166666666666667
     m_ClipIn: 0
-    m_Asset: {fileID: -6479584300342969059}
+    m_Asset: {fileID: 1474210383439815156}
     m_Duration: 5
     m_TimeScale: 1
     m_ParentTrack: {fileID: -5967989940060672166}
@@ -1942,6 +1942,342 @@ MonoBehaviour:
   m_Clips: []
   m_Markers:
     m_Objects: []
+--- !u!114 &1474210383439815156
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad04a3b8c2e8c6a49a60b3d8c8d9ca95, type: 3}
+  m_Name: MaterialSwitchClip
+  m_EditorClassIdentifier: 
+  globalPalettePropertyMap:
+    texture: {fileID: 2800000, guid: b95742ee43268ab4696fa767846bb42b, type: 3}
+    colorCoordinates: []
+    material: {fileID: 0}
+    showCoords: 0
+    showTextures: 0
+    showFloats: 0
+    textureProperties: []
+    floatProperties: []
+  palettePropertyMap:
+  - texture: {fileID: 0}
+    colorCoordinates:
+    - displayName: Color
+      propertyName: _Color
+      propertyId: 0
+      overrideBaseValue: 1
+      baseValue: {r: 1, g: 1, b: 1, a: 1}
+      targetValue: {r: 0.81960785, g: 0.44705883, b: 1, a: 1}
+      uv: {x: 181, y: 216}
+    - displayName: Color
+      propertyName: _EmissionColor
+      propertyId: 0
+      overrideBaseValue: 0
+      baseValue: {r: 0, g: 0, b: 0, a: 1}
+      targetValue: {r: 0.34509805, g: 0.68235296, b: 0.7764706, a: 0.9882353}
+      uv: {x: 0, y: 0}
+    material: {fileID: 2100000, guid: 8c0bf6edd4f1c6e48b9e4b7a788e11cf, type: 2}
+    showCoords: 1
+    showTextures: 0
+    showFloats: 0
+    textureProperties:
+    - displayName: Albedo
+      propertyName: _MainTex
+      propertyId: 4
+      overrideBaseValue: 0
+      baseValue: {fileID: 2800000, guid: 4725acc979f15fd45a7b9533e93b3391, type: 3}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Metallic
+      propertyName: _MetallicGlossMap
+      propertyId: 243
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Normal Map
+      propertyName: _BumpMap
+      propertyId: 171
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Height Map
+      propertyName: _ParallaxMap
+      propertyId: 254
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Occlusion
+      propertyName: _OcclusionMap
+      propertyId: 259
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Emission
+      propertyName: _EmissionMap
+      propertyId: 263
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Detail Mask
+      propertyName: _DetailMask
+      propertyId: 267
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Detail Albedo x2
+      propertyName: _DetailAlbedoMap
+      propertyId: 271
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Normal Map
+      propertyName: _DetailNormalMap
+      propertyId: 174
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    floatProperties:
+    - displayName: Alpha Cutoff
+      propertyName: _Cutoff
+      propertyId: 123
+      overrideBaseValue: 0
+      baseValue: 0.5
+      targetValue: 0.5
+    - displayName: Smoothness
+      propertyName: _Glossiness
+      propertyId: 239
+      overrideBaseValue: 0
+      baseValue: 0.5
+      targetValue: 0.5
+    - displayName: Smoothness Scale
+      propertyName: _GlossMapScale
+      propertyId: 240
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Smoothness texture channel
+      propertyName: _SmoothnessTextureChannel
+      propertyId: 241
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Metallic
+      propertyName: _Metallic
+      propertyId: 242
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Specular Highlights
+      propertyName: _SpecularHighlights
+      propertyId: 247
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Glossy Reflections
+      propertyName: _GlossyReflections
+      propertyId: 248
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Scale
+      propertyName: _BumpScale
+      propertyId: 249
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Height Scale
+      propertyName: _Parallax
+      propertyId: 253
+      overrideBaseValue: 0
+      baseValue: 0.02
+      targetValue: 0.02
+    - displayName: Strength
+      propertyName: _OcclusionStrength
+      propertyId: 258
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Scale
+      propertyName: _DetailNormalMapScale
+      propertyId: 275
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: UV Set for secondary textures
+      propertyName: _UVSec
+      propertyId: 279
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+  - texture: {fileID: 0}
+    colorCoordinates:
+    - displayName: Color
+      propertyName: _Color
+      propertyId: 0
+      overrideBaseValue: 0
+      baseValue: {r: 1, g: 1, b: 1, a: 1}
+      targetValue: {r: 0.34509805, g: 0.68235296, b: 0.7764706, a: 0.9882353}
+      uv: {x: 0, y: 0}
+    - displayName: Color
+      propertyName: _EmissionColor
+      propertyId: 0
+      overrideBaseValue: 0
+      baseValue: {r: 0, g: 0, b: 0, a: 1}
+      targetValue: {r: 0.34509805, g: 0.68235296, b: 0.7764706, a: 0.9882353}
+      uv: {x: 0, y: 0}
+    material: {fileID: 2100000, guid: 2744a0c67b039cb4aafef509d0145ba9, type: 2}
+    showCoords: 0
+    showTextures: 0
+    showFloats: 0
+    textureProperties:
+    - displayName: Albedo
+      propertyName: _MainTex
+      propertyId: 4
+      overrideBaseValue: 0
+      baseValue: {fileID: 2800000, guid: 8cf1dd6e9ee7e2046adb4aecfee36f2b, type: 3}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Metallic
+      propertyName: _MetallicGlossMap
+      propertyId: 243
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Normal Map
+      propertyName: _BumpMap
+      propertyId: 171
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Height Map
+      propertyName: _ParallaxMap
+      propertyId: 254
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Occlusion
+      propertyName: _OcclusionMap
+      propertyId: 259
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Emission
+      propertyName: _EmissionMap
+      propertyId: 263
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Detail Mask
+      propertyName: _DetailMask
+      propertyId: 267
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Detail Albedo x2
+      propertyName: _DetailAlbedoMap
+      propertyId: 271
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Normal Map
+      propertyName: _DetailNormalMap
+      propertyId: 174
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    floatProperties:
+    - displayName: Alpha Cutoff
+      propertyName: _Cutoff
+      propertyId: 123
+      overrideBaseValue: 0
+      baseValue: 0.5
+      targetValue: 0.5
+    - displayName: Smoothness
+      propertyName: _Glossiness
+      propertyId: 239
+      overrideBaseValue: 0
+      baseValue: 0.5
+      targetValue: 0.5
+    - displayName: Smoothness Scale
+      propertyName: _GlossMapScale
+      propertyId: 240
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Smoothness texture channel
+      propertyName: _SmoothnessTextureChannel
+      propertyId: 241
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Metallic
+      propertyName: _Metallic
+      propertyId: 242
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Specular Highlights
+      propertyName: _SpecularHighlights
+      propertyId: 247
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Glossy Reflections
+      propertyName: _GlossyReflections
+      propertyId: 248
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Scale
+      propertyName: _BumpScale
+      propertyId: 249
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Height Scale
+      propertyName: _Parallax
+      propertyId: 253
+      overrideBaseValue: 0
+      baseValue: 0.02
+      targetValue: 0.02
+    - displayName: Strength
+      propertyName: _OcclusionStrength
+      propertyId: 258
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Scale
+      propertyName: _DetailNormalMapScale
+      propertyId: 275
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: UV Set for secondary textures
+      propertyName: _UVSec
+      propertyId: 279
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
 --- !u!114 &3148203875489911853
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3417,334 +3753,6 @@ MonoBehaviour:
     - displayName: UV Set for secondary textures
       propertyName: _UVSec
       propertyId: 370
-      overrideBaseValue: 0
-      baseValue: 0
-      targetValue: 0
---- !u!114 &7355266248568268977
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad04a3b8c2e8c6a49a60b3d8c8d9ca95, type: 3}
-  m_Name: MaterialSwitchClip
-  m_EditorClassIdentifier: 
-  globalTexture: {fileID: 0}
-  palettePropertyMap:
-  - texture: {fileID: 0}
-    colorCoordinates:
-    - displayName: Color
-      propertyName: _Color
-      propertyId: 0
-      overrideBaseValue: 1
-      baseValue: {r: 1, g: 1, b: 1, a: 1}
-      targetValue: {r: 1, g: 0, b: 0.8759699, a: 0.9882353}
-      uv: {x: 0, y: 0}
-    - displayName: Color
-      propertyName: _EmissionColor
-      propertyId: 0
-      overrideBaseValue: 0
-      baseValue: {r: 0, g: 0, b: 0, a: 1}
-      targetValue: {r: 0.34509805, g: 0.68235296, b: 0.7764706, a: 0.9882353}
-      uv: {x: 0, y: 0}
-    material: {fileID: 2100000, guid: 8c0bf6edd4f1c6e48b9e4b7a788e11cf, type: 2}
-    showCoords: 0
-    showTextures: 0
-    showFloats: 0
-    textureProperties:
-    - displayName: Albedo
-      propertyName: _MainTex
-      propertyId: 4
-      overrideBaseValue: 0
-      baseValue: {fileID: 2800000, guid: 4725acc979f15fd45a7b9533e93b3391, type: 3}
-      targetValue: {fileID: 0}
-      finalTexture: {fileID: 0}
-    - displayName: Metallic
-      propertyName: _MetallicGlossMap
-      propertyId: 243
-      overrideBaseValue: 0
-      baseValue: {fileID: 0}
-      targetValue: {fileID: 0}
-      finalTexture: {fileID: 0}
-    - displayName: Normal Map
-      propertyName: _BumpMap
-      propertyId: 171
-      overrideBaseValue: 0
-      baseValue: {fileID: 0}
-      targetValue: {fileID: 0}
-      finalTexture: {fileID: 0}
-    - displayName: Height Map
-      propertyName: _ParallaxMap
-      propertyId: 254
-      overrideBaseValue: 0
-      baseValue: {fileID: 0}
-      targetValue: {fileID: 0}
-      finalTexture: {fileID: 0}
-    - displayName: Occlusion
-      propertyName: _OcclusionMap
-      propertyId: 259
-      overrideBaseValue: 0
-      baseValue: {fileID: 0}
-      targetValue: {fileID: 0}
-      finalTexture: {fileID: 0}
-    - displayName: Emission
-      propertyName: _EmissionMap
-      propertyId: 263
-      overrideBaseValue: 0
-      baseValue: {fileID: 0}
-      targetValue: {fileID: 0}
-      finalTexture: {fileID: 0}
-    - displayName: Detail Mask
-      propertyName: _DetailMask
-      propertyId: 267
-      overrideBaseValue: 0
-      baseValue: {fileID: 0}
-      targetValue: {fileID: 0}
-      finalTexture: {fileID: 0}
-    - displayName: Detail Albedo x2
-      propertyName: _DetailAlbedoMap
-      propertyId: 271
-      overrideBaseValue: 0
-      baseValue: {fileID: 0}
-      targetValue: {fileID: 0}
-      finalTexture: {fileID: 0}
-    - displayName: Normal Map
-      propertyName: _DetailNormalMap
-      propertyId: 174
-      overrideBaseValue: 0
-      baseValue: {fileID: 0}
-      targetValue: {fileID: 0}
-      finalTexture: {fileID: 0}
-    floatProperties:
-    - displayName: Alpha Cutoff
-      propertyName: _Cutoff
-      propertyId: 123
-      overrideBaseValue: 0
-      baseValue: 0.5
-      targetValue: 0.5
-    - displayName: Smoothness
-      propertyName: _Glossiness
-      propertyId: 239
-      overrideBaseValue: 0
-      baseValue: 0.5
-      targetValue: 0.5
-    - displayName: Smoothness Scale
-      propertyName: _GlossMapScale
-      propertyId: 240
-      overrideBaseValue: 0
-      baseValue: 1
-      targetValue: 1
-    - displayName: Smoothness texture channel
-      propertyName: _SmoothnessTextureChannel
-      propertyId: 241
-      overrideBaseValue: 0
-      baseValue: 0
-      targetValue: 0
-    - displayName: Metallic
-      propertyName: _Metallic
-      propertyId: 242
-      overrideBaseValue: 0
-      baseValue: 0
-      targetValue: 0
-    - displayName: Specular Highlights
-      propertyName: _SpecularHighlights
-      propertyId: 247
-      overrideBaseValue: 0
-      baseValue: 1
-      targetValue: 1
-    - displayName: Glossy Reflections
-      propertyName: _GlossyReflections
-      propertyId: 248
-      overrideBaseValue: 0
-      baseValue: 1
-      targetValue: 1
-    - displayName: Scale
-      propertyName: _BumpScale
-      propertyId: 249
-      overrideBaseValue: 0
-      baseValue: 1
-      targetValue: 1
-    - displayName: Height Scale
-      propertyName: _Parallax
-      propertyId: 253
-      overrideBaseValue: 0
-      baseValue: 0.02
-      targetValue: 0.02
-    - displayName: Strength
-      propertyName: _OcclusionStrength
-      propertyId: 258
-      overrideBaseValue: 0
-      baseValue: 1
-      targetValue: 1
-    - displayName: Scale
-      propertyName: _DetailNormalMapScale
-      propertyId: 275
-      overrideBaseValue: 0
-      baseValue: 1
-      targetValue: 1
-    - displayName: UV Set for secondary textures
-      propertyName: _UVSec
-      propertyId: 279
-      overrideBaseValue: 0
-      baseValue: 0
-      targetValue: 0
-  - texture: {fileID: 0}
-    colorCoordinates:
-    - displayName: Color
-      propertyName: _Color
-      propertyId: 0
-      overrideBaseValue: 1
-      baseValue: {r: 1, g: 1, b: 1, a: 1}
-      targetValue: {r: 0, g: 1, b: 0.06695533, a: 1}
-      uv: {x: 0, y: 0}
-    - displayName: Color
-      propertyName: _EmissionColor
-      propertyId: 0
-      overrideBaseValue: 0
-      baseValue: {r: 0, g: 0, b: 0, a: 1}
-      targetValue: {r: 0, g: 0, b: 0, a: 0}
-      uv: {x: 0, y: 0}
-    material: {fileID: 2100000, guid: 2744a0c67b039cb4aafef509d0145ba9, type: 2}
-    showCoords: 1
-    showTextures: 1
-    showFloats: 0
-    textureProperties:
-    - displayName: Albedo
-      propertyName: _MainTex
-      propertyId: 4
-      overrideBaseValue: 1
-      baseValue: {fileID: 2800000, guid: 8cf1dd6e9ee7e2046adb4aecfee36f2b, type: 3}
-      targetValue: {fileID: 10309, guid: 0000000000000000f000000000000000, type: 0}
-      finalTexture: {fileID: 0}
-    - displayName: Metallic
-      propertyName: _MetallicGlossMap
-      propertyId: 243
-      overrideBaseValue: 0
-      baseValue: {fileID: 0}
-      targetValue: {fileID: 0}
-      finalTexture: {fileID: 0}
-    - displayName: Normal Map
-      propertyName: _BumpMap
-      propertyId: 171
-      overrideBaseValue: 0
-      baseValue: {fileID: 0}
-      targetValue: {fileID: 0}
-      finalTexture: {fileID: 0}
-    - displayName: Height Map
-      propertyName: _ParallaxMap
-      propertyId: 254
-      overrideBaseValue: 0
-      baseValue: {fileID: 0}
-      targetValue: {fileID: 0}
-      finalTexture: {fileID: 0}
-    - displayName: Occlusion
-      propertyName: _OcclusionMap
-      propertyId: 259
-      overrideBaseValue: 0
-      baseValue: {fileID: 0}
-      targetValue: {fileID: 0}
-      finalTexture: {fileID: 0}
-    - displayName: Emission
-      propertyName: _EmissionMap
-      propertyId: 263
-      overrideBaseValue: 0
-      baseValue: {fileID: 0}
-      targetValue: {fileID: 0}
-      finalTexture: {fileID: 0}
-    - displayName: Detail Mask
-      propertyName: _DetailMask
-      propertyId: 267
-      overrideBaseValue: 0
-      baseValue: {fileID: 0}
-      targetValue: {fileID: 0}
-      finalTexture: {fileID: 0}
-    - displayName: Detail Albedo x2
-      propertyName: _DetailAlbedoMap
-      propertyId: 271
-      overrideBaseValue: 0
-      baseValue: {fileID: 0}
-      targetValue: {fileID: 0}
-      finalTexture: {fileID: 0}
-    - displayName: Normal Map
-      propertyName: _DetailNormalMap
-      propertyId: 174
-      overrideBaseValue: 0
-      baseValue: {fileID: 0}
-      targetValue: {fileID: 0}
-      finalTexture: {fileID: 0}
-    floatProperties:
-    - displayName: Alpha Cutoff
-      propertyName: _Cutoff
-      propertyId: 123
-      overrideBaseValue: 0
-      baseValue: 0.5
-      targetValue: 0.5
-    - displayName: Smoothness
-      propertyName: _Glossiness
-      propertyId: 239
-      overrideBaseValue: 0
-      baseValue: 0.5
-      targetValue: 0.5
-    - displayName: Smoothness Scale
-      propertyName: _GlossMapScale
-      propertyId: 240
-      overrideBaseValue: 0
-      baseValue: 1
-      targetValue: 1
-    - displayName: Smoothness texture channel
-      propertyName: _SmoothnessTextureChannel
-      propertyId: 241
-      overrideBaseValue: 0
-      baseValue: 0
-      targetValue: 0
-    - displayName: Metallic
-      propertyName: _Metallic
-      propertyId: 242
-      overrideBaseValue: 0
-      baseValue: 0
-      targetValue: 0
-    - displayName: Specular Highlights
-      propertyName: _SpecularHighlights
-      propertyId: 247
-      overrideBaseValue: 0
-      baseValue: 1
-      targetValue: 1
-    - displayName: Glossy Reflections
-      propertyName: _GlossyReflections
-      propertyId: 248
-      overrideBaseValue: 0
-      baseValue: 1
-      targetValue: 1
-    - displayName: Scale
-      propertyName: _BumpScale
-      propertyId: 249
-      overrideBaseValue: 0
-      baseValue: 1
-      targetValue: 1
-    - displayName: Height Scale
-      propertyName: _Parallax
-      propertyId: 253
-      overrideBaseValue: 0
-      baseValue: 0.02
-      targetValue: 0.02
-    - displayName: Strength
-      propertyName: _OcclusionStrength
-      propertyId: 258
-      overrideBaseValue: 0
-      baseValue: 1
-      targetValue: 1
-    - displayName: Scale
-      propertyName: _DetailNormalMapScale
-      propertyId: 275
-      overrideBaseValue: 0
-      baseValue: 1
-      targetValue: 1
-    - displayName: UV Set for secondary textures
-      propertyName: _UVSec
-      propertyId: 279
       overrideBaseValue: 0
       baseValue: 0
       targetValue: 0

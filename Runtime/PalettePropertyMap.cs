@@ -15,5 +15,6 @@ namespace Unity.MaterialSwitch
         public bool showFloats = false;
         public List<TextureProperty> textureProperties = new List<TextureProperty>();
         public List<FloatProperty> floatProperties = new List<FloatProperty>();
+        public bool needsUpdate = true;
     }
 }

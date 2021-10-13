@@ -138,20 +138,26 @@ namespace Unity.MaterialSwitch
             {
                 if (i.overrideBaseValue)
                 {
-                    var color = Color.Lerp(i.baseValue, i.targetValue, weight);
+                    var color = block.GetColor(i.propertyName);
+                    color = Color.Lerp(color, i.targetValue, weight);
                     block.SetColor(i.propertyName, color);
+                    
+                    // The below implementation is incorrect, and does not work with clips blended together.
+                    // var color = Color.Lerp(i.baseValue, i.targetValue, weight);
+                    // block.SetColor(i.propertyName, color);
                 }
             }
         }
 
         static void LerpCurrentFloatsToTargetFloats(float weight, PalettePropertyMap map, MaterialPropertyBlock block)
         {
-            //lerp the colors towards targets.
+            //lerp the floats towards targets.
             foreach (var i in map.floatProperties)
             {
                 if (i.overrideBaseValue)
                 {
-                    var v = Mathf.Lerp(i.baseValue, i.targetValue, weight);
+                    var v = block.GetFloat(i.propertyName);
+                    v = Mathf.Lerp(v, i.targetValue, weight);
                     block.SetFloat(i.propertyName, v);
                 }
             }

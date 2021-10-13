@@ -81,7 +81,7 @@ namespace Unity.MaterialSwitch
                 serializedObject.ApplyModifiedProperties();
             }
         }
-
+        
         private void DrawPalettePropertyMapUI(SerializedProperty ppm, SerializedProperty globalPalettePropertyMap)
         {
             GUILayout.BeginVertical("box");

@@ -4,6 +4,18 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.6.0-preview] - 2021-10-13
+
+### Added
+* feat: added a global property map to material switch clips.
+* feat: use the standard color picker when no palette texture is assigned. 
+
+### Changed
+* deps: update dependency to com.unity.selection-groups@0.5.2-preview
+
+### Fixed
+* don't try to sample textures that are not readable.
+
 ## [0.5.0-preview] - 2021-09-15
 
 ### Added

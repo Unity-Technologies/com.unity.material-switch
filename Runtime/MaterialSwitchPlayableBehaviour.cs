@@ -11,9 +11,13 @@ namespace Unity.MaterialSwitch
         public MaterialSwitchClip clip;
 
         // This magic method is only available in the editor.
-        internal static System.Func<Material, PalettePropertyMap> CreatePalettePropertyMap;
+        internal static System.Func<Material[], PalettePropertyMap> CreatePalettePropertyMap;
 
-        public Texture2D GetGlobalTexture() => clip.globalTexture;
+        public PalettePropertyMap GetGlobalMap()
+        {
+            return clip.globalPalettePropertyMap;
+        }
+
         public PalettePropertyMap GetMap(Material material)
         {
             foreach (var i in clip.palettePropertyMap)
@@ -22,8 +26,10 @@ namespace Unity.MaterialSwitch
             }
             if (CreatePalettePropertyMap != null)
             {
-                var ppm = CreatePalettePropertyMap(material);
+                var ppm = CreatePalettePropertyMap(new [] { material });
+                ppm.material = material;
                 clip.palettePropertyMap.Add(ppm);
+                
                 return ppm;
             }
             

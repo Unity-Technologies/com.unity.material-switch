@@ -10,10 +10,19 @@ namespace Unity.MaterialSwitch
         {
             MaterialSwitchPlayableBehaviour.CreatePalettePropertyMap = InitPalettePropertyMap;
         }
+
         internal static PalettePropertyMap InitPalettePropertyMap(Material material)
         {
-            var ppm = new PalettePropertyMap() { material = material };
-            var materialProperties = MaterialEditor.GetMaterialProperties(new[] { ppm.material });
+            var map = InitPalettePropertyMap(new[] {material});
+            map.material = material;
+            return map;
+        }
+        
+        internal static PalettePropertyMap InitPalettePropertyMap(Material[] materials)
+        {
+            var ppm = new PalettePropertyMap();
+            
+            var materialProperties = MaterialEditor.GetMaterialProperties(materials);
             foreach (var mp in materialProperties)
             {
                 if (mp.flags.HasFlag(MaterialProperty.PropFlags.HideInInspector))
@@ -78,6 +87,7 @@ namespace Unity.MaterialSwitch
                 }
             }
 
+            ppm.needsUpdate = false;
             return ppm;
         }
     }

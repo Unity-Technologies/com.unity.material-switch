@@ -7,7 +7,7 @@ namespace Unity.MaterialSwitch
 
     internal class MaterialSwitchClip : PlayableAsset
     {
-        public Texture2D                globalTexture;
+        public PalettePropertyMap globalPalettePropertyMap;
         public List<PalettePropertyMap> palettePropertyMap;
 
         void OnValidate()

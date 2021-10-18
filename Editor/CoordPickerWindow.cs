@@ -43,9 +43,10 @@ namespace Unity.MaterialSwitch
                 case EventType.MouseDown:
                     var uv = e.mousePosition;
                     uv.y = texture.height - uv.y;
-                    sampledColorProperty.colorValue = texture.GetPixel((int)uv.x, (int)uv.y);
                     uvProperty.vector2Value = uv;
+                    //sampledColorProperty.colorValue = texture.GetPixel((int)uv.x, (int)uv.y);
                     ccProperty.serializedObject.ApplyModifiedProperties();
+                    Debug.Log(ccProperty.GetHashCode());
                     foreach(var t in Resources.FindObjectsOfTypeAll<PlayableDirector>()) {
                         t.DeferredEvaluate();
                     }

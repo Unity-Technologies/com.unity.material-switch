@@ -133,9 +133,12 @@ namespace Unity.MaterialSwitch
                         EditorGUI.DrawRect(rect, targetValueProperty.colorValue);
                         GUILayout.EndHorizontal();
                         GUILayout.BeginHorizontal();
-                        EditorGUILayout.PropertyField(itemProperty.FindPropertyRelative(nameof(ColorProperty.uv)));
+                        var uvProperty = itemProperty.FindPropertyRelative(nameof(ColorProperty.uv));
+                        EditorGUILayout.PropertyField(uvProperty);
                         var textureToUse = texture == null ? globalPaletteTexture : texture;
                         GUI.enabled = textureToUse != null;
+                        var uv = uvProperty.vector2Value;
+                        targetValueProperty.colorValue = textureToUse.GetPixel((int)uv.x, (int)uv.y);
                         if (GUILayout.Button("Pick") || GUI.Button(rect, GUIContent.none, "label"))
                         {
                             rect = GUIUtility.GUIToScreenRect(rect);

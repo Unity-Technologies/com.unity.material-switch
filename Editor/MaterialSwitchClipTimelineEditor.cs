@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEditor.Timeline;
@@ -17,17 +18,26 @@ namespace Unity.MaterialSwitch
         {
             
             PlayableDirector inspectedDirector = TimelineEditor.inspectedDirector;
-            if (null == inspectedDirector)
+            if (inspectedDirector == null)
                 return;
-            
+               
             TrackAsset track = clip.GetParentTrack();
+            
             SelectionGroup selectionGroup = inspectedDirector.GetGenericBinding(track) as SelectionGroups.Runtime.SelectionGroup;
             if (selectionGroup == null)
                 return;
-            if (!selectionGroup.TryGetComponent<MaterialGroup>(out MaterialGroup materialGroup))
+            if (!selectionGroup.TryGetComponent(out MaterialGroup materialGroup))
                 materialGroup = selectionGroup.gameObject.AddComponent<MaterialGroup>();
             
             var asset = clip.asset as MaterialSwitchClip;
+            // var allClips = track.GetClips().ToList();
+            // var index = allClips.IndexOf(clip);
+            // var previousIndex = index - 1;
+            // if (previousIndex >= 0)
+            // {
+            //     var previousClip = allClips[previousIndex].asset as MaterialSwitchClip;
+            //     asset.palettePropertyMap
+            // }
             if (asset.globalPalettePropertyMap == null || asset.globalPalettePropertyMap.needsUpdate)
             {
                 asset.globalPalettePropertyMap =

@@ -37,6 +37,9 @@ namespace Unity.MaterialSwitch
                 materialGroup.CollectMaterials();
                 
             }
+            if (textureLerpMaterial == null)
+                textureLerpMaterial = CreateTextureLerpMaterial();
+            
             //a group has many renderers, get them all.
             if (renderers == null)
                 renderers = new HashSet<Renderer>(group.GetMemberComponents<Renderer>());
@@ -66,17 +69,19 @@ namespace Unity.MaterialSwitch
 
                 var paletteSwitchBehaviour = ((ScriptPlayable<MaterialSwitchPlayableBehaviour>)playable.GetInput(i)).GetBehaviour();
                 
-                //each renderer in the group can have many materials.
-                //calculate the colors and textures coming from this clip and update relevant property block
+                
+                // //each renderer in the group can have many materials.
+                // //calculate the colors and textures coming from this clip and update relevant property block
                 foreach (var renderer in renderers)
                 {
                     for (var index = 0; index < renderer.sharedMaterials.Length; index++)
                     {
                         var material = renderer.sharedMaterials[index];
-
+                
                         //get the matching property map from this clip for a material.
                         //the property map contains properties that are added into the appropriate property block.
                         var map = paletteSwitchBehaviour.GetMap(material);
+                        
                         if (map == null)
                         {
                             //this will happen when a material is added or removed after the clip has been created in the timeline. Cannot avoid this for now.
@@ -84,7 +89,21 @@ namespace Unity.MaterialSwitch
                         }
                         
                         var block = new MaterialPropertyBlock();
-                        renderer.GetPropertyBlock(block, index);
+                        
+                        foreach (var textureProperty in map.textureProperties)
+                        {
+                            if (textureProperty.overrideBaseValue)
+                            {
+                                if (block.GetTexture(textureProperty.propertyName) == null)
+                                {
+                                    var finalTexture = new RenderTexture(textureProperty.baseValue.width, textureProperty.baseValue.height, 0, RenderTextureFormat.ARGB32);
+                                    block.SetTexture(textureProperty.propertyName, finalTexture);
+                                    RenderTexture.active = finalTexture;
+                                    GL.Clear(true, false, Color.black);
+                                    RenderTexture.active = null;
+                                }
+                            }
+                        }
                         
                         var globalMap = paletteSwitchBehaviour.GetGlobalMap();
                         LerpCurrentColorsToTargetColors(weight, globalMap, block);
@@ -94,7 +113,7 @@ namespace Unity.MaterialSwitch
                         LerpCurrentColorsToTargetColors(weight, map, block);
                         LerpCurrentTexturesToTargetTextures(weight, map, block);
                         LerpCurrentFloatsToTargetFloats(weight, map, block);
-
+                
                         renderer.SetPropertyBlock(block, index);
                     }
                 }
@@ -104,28 +123,45 @@ namespace Unity.MaterialSwitch
 
         void LerpCurrentTexturesToTargetTextures(float weight, PalettePropertyMap map, MaterialPropertyBlock block)
         {
+            
             // the material property block contains "final" textures which are used in rendering.
             // each textureProperty in the palette property map also has a reference to the final texture.
             // the palette property map contains textures which the user may have changed.
             // at the end of this function, each texture in the property block should have changes based on the weight and user textures.
             activePalettePropertyMapInstances.Add(map);
-            foreach (var i in map.textureProperties)
+
+            // foreach (var textureProperty in map.textureProperties)
+            // {
+            //     if (textureProperty.overrideBaseValue)
+            //     {
+            //         var finalTexture = (RenderTexture) block.GetTexture(textureProperty.propertyName);
+            //         if (finalTexture == null)
+            //         {
+            //             finalTexture = new RenderTexture(textureProperty.baseValue.width,
+            //                 textureProperty.baseValue.height, 0, RenderTextureFormat.ARGB32);
+            //             RenderTexture.active = finalTexture;
+            //             // GL.Clear(true, false, Color.black);
+            //             RenderTexture.active = null;
+            //             block.SetTexture(textureProperty.propertyName, finalTexture);
+            //         }
+            //     }
+            // }
+
+            
+            foreach (var textureProperty in map.textureProperties)
             {
-                if (i.overrideBaseValue && i.baseValue != null)
+                if (textureProperty.overrideBaseValue)
                 {
-                    if (i.finalTexture == null)
-                        i.finalTexture = new RenderTexture(i.baseValue.width, i.baseValue.height, 0, RenderTextureFormat.ARGB32);
+                    var finalTexture = (RenderTexture) block.GetTexture(textureProperty.propertyName);
                     //setup blit parameters for texture lerp. if there is no target to lerp towards, lerp back to original.
-                    if (textureLerpMaterial == null)
-                        textureLerpMaterial = CreateTextureLerpMaterial();
                     textureLerpMaterial.SetFloat("_Weight", weight);
-                    if (i.targetValue == null)
-                        textureLerpMaterial.SetTexture("_TargetTex", i.baseValue);
-                    else
-                        textureLerpMaterial.SetTexture("_TargetTex", i.targetValue);
+                    textureLerpMaterial.SetTexture("_TargetTex", textureProperty.targetValue);
                     //finally interpolate textures and update the final texture.
-                    Graphics.Blit(i.baseValue, i.finalTexture, textureLerpMaterial);
-                    block.SetTexture(i.propertyName, i.finalTexture);
+                    var output = RenderTexture.GetTemporary(finalTexture.descriptor);
+                    Graphics.Blit(finalTexture, output, textureLerpMaterial);
+                    Graphics.Blit(output, finalTexture);
+                    RenderTexture.ReleaseTemporary(output);
+
                 }
             }
         }
@@ -139,12 +175,8 @@ namespace Unity.MaterialSwitch
                 if (i.overrideBaseValue)
                 {
                     var color = block.GetColor(i.propertyName);
-                    color = Color.Lerp(color, i.targetValue, weight);
-                    block.SetColor(i.propertyName, color);
-                    
-                    // The below implementation is incorrect, and does not work with clips blended together.
-                    // var color = Color.Lerp(i.baseValue, i.targetValue, weight);
-                    // block.SetColor(i.propertyName, color);
+                    //var color = Color.Lerp(i.baseValue, i.targetValue, weight);
+                    block.SetColor(i.propertyName, color + i.targetValue * weight );
                 }
             }
         }
@@ -156,8 +188,7 @@ namespace Unity.MaterialSwitch
             {
                 if (i.overrideBaseValue)
                 {
-                    var v = block.GetFloat(i.propertyName);
-                    v = Mathf.Lerp(v, i.targetValue, weight);
+                    var v = Mathf.Lerp(i.baseValue, i.targetValue, weight);
                     block.SetFloat(i.propertyName, v);
                 }
             }

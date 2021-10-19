@@ -2,7 +2,7 @@
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
+        _MainTex ("Texture", 2D) = "black" {}
         _TargetTex ("Target Texture", 2D) = "white" {}
         _Weight ("Weight", float) = 0.5
     }

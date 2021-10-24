@@ -15,10 +15,11 @@ Material Switch allows you to change and blend between material parameters using
 2. The new track has an object field which you must change to the Selection Group you want to modify. All renderers and materials in this selection group can be used in the clips you will add to this track. You will manually choose which properties to use per clip in a later step. <br> ![](images/image2.png)
 3. Add a new material switch clip to the track. <br> ![](images/image3.png)
 4. The inspector window will show a number of options for modifying the clip. You can add values to override texture, color and float properties. In the next step, we will override a colour property. <br> ![](images/image4.png)
-5. To enable colour properties on the clip, we must assign a palette texture in the inspector. If the texture is not readable, a warning box will appear giving you the option to fix the texture settings with a single click. <br> ![](images/image5.png)
-6. The Colour Properties foldout is now enabled. Click the "Choose Color Properties Overrides" button, and a dropdown will appear with the available colour properties you can override. Choose a colour property. <br> ![](images/image6.png)
-7. A new row appears in the foldout, with a "Pick Color" button. If you click this button, the palette image will appear, allowing you to choose a new colour for the property. <br> ![](images/image7.png)
-8. You can now play the clip, and see your colour changes take effect.
+5. Open the Colour Properties foldout. Click the "Choose Color Properties Overrides" button, and a dropdown will appear with the available colour properties you can override. Choose a colour property. <br> ![](images/image6.png) 
+7. A new row appears in the foldout, with standard color picker. This allows you to set the override color.
+8. Alternatively, you can use the Color Palette workflow. Assign a palette texture in the inspector. If the texture is not readable, a warning box will appear giving you the option to fix the texture settings with a single click. <br> ![](images/image5.png)
+9. Now, instead of the standard color picker, there is a "Pick Color" button. If you click this button, the palette image will appear, allowing you to choose a new colour for the property. <br> ![](images/image7.png)
+10. You can now play the clip, and see your colour changes take effect.
 
 # Addendum:
 New in version XX. There is now a section in the material switch clip editor named Global Properties.

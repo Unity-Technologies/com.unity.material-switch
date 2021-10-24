@@ -20,3 +20,9 @@ Material Switch allows you to change and blend between material parameters using
 7. A new row appears in the foldout, with a "Pick Color" button. If you click this button, the palette image will appear, allowing you to choose a new colour for the property. <br> ![](images/image7.png)
 8. You can now play the clip, and see your colour changes take effect.
 
+# Addendum:
+New in version XX. There is now a section in the material switch clip editor named Global Properties.
+This provides a single place to override all properties of the same name in the Per Material Properties. 
+If the same  property is also overridden in the Per Material Properties section, it will take precedence over the global property. 
+<br> ![](images/image8.png)
+

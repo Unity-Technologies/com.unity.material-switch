@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -9,6 +10,8 @@ namespace Unity.MaterialSwitch
     {
         public PalettePropertyMap globalPalettePropertyMap;
         public List<PalettePropertyMap> palettePropertyMap;
+
+        [NonSerialized] public Dictionary<Material, PalettePropertyMap> materialMap = null;
 
         void OnValidate()
         {

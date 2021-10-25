@@ -16,6 +16,7 @@ namespace Unity.MaterialSwitch
         
         public override void OnClipChanged(TimelineClip clip) 
         {
+//            Debug.Log("OnClipChanged");
             
             PlayableDirector inspectedDirector = TimelineEditor.inspectedDirector;
             if (inspectedDirector == null)
@@ -47,6 +48,8 @@ namespace Unity.MaterialSwitch
 
         public override void OnCreate(TimelineClip clip, TrackAsset track, TimelineClip clonedFrom)
         {
+            Debug.Log("MaterialSwitchClip log");
+            
             var asset = clip.asset as MaterialSwitchClip;
             if (asset == null)
             {

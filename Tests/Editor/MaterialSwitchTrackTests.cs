@@ -23,10 +23,15 @@ internal class MaterialSwitchTrackTests
         TimelineAsset timelineAsset = TimelineEditorUtility.CreateAsset(MaterialSwitchTestEditorConstants.TEST_TIMELINE_ASSET_PATH);
         
         PlayableDirector  director = new GameObject("Director").AddComponent<PlayableDirector>();  
-        TimelineClip clip = EditorTestUtility.CreateTrackAndClip<MaterialSwitchTrack>(timelineAsset, "TrackWithEmptyDefaultClip");
         director.playableAsset = timelineAsset;
+        EditorTestUtility.SelectDirectorInTimelineWindow(director);        
         yield return null;
 
+        TimelineClip clip = EditorTestUtility.CreateTrackAndClip<MaterialSwitchTrack>(timelineAsset, "TrackWithEmptyDefaultClip");
+        yield return null;
+        Assert.IsNotNull(clip.asset as MaterialSwitchClip);
+        
+        
         EditorTestUtility.DestroyTimelineAssets(clip);
     }
 
@@ -34,19 +39,28 @@ internal class MaterialSwitchTrackTests
     [UnityTest]
     public IEnumerator AssignSelectionGroupToTrack() {
         TimelineAsset timelineAsset = TimelineEditorUtility.CreateAsset(MaterialSwitchTestEditorConstants.TEST_TIMELINE_ASSET_PATH);
-        yield return null;
+        yield return EditorTestUtility.WaitForFrames(3);
         
         PlayableDirector    director = new GameObject("Director").AddComponent<PlayableDirector>();
         MaterialSwitchTrack track    = timelineAsset.CreateTrack<MaterialSwitchTrack>(null, "TestTrack");
         director.playableAsset = timelineAsset;
-        yield return null;
+        yield return EditorTestUtility.WaitForFrames(3);
 
         SelectionGroup group = CreateSceneSelectionGroup("New Group", string.Empty, Color.green, new List<Object>());
         director.SetGenericBinding(track, group);
-        TimelineClip clip = track.CreateDefaultClip();
-        yield return null;
+        yield return EditorTestUtility.WaitForFrames(3);
 
-        EditorTestUtility.DestroyTimelineAssets(clip);
+        Selection.activeObject = timelineAsset;        
+        Debug.Log(Selection.activeObject);
+        
+//        EditorTestUtility.SelectDirectorInTimelineWindow(director);        
+        yield return EditorTestUtility.WaitForFrames(3);
+
+        
+        TimelineClip clip = track.CreateDefaultClip();
+        yield return EditorTestUtility.WaitForFrames(3);
+
+//        EditorTestUtility.DestroyTimelineAssets(clip);
     }
     
 //----------------------------------------------------------------------------------------------------------------------    

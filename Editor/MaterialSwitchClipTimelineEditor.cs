@@ -39,13 +39,11 @@ namespace Unity.MaterialSwitch
             var selectionGroup = TimelineEditor.inspectedDirector.GetGenericBinding(track) as SelectionGroups.Runtime.SelectionGroup;
             if (selectionGroup == null)
             {
-                Debug.LogError("Generic Binding must be a SelectionGroup.");
                 return;
             }
             if (!selectionGroup.TryGetComponent<MaterialGroup>(out MaterialGroup materialPropertyGroup))
             {
                 materialPropertyGroup = selectionGroup.gameObject.AddComponent<MaterialGroup>();
-                Debug.Log("Adding Material Group to Selection Group.");
             }
             if (materialPropertyGroup == null)
             {
@@ -61,7 +59,7 @@ namespace Unity.MaterialSwitch
             for (var i = 0; i < materialPropertyGroup.sharedMaterials.Length; i++)
             {
                 var ppm = MaterialSwitchUtility.InitPalettePropertyMap(materialPropertyGroup.sharedMaterials[i]);
-                asset.palettePropertyMap[i] = ppm;
+                asset.palettePropertyMap.Add(ppm);
             }
         }
     }

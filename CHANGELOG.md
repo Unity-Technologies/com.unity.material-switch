@@ -4,6 +4,16 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.5.1-preview] - 2021-10-25
+
+### Changed
+* deps: update dependency to com.unity.selection-groups@0.5.4-preview
+* deps: update dependency to com.unity.film-internal-utilities@0.11.1-preview
+
+### Fixed
+* fixed errors when adding new MaterialSwitchClips
+* don't try to sample textures that are not readable.
+
 ## [0.5.0-preview] - 2021-09-15
 
 ### Added

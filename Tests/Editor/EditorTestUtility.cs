@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
 namespace Unity.MaterialSwitch.EditorTests
@@ -18,13 +16,6 @@ internal static class EditorTestUtility
         T            track = timelineAsset.CreateTrack<T>(null, trackName);
         TimelineClip clip  = track.CreateDefaultClip();
         return clip;
-    }
-
-    //[TODO-sin: 2021-9-10] Move to FIU ?
-    internal static void SelectDirectorInTimelineWindow(PlayableDirector director) {
-        //Select gameObject and open Timeline Window. This will trigger the TimelineWindow's update etc.
-        EditorApplication.ExecuteMenuItem("Window/Sequencing/Timeline");
-        Selection.activeObject = director;        
     }
     
 //----------------------------------------------------------------------------------------------------------------------
@@ -53,15 +44,6 @@ internal static class EditorTestUtility
             Object.Destroy(obj);            
         }
     }
-    
-    //[TODO-sin:2021-10-25] Move to FIU
-    internal static IEnumerator WaitForFrames(int numFrames) {
-        for (int i = 0; i < numFrames; ++i) {
-            yield return null;
-            
-        }        
-        Undo.IncrementCurrentGroup();
-    }        
 
     
 }

@@ -20,9 +20,15 @@ namespace Unity.MaterialSwitch
         
         internal static PalettePropertyMap InitPalettePropertyMap(Material[] materials)
         {
-            var ppm = new PalettePropertyMap();
+            PalettePropertyMap ppm = new PalettePropertyMap() 
+            {
+                needsUpdate = false,
+            };
             
-            var materialProperties = MaterialEditor.GetMaterialProperties(materials);
+            MaterialProperty[] materialProperties = MaterialEditor.GetMaterialProperties(materials);
+            if (null == materialProperties)
+                return ppm;
+            
             foreach (var mp in materialProperties)
             {
                 if (mp.flags.HasFlag(MaterialProperty.PropFlags.HideInInspector))
@@ -87,7 +93,6 @@ namespace Unity.MaterialSwitch
                 }
             }
 
-            ppm.needsUpdate = false;
             return ppm;
         }
     }

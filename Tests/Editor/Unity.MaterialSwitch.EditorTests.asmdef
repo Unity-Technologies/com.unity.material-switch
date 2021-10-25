@@ -1,13 +1,20 @@
 {
     "name": "Unity.MaterialSwitch.EditorTests",
+    "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner"
+        "UnityEditor.TestRunner",
+        "Unity.Timeline",
+        "Unity.Timeline.Editor",
+        "Unity.FilmInternalUtilities",
+        "Unity.FilmInternalUtilities.Editor",
+        "Unity.MaterialSwitch",
+        "Unity.MaterialSwitch.Editor"
     ],
-    "includePlatforms": [],
-    "excludePlatforms": [
+    "includePlatforms": [
         "Editor"
     ],
+    "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [

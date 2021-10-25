@@ -14,22 +14,19 @@ namespace Unity.MaterialSwitch.EditorTests
 {
 internal class MaterialSwitchTrackTests
 {
-    [UnitySetUp]
-    public IEnumerator Setup() {
-        new GameObject("Director").AddComponent<PlayableDirector>();       
-        yield return null;
-    }
-
 //----------------------------------------------------------------------------------------------------------------------    
 
 
-    [Test]
-    public void CreateEmptyPlayableAsset() {
-        PlayableDirector  director = new GameObject("Director").AddComponent<PlayableDirector>();  
+    [UnityTest]
+    public IEnumerator CreateEmptyPlayableAsset() {
         TimelineAsset timelineAsset = TimelineEditorUtility.CreateAsset(MaterialSwitchTestEditorConstants.TEST_TIMELINE_ASSET_PATH);
+        
+        PlayableDirector  director = new GameObject("Director").AddComponent<PlayableDirector>();  
         TimelineClip clip = CreateTrackAndClip<MaterialSwitchTrack>(timelineAsset, "TrackWithEmptyDefaultClip");
         director.playableAsset = timelineAsset;
-        DestroyTestTimelineAssets(clip);
+        yield return null;
+
+        DestroyTimelineAssets(clip);
     }
 
 //----------------------------------------------------------------------------------------------------------------------    
@@ -45,7 +42,7 @@ internal class MaterialSwitchTrackTests
     
 //----------------------------------------------------------------------------------------------------------------------                
     //[TODO-sin:2021-10-25] Move to FIU
-    internal static void DestroyTestTimelineAssets(TimelineClip clip) {
+    internal static void DestroyTimelineAssets(TimelineClip clip) {
         TrackAsset    movieTrack    = clip.GetParentTrack();
         TimelineAsset timelineAsset = movieTrack.timelineAsset;
             
@@ -53,10 +50,20 @@ internal class MaterialSwitchTrackTests
         Assert.False(string.IsNullOrEmpty(tempTimelineAssetPath));
 
         timelineAsset.DeleteTrack(movieTrack);
-        ObjectUtility.Destroy(timelineAsset);
+        Destroy(timelineAsset, allowDestroyingAssets:true );
         AssetDatabase.DeleteAsset(tempTimelineAssetPath);
             
     }
+    
+    //[TODO-sin:2021-10-25] Move to FIU
+    internal static void Destroy(Object obj, bool forceImmediate = false, bool allowDestroyingAssets = false) {
+        if (!Application.isPlaying || forceImmediate) {
+            Object.DestroyImmediate(obj,allowDestroyingAssets);                        
+        } else {
+            Object.Destroy(obj);            
+        }
+    }
+    
     
     
 }

@@ -56,13 +56,11 @@ namespace Unity.MaterialSwitch
             var selectionGroup = TimelineEditor.inspectedDirector.GetGenericBinding(track) as SelectionGroups.Runtime.SelectionGroup;
             if (selectionGroup == null)
             {
-                Debug.LogError("Generic Binding must be a SelectionGroup.");
                 return;
             }
             if (!selectionGroup.TryGetComponent<MaterialGroup>(out MaterialGroup materialPropertyGroup))
             {
                 materialPropertyGroup = selectionGroup.gameObject.AddComponent<MaterialGroup>();
-                Debug.Log("Adding Material Group to Selection Group.");
             }
             if (materialPropertyGroup == null)
             {

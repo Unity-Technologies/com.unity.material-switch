@@ -25,7 +25,8 @@ internal class MaterialSwitchTrackTests
         PlayableDirector  director = new GameObject("Director").AddComponent<PlayableDirector>();  
         TimelineClip clip = EditorTestUtility.CreateTrackAndClip<MaterialSwitchTrack>(timelineAsset, "TrackWithEmptyDefaultClip");
         director.playableAsset = timelineAsset;
-        yield return null;
+        EditorTestUtility.SelectDirectorInTimelineWindow(director);                
+        yield return EditorTestUtility.WaitForFrames(3);
 
         EditorTestUtility.DestroyTimelineAssets(clip);
     }
@@ -34,17 +35,18 @@ internal class MaterialSwitchTrackTests
     [UnityTest]
     public IEnumerator AssignSelectionGroupToTrack() {
         TimelineAsset timelineAsset = TimelineEditorUtility.CreateAsset(MaterialSwitchTestEditorConstants.TEST_TIMELINE_ASSET_PATH);
-        yield return null;
+        yield return EditorTestUtility.WaitForFrames(3);
         
         PlayableDirector    director = new GameObject("Director").AddComponent<PlayableDirector>();
         MaterialSwitchTrack track    = timelineAsset.CreateTrack<MaterialSwitchTrack>(null, "TestTrack");
         director.playableAsset = timelineAsset;
-        yield return null;
+        EditorTestUtility.SelectDirectorInTimelineWindow(director);                
+        yield return EditorTestUtility.WaitForFrames(3);
 
         SelectionGroup group = CreateSceneSelectionGroup("New Group", string.Empty, Color.green, new List<Object>());
         director.SetGenericBinding(track, group);
         TimelineClip clip = track.CreateDefaultClip();
-        yield return null;
+        yield return EditorTestUtility.WaitForFrames(3);
 
         EditorTestUtility.DestroyTimelineAssets(clip);
     }

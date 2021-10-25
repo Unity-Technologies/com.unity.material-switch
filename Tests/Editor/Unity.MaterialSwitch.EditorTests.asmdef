@@ -9,7 +9,9 @@
         "Unity.FilmInternalUtilities",
         "Unity.FilmInternalUtilities.Editor",
         "Unity.MaterialSwitch",
-        "Unity.MaterialSwitch.Editor"
+        "Unity.MaterialSwitch.Editor",
+        "Unity.SelectionGroups",
+        "Unity.SelectionGroups.Editor"
     ],
     "includePlatforms": [
         "Editor"

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using NUnit.Framework;
+using Unity.FilmInternalUtilities;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Playables;

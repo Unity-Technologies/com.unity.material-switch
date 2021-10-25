@@ -1,0 +1,1271 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2779051503649719240
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5697b525ea6e42b48ab7ea06c9dfe665, type: 3}
+  m_Name: Material Switch Track
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: 11400000}
+  m_Children: []
+  m_Clips:
+  - m_Version: 1
+    m_Start: 4
+    m_ClipIn: 0
+    m_Asset: {fileID: 3856299312292903446}
+    m_Duration: 5
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -2779051503649719240}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: -1
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: MaterialSwitchClip
+  m_Markers:
+    m_Objects: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfda56da833e2384a9677cd3c976a436, type: 3}
+  m_Name: PaletteTimeline
+  m_EditorClassIdentifier: 
+  m_Version: 0
+  m_Tracks:
+  - {fileID: -2779051503649719240}
+  m_FixedDuration: 0
+  m_EditorSettings:
+    m_Framerate: 60
+    m_ScenePreview: 1
+  m_DurationMode: 0
+  m_MarkerTrack: {fileID: 0}
+--- !u!114 &3856299312292903446
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad04a3b8c2e8c6a49a60b3d8c8d9ca95, type: 3}
+  m_Name: MaterialSwitchClip
+  m_EditorClassIdentifier: 
+  globalPalettePropertyMap:
+    texture: {fileID: 0}
+    colorCoordinates:
+    - displayName: Color
+      propertyName: _Color
+      propertyId: 0
+      overrideBaseValue: 0
+      baseValue: {r: 1, g: 1, b: 1, a: 1}
+      targetValue: {r: 0, g: 0, b: 0, a: 0}
+      uv: {x: 0, y: 0}
+    - displayName: Color
+      propertyName: _EmissionColor
+      propertyId: 0
+      overrideBaseValue: 0
+      baseValue: {r: 0, g: 0, b: 0, a: 1}
+      targetValue: {r: 0, g: 0, b: 0, a: 0}
+      uv: {x: 0, y: 0}
+    material: {fileID: 0}
+    showCoords: 0
+    showTextures: 0
+    showFloats: 0
+    textureProperties:
+    - displayName: Albedo
+      propertyName: _MainTex
+      propertyId: 4
+      overrideBaseValue: 0
+      baseValue: {fileID: 2800000, guid: 4725acc979f15fd45a7b9533e93b3391, type: 3}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Metallic
+      propertyName: _MetallicGlossMap
+      propertyId: 243
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Normal Map
+      propertyName: _BumpMap
+      propertyId: 171
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Height Map
+      propertyName: _ParallaxMap
+      propertyId: 254
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Occlusion
+      propertyName: _OcclusionMap
+      propertyId: 259
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Emission
+      propertyName: _EmissionMap
+      propertyId: 263
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Detail Mask
+      propertyName: _DetailMask
+      propertyId: 267
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Detail Albedo x2
+      propertyName: _DetailAlbedoMap
+      propertyId: 271
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Normal Map
+      propertyName: _DetailNormalMap
+      propertyId: 174
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    floatProperties:
+    - displayName: Alpha Cutoff
+      propertyName: _Cutoff
+      propertyId: 123
+      overrideBaseValue: 0
+      baseValue: 0.5
+      targetValue: 0.5
+    - displayName: Smoothness
+      propertyName: _Glossiness
+      propertyId: 239
+      overrideBaseValue: 0
+      baseValue: 0.5
+      targetValue: 0.5
+    - displayName: Smoothness Scale
+      propertyName: _GlossMapScale
+      propertyId: 240
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Smoothness texture channel
+      propertyName: _SmoothnessTextureChannel
+      propertyId: 241
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Metallic
+      propertyName: _Metallic
+      propertyId: 242
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Specular Highlights
+      propertyName: _SpecularHighlights
+      propertyId: 247
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Glossy Reflections
+      propertyName: _GlossyReflections
+      propertyId: 248
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Scale
+      propertyName: _BumpScale
+      propertyId: 249
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Height Scale
+      propertyName: _Parallax
+      propertyId: 253
+      overrideBaseValue: 0
+      baseValue: 0.02
+      targetValue: 0.02
+    - displayName: Strength
+      propertyName: _OcclusionStrength
+      propertyId: 258
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Scale
+      propertyName: _DetailNormalMapScale
+      propertyId: 275
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: UV Set for secondary textures
+      propertyName: _UVSec
+      propertyId: 279
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    needsUpdate: 0
+  palettePropertyMap:
+  - texture: {fileID: 0}
+    colorCoordinates:
+    - displayName: Color
+      propertyName: _Color
+      propertyId: 0
+      overrideBaseValue: 0
+      baseValue: {r: 1, g: 1, b: 1, a: 1}
+      targetValue: {r: 0, g: 0, b: 0, a: 0}
+      uv: {x: 0, y: 0}
+    - displayName: Color
+      propertyName: _EmissionColor
+      propertyId: 0
+      overrideBaseValue: 0
+      baseValue: {r: 0, g: 0, b: 0, a: 1}
+      targetValue: {r: 0, g: 0, b: 0, a: 0}
+      uv: {x: 0, y: 0}
+    material: {fileID: 2100000, guid: 8c0bf6edd4f1c6e48b9e4b7a788e11cf, type: 2}
+    showCoords: 0
+    showTextures: 0
+    showFloats: 0
+    textureProperties:
+    - displayName: Albedo
+      propertyName: _MainTex
+      propertyId: 4
+      overrideBaseValue: 0
+      baseValue: {fileID: 2800000, guid: 4725acc979f15fd45a7b9533e93b3391, type: 3}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Metallic
+      propertyName: _MetallicGlossMap
+      propertyId: 243
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Normal Map
+      propertyName: _BumpMap
+      propertyId: 171
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Height Map
+      propertyName: _ParallaxMap
+      propertyId: 254
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Occlusion
+      propertyName: _OcclusionMap
+      propertyId: 259
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Emission
+      propertyName: _EmissionMap
+      propertyId: 263
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Detail Mask
+      propertyName: _DetailMask
+      propertyId: 267
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Detail Albedo x2
+      propertyName: _DetailAlbedoMap
+      propertyId: 271
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Normal Map
+      propertyName: _DetailNormalMap
+      propertyId: 174
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    floatProperties:
+    - displayName: Alpha Cutoff
+      propertyName: _Cutoff
+      propertyId: 123
+      overrideBaseValue: 0
+      baseValue: 0.5
+      targetValue: 0.5
+    - displayName: Smoothness
+      propertyName: _Glossiness
+      propertyId: 239
+      overrideBaseValue: 0
+      baseValue: 0.5
+      targetValue: 0.5
+    - displayName: Smoothness Scale
+      propertyName: _GlossMapScale
+      propertyId: 240
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Smoothness texture channel
+      propertyName: _SmoothnessTextureChannel
+      propertyId: 241
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Metallic
+      propertyName: _Metallic
+      propertyId: 242
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Specular Highlights
+      propertyName: _SpecularHighlights
+      propertyId: 247
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Glossy Reflections
+      propertyName: _GlossyReflections
+      propertyId: 248
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Scale
+      propertyName: _BumpScale
+      propertyId: 249
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Height Scale
+      propertyName: _Parallax
+      propertyId: 253
+      overrideBaseValue: 0
+      baseValue: 0.02
+      targetValue: 0.02
+    - displayName: Strength
+      propertyName: _OcclusionStrength
+      propertyId: 258
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Scale
+      propertyName: _DetailNormalMapScale
+      propertyId: 275
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: UV Set for secondary textures
+      propertyName: _UVSec
+      propertyId: 279
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    needsUpdate: 0
+  - texture: {fileID: 0}
+    colorCoordinates:
+    - displayName: BaseColor
+      propertyName: _BaseColor
+      propertyId: 0
+      overrideBaseValue: 0
+      baseValue: {r: 1, g: 1, b: 1, a: 1}
+      targetValue: {r: 0, g: 0, b: 0, a: 0}
+      uv: {x: 0, y: 0}
+    - displayName: 1st_ShadeColor
+      propertyName: _1st_ShadeColor
+      propertyId: 0
+      overrideBaseValue: 0
+      baseValue: {r: 1, g: 1, b: 1, a: 1}
+      targetValue: {r: 0, g: 0, b: 0, a: 0}
+      uv: {x: 0, y: 0}
+    - displayName: 2nd_ShadeColor
+      propertyName: _2nd_ShadeColor
+      propertyId: 0
+      overrideBaseValue: 0
+      baseValue: {r: 1, g: 1, b: 1, a: 1}
+      targetValue: {r: 0, g: 0, b: 0, a: 0}
+      uv: {x: 0, y: 0}
+    - displayName: HighColor
+      propertyName: _HighColor
+      propertyId: 0
+      overrideBaseValue: 0
+      baseValue: {r: 0, g: 0, b: 0, a: 1}
+      targetValue: {r: 0, g: 0, b: 0, a: 0}
+      uv: {x: 0, y: 0}
+    - displayName: RimLightColor
+      propertyName: _RimLightColor
+      propertyId: 0
+      overrideBaseValue: 0
+      baseValue: {r: 1, g: 1, b: 1, a: 1}
+      targetValue: {r: 0, g: 0, b: 0, a: 0}
+      uv: {x: 0, y: 0}
+    - displayName: Ap_RimLightColor
+      propertyName: _Ap_RimLightColor
+      propertyId: 0
+      overrideBaseValue: 0
+      baseValue: {r: 1, g: 1, b: 1, a: 1}
+      targetValue: {r: 0, g: 0, b: 0, a: 0}
+      uv: {x: 0, y: 0}
+    - displayName: MatCapColor
+      propertyName: _MatCapColor
+      propertyId: 0
+      overrideBaseValue: 0
+      baseValue: {r: 1, g: 1, b: 1, a: 1}
+      targetValue: {r: 0, g: 0, b: 0, a: 0}
+      uv: {x: 0, y: 0}
+    - displayName: AngelRing_Color
+      propertyName: _AngelRing_Color
+      propertyId: 0
+      overrideBaseValue: 0
+      baseValue: {r: 1, g: 1, b: 1, a: 1}
+      targetValue: {r: 0, g: 0, b: 0, a: 0}
+      uv: {x: 0, y: 0}
+    - displayName: Emissive_Color
+      propertyName: _Emissive_Color
+      propertyId: 0
+      overrideBaseValue: 0
+      baseValue: {r: 0, g: 0, b: 0, a: 1}
+      targetValue: {r: 0, g: 0, b: 0, a: 0}
+      uv: {x: 0, y: 0}
+    - displayName: ColorSift
+      propertyName: _ColorShift
+      propertyId: 0
+      overrideBaseValue: 0
+      baseValue: {r: 0, g: 0, b: 0, a: 1}
+      targetValue: {r: 0, g: 0, b: 0, a: 0}
+      uv: {x: 0, y: 0}
+    - displayName: ViewSift
+      propertyName: _ViewShift
+      propertyId: 0
+      overrideBaseValue: 0
+      baseValue: {r: 0, g: 0, b: 0, a: 1}
+      targetValue: {r: 0, g: 0, b: 0, a: 0}
+      uv: {x: 0, y: 0}
+    - displayName: Outline_Color
+      propertyName: _Outline_Color
+      propertyId: 0
+      overrideBaseValue: 0
+      baseValue: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+      targetValue: {r: 0, g: 0, b: 0, a: 0}
+      uv: {x: 0, y: 0}
+    material: {fileID: 2100000, guid: 4bce7a79310f1f04abbaf46203b5a9ff, type: 2}
+    showCoords: 0
+    showTextures: 0
+    showFloats: 0
+    textureProperties:
+    - displayName: ClippingMask
+      propertyName: _ClippingMask
+      propertyId: 559
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: BaseMap
+      propertyName: _MainTex
+      propertyId: 4
+      overrideBaseValue: 0
+      baseValue: {fileID: 2800000, guid: 8cf1dd6e9ee7e2046adb4aecfee36f2b, type: 3}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: 1st_ShadeMap
+      propertyName: _1st_ShadeMap
+      propertyId: 572
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: 2nd_ShadeMap
+      propertyName: _2nd_ShadeMap
+      propertyId: 579
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: NormalMap
+      propertyName: _NormalMap
+      propertyId: 172
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Set_1st_ShadePosition
+      propertyName: _Set_1st_ShadePosition
+      propertyId: 602
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Set_2nd_ShadePosition
+      propertyName: _Set_2nd_ShadePosition
+      propertyId: 606
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: ShadingGradeMap
+      propertyName: _ShadingGradeMap
+      propertyId: 610
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: HighColor_Tex
+      propertyName: _HighColor_Tex
+      propertyId: 617
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Set_HighColorMask
+      propertyName: _Set_HighColorMask
+      propertyId: 628
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Set_RimLightMask
+      propertyName: _Set_RimLightMask
+      propertyId: 647
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: MatCap_Sampler
+      propertyName: _MatCap_Sampler
+      propertyId: 653
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: NormalMapForMatCap
+      propertyName: _NormalMapForMatCap
+      propertyId: 665
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Set_MatcapMask
+      propertyName: _Set_MatcapMask
+      propertyId: 673
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: AngelRing_Sampler
+      propertyName: _AngelRing_Sampler
+      propertyId: 681
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Emissive_Tex
+      propertyName: _Emissive_Tex
+      propertyId: 691
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Outline_Sampler
+      propertyName: _Outline_Sampler
+      propertyId: 711
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: OutlineTex
+      propertyName: _OutlineTex
+      propertyId: 719
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    - displayName: Baked Normal for Outline
+      propertyName: _BakedNormal
+      propertyId: 725
+      overrideBaseValue: 0
+      baseValue: {fileID: 0}
+      targetValue: {fileID: 0}
+      finalTexture: {fileID: 0}
+    floatProperties:
+    - displayName: StencilMode
+      propertyName: _StencilMode
+      propertyId: 555
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Stencil Comparison
+      propertyName: _StencilComp
+      propertyId: 543
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Stencil No
+      propertyName: _StencilNo
+      propertyId: 542
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Stencil Operation
+      propertyName: _StencilOpPass
+      propertyId: 544
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Stencil Operation
+      propertyName: _StencilOpFail
+      propertyId: 545
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Transparent Mode
+      propertyName: _TransparentEnabled
+      propertyId: 556
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: CliippingMode
+      propertyName: _ClippingMode
+      propertyId: 557
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Cull Mode
+      propertyName: _CullMode
+      propertyId: 547
+      overrideBaseValue: 0
+      baseValue: 2
+      targetValue: 2
+    - displayName: ZWrite Mode
+      propertyName: _ZWriteMode
+      propertyId: 546
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: ZOver Draw Mode
+      propertyName: _ZOverDrawMode
+      propertyId: 558
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: SPRDefaultUnlit Path Color Mask
+      propertyName: _SPRDefaultUnlitColorMask
+      propertyId: 541
+      overrideBaseValue: 0
+      baseValue: 15
+      targetValue: 15
+    - displayName: SPRDefaultUnlit  Cull Mode
+      propertyName: _SRPDefaultUnlitColMode
+      propertyId: 540
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Inverse_Clipping
+      propertyName: _Inverse_Clipping
+      propertyId: 564
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Clipping_Level
+      propertyName: _Clipping_Level
+      propertyId: 565
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Tweak_transparency
+      propertyName: _Tweak_transparency
+      propertyId: 566
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Cull Mode
+      propertyName: _CullMode
+      propertyId: 547
+      overrideBaseValue: 0
+      baseValue: 2
+      targetValue: 2
+    - displayName: Is_LightColor_Base
+      propertyName: _Is_LightColor_Base
+      propertyId: 571
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Use BaseMap as 1st_ShadeMap
+      propertyName: _Use_BaseAs1st
+      propertyId: 576
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Is_LightColor_1st_Shade
+      propertyName: _Is_LightColor_1st_Shade
+      propertyId: 578
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Use 1st_ShadeMap as 2nd_ShadeMap
+      propertyName: _Use_1stAs2nd
+      propertyId: 583
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Is_LightColor_2nd_Shade
+      propertyName: _Is_LightColor_2nd_Shade
+      propertyId: 585
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Normal Scale
+      propertyName: _BumpScale
+      propertyId: 249
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Is_NormalMapToBase
+      propertyName: _Is_NormalMapToBase
+      propertyId: 589
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Set_SystemShadowsToBase
+      propertyName: _Set_SystemShadowsToBase
+      propertyId: 590
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Tweak_SystemShadowsLevel
+      propertyName: _Tweak_SystemShadowsLevel
+      propertyId: 591
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: BaseColor_Step
+      propertyName: _BaseColor_Step
+      propertyId: 592
+      overrideBaseValue: 0
+      baseValue: 0.5
+      targetValue: 0.5
+    - displayName: Base/Shade_Feather
+      propertyName: _BaseShade_Feather
+      propertyId: 593
+      overrideBaseValue: 0
+      baseValue: 0.0001
+      targetValue: 0.0001
+    - displayName: ShadeColor_Step
+      propertyName: _ShadeColor_Step
+      propertyId: 594
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: 1st/2nd_Shades_Feather
+      propertyName: _1st2nd_Shades_Feather
+      propertyId: 595
+      overrideBaseValue: 0
+      baseValue: 0.0001
+      targetValue: 0.0001
+    - displayName: Step_Offset (ForwardAdd Only)
+      propertyName: _StepOffset
+      propertyId: 600
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: PointLights HiCut_Filter (ForwardAdd Only)
+      propertyName: _Is_Filter_HiCutPointLightColor
+      propertyId: 601
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Tweak_ShadingGradeMapLevel
+      propertyName: _Tweak_ShadingGradeMapLevel
+      propertyId: 614
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Blur Level of ShadingGradeMap
+      propertyName: _BlurLevelSGM
+      propertyId: 615
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Is_LightColor_HighColor
+      propertyName: _Is_LightColor_HighColor
+      propertyId: 621
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Is_NormalMapToHighColor
+      propertyName: _Is_NormalMapToHighColor
+      propertyId: 622
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: HighColor_Power
+      propertyName: _HighColor_Power
+      propertyId: 623
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Is_SpecularToHighColor
+      propertyName: _Is_SpecularToHighColor
+      propertyId: 624
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Is_BlendAddToHiColor
+      propertyName: _Is_BlendAddToHiColor
+      propertyId: 625
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Is_UseTweakHighColorOnShadow
+      propertyName: _Is_UseTweakHighColorOnShadow
+      propertyId: 626
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: TweakHighColorOnShadow
+      propertyName: _TweakHighColorOnShadow
+      propertyId: 627
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Tweak_HighColorMaskLevel
+      propertyName: _Tweak_HighColorMaskLevel
+      propertyId: 632
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: RimLight
+      propertyName: _RimLight
+      propertyId: 633
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Is_LightColor_RimLight
+      propertyName: _Is_LightColor_RimLight
+      propertyId: 635
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Is_NormalMapToRimLight
+      propertyName: _Is_NormalMapToRimLight
+      propertyId: 636
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: RimLight_Power
+      propertyName: _RimLight_Power
+      propertyId: 637
+      overrideBaseValue: 0
+      baseValue: 0.1
+      targetValue: 0.1
+    - displayName: RimLight_InsideMask
+      propertyName: _RimLight_InsideMask
+      propertyId: 638
+      overrideBaseValue: 0
+      baseValue: 0.0001
+      targetValue: 0.0001
+    - displayName: RimLight_FeatherOff
+      propertyName: _RimLight_FeatherOff
+      propertyId: 639
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: LightDirection_MaskOn
+      propertyName: _LightDirection_MaskOn
+      propertyId: 640
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Tweak_LightDirection_MaskLevel
+      propertyName: _Tweak_LightDirection_MaskLevel
+      propertyId: 641
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Add_Antipodean_RimLight
+      propertyName: _Add_Antipodean_RimLight
+      propertyId: 642
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Is_LightColor_Ap_RimLight
+      propertyName: _Is_LightColor_Ap_RimLight
+      propertyId: 644
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Ap_RimLight_Power
+      propertyName: _Ap_RimLight_Power
+      propertyId: 645
+      overrideBaseValue: 0
+      baseValue: 0.1
+      targetValue: 0.1
+    - displayName: Ap_RimLight_FeatherOff
+      propertyName: _Ap_RimLight_FeatherOff
+      propertyId: 646
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Tweak_RimLightMaskLevel
+      propertyName: _Tweak_RimLightMaskLevel
+      propertyId: 651
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: MatCap
+      propertyName: _MatCap
+      propertyId: 652
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Blur Level of MatCap_Sampler
+      propertyName: _BlurLevelMatcap
+      propertyId: 657
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Is_LightColor_MatCap
+      propertyName: _Is_LightColor_MatCap
+      propertyId: 659
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Is_BlendAddToMatCap
+      propertyName: _Is_BlendAddToMatCap
+      propertyId: 660
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Tweak_MatCapUV
+      propertyName: _Tweak_MatCapUV
+      propertyId: 661
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Rotate_MatCapUV
+      propertyName: _Rotate_MatCapUV
+      propertyId: 662
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Activate CameraRolling_Stabilizer
+      propertyName: _CameraRolling_Stabilizer
+      propertyId: 663
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Is_NormalMapForMatCap
+      propertyName: _Is_NormalMapForMatCap
+      propertyId: 664
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Scale for NormalMapforMatCap
+      propertyName: _BumpScaleMatcap
+      propertyId: 669
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Rotate_NormalMapForMatCapUV
+      propertyName: _Rotate_NormalMapForMatCapUV
+      propertyId: 670
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Is_UseTweakMatCapOnShadow
+      propertyName: _Is_UseTweakMatCapOnShadow
+      propertyId: 671
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: TweakMatCapOnShadow
+      propertyName: _TweakMatCapOnShadow
+      propertyId: 672
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Tweak_MatcapMaskLevel
+      propertyName: _Tweak_MatcapMaskLevel
+      propertyId: 677
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Inverse_MatcapMask
+      propertyName: _Inverse_MatcapMask
+      propertyId: 678
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Orthographic Projection for MatCap
+      propertyName: _Is_Ortho
+      propertyId: 679
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: AngelRing
+      propertyName: _AngelRing
+      propertyId: 680
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Is_LightColor_AR
+      propertyName: _Is_LightColor_AR
+      propertyId: 686
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: AR_OffsetU
+      propertyName: _AR_OffsetU
+      propertyId: 687
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: AR_OffsetV
+      propertyName: _AR_OffsetV
+      propertyId: 688
+      overrideBaseValue: 0
+      baseValue: 0.3
+      targetValue: 0.3
+    - displayName: ARSampler_AlphaOn
+      propertyName: _ARSampler_AlphaOn
+      propertyId: 689
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: EMISSIVE MODE
+      propertyName: _EMISSIVE
+      propertyId: 690
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Base_Speed
+      propertyName: _Base_Speed
+      propertyId: 696
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Scroll_EmissiveU
+      propertyName: _Scroll_EmissiveU
+      propertyId: 697
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Scroll_EmissiveV
+      propertyName: _Scroll_EmissiveV
+      propertyId: 698
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Rotate_EmissiveUV
+      propertyName: _Rotate_EmissiveUV
+      propertyId: 699
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Is_PingPong_Base
+      propertyName: _Is_PingPong_Base
+      propertyId: 700
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Activate ColorShift
+      propertyName: _Is_ColorShift
+      propertyId: 701
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: ColorShift_Speed
+      propertyName: _ColorShift_Speed
+      propertyId: 703
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Activate ViewShift
+      propertyName: _Is_ViewShift
+      propertyId: 704
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Is_ViewCoord_Scroll
+      propertyName: _Is_ViewCoord_Scroll
+      propertyId: 706
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: OUTLINE MODE
+      propertyName: _OUTLINE
+      propertyId: 707
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Outline_Width
+      propertyName: _Outline_Width
+      propertyId: 708
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Farthest_Distance
+      propertyName: _Farthest_Distance
+      propertyId: 709
+      overrideBaseValue: 0
+      baseValue: 100
+      targetValue: 100
+    - displayName: Nearest_Distance
+      propertyName: _Nearest_Distance
+      propertyId: 710
+      overrideBaseValue: 0
+      baseValue: 0.5
+      targetValue: 0.5
+    - displayName: Is_BlendBaseColor
+      propertyName: _Is_BlendBaseColor
+      propertyId: 716
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Is_LightColor_Outline
+      propertyName: _Is_LightColor_Outline
+      propertyId: 717
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: Is_OutlineTex
+      propertyName: _Is_OutlineTex
+      propertyId: 718
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Offset_Camera_Z
+      propertyName: _Offset_Z
+      propertyId: 723
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Is_BakedNormal
+      propertyName: _Is_BakedNormal
+      propertyId: 724
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: GI_Intensity
+      propertyName: _GI_Intensity
+      propertyId: 729
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: Unlit_Intensity
+      propertyName: _Unlit_Intensity
+      propertyId: 730
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    - displayName: 'VRChat : SceneLights HiCut_Filter'
+      propertyName: _Is_Filter_LightColor
+      propertyId: 731
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: 'Advanced : Activate Built-in Light Direction'
+      propertyName: _Is_BLD
+      propertyId: 732
+      overrideBaseValue: 0
+      baseValue: 0
+      targetValue: 0
+    - displayName: ' Offset X-Axis (Built-in Light Direction)'
+      propertyName: _Offset_X_Axis_BLD
+      propertyId: 733
+      overrideBaseValue: 0
+      baseValue: -0.05
+      targetValue: -0.05
+    - displayName: ' Offset Y-Axis (Built-in Light Direction)'
+      propertyName: _Offset_Y_Axis_BLD
+      propertyId: 734
+      overrideBaseValue: 0
+      baseValue: 0.09
+      targetValue: 0.09
+    - displayName: ' Inverse Z-Axis (Built-in Light Direction)'
+      propertyName: _Inverse_Z_Axis_BLD
+      propertyId: 735
+      overrideBaseValue: 0
+      baseValue: 1
+      targetValue: 1
+    needsUpdate: 0

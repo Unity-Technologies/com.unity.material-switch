@@ -33,6 +33,20 @@ internal class MaterialSwitchTrackTests
 
 //----------------------------------------------------------------------------------------------------------------------    
     [UnityTest]
+    public IEnumerator CreateClip() {
+        TimelineAsset timelineAsset = TimelineEditorUtility.CreateAsset(MaterialSwitchTestEditorConstants.TEST_TIMELINE_ASSET_PATH);
+        yield return EditorTestUtility.WaitForFrames(3);
+        
+        TimelineClip clip = TimelineEditorUtility.CreateTrackAndClip(timelineAsset, "TestTrack",
+            typeof(MaterialSwitchTrack), typeof(MaterialSwitchClip));
+        
+        yield return EditorTestUtility.WaitForFrames(3);
+
+        EditorTestUtility.DestroyTimelineAssets(clip);
+    }
+    
+//----------------------------------------------------------------------------------------------------------------------    
+    [UnityTest]
     public IEnumerator AssignSelectionGroupToTrack() {
         TimelineAsset timelineAsset = TimelineEditorUtility.CreateAsset(MaterialSwitchTestEditorConstants.TEST_TIMELINE_ASSET_PATH);
         yield return EditorTestUtility.WaitForFrames(3);

@@ -14,6 +14,7 @@ namespace Unity.MaterialSwitch
         public MaterialPropertyBlock block = new MaterialPropertyBlock();
         public Dictionary<string, RenderTexture> textures = new Dictionary<string, RenderTexture>();
         public Dictionary<string, Color> colors = new Dictionary<string, Color>();
+        public Dictionary<string, float> floats = new Dictionary<string, float>();
         public Material material;
         
         
@@ -40,7 +41,8 @@ namespace Unity.MaterialSwitch
         public void BlendPalettePropertyMap(float weight, PalettePropertyMap globalMap, PalettePropertyMap map)
         {
             BlendTextureProperties(weight, globalMap, map);
-            //BlendColorProperties(weight, globalMap, map);
+            BlendColorProperties(weight, globalMap, map);
+            BlendFloatProperties(weight, globalMap, map);
         }
 
         private void BlendTextureProperties(float weight, PalettePropertyMap globalMap, PalettePropertyMap map)
@@ -82,9 +84,30 @@ namespace Unity.MaterialSwitch
             {
                 var property = kv.Value;
                 var color = GetOrCreateFinalColor(property);
-                
+                var newColor = color + property.targetValue * weight;
                 //var color = Color.Lerp(i.baseValue, i.targetValue, weight);
-                block.SetColor(property.propertyName, color + property.targetValue * weight);
+                block.SetColor(property.propertyName,  newColor);
+                colors[property.propertyName] = newColor;
+            }
+        }
+        
+        private void BlendFloatProperties(float weight, PalettePropertyMap globalMap, PalettePropertyMap map)
+        {
+            var floatProperties = new Dictionary<string, FloatProperty>();
+            foreach (var cp in map.floatProperties)
+                if (cp.overrideBaseValue)
+                    floatProperties[cp.propertyName] = cp;
+            foreach (var cp in globalMap.floatProperties)
+                if (cp.overrideBaseValue)
+                    floatProperties[cp.propertyName] = cp;
+            foreach (var kv in floatProperties)
+            {
+                var property = kv.Value;
+                var color = GetOrCreateFinalFloat(property);
+                var newValue = color + property.targetValue * weight;
+                //var color = Color.Lerp(i.baseValue, i.targetValue, weight);
+                block.SetFloat(property.propertyName,  newValue);
+                floats[property.propertyName] = newValue;
             }
         }
 
@@ -108,10 +131,20 @@ namespace Unity.MaterialSwitch
         {
             if (!colors.TryGetValue(property.propertyName, out var color))
             {
-                color = Color.magenta;
+                color = colors[property.propertyName] = Color.black;
             }
 
             return color;
+        }
+        
+        private float GetOrCreateFinalFloat(FloatProperty property)
+        {
+            if (!floats.TryGetValue(property.propertyName, out var f))
+            {
+                f  = floats[property.propertyName] = 0;
+            }
+
+            return f;
         }
 
         static void LerpCurrentColorsToTargetColors(float weight, PalettePropertyMap map,

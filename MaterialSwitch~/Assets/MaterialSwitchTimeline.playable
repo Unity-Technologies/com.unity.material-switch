@@ -2984,7 +2984,7 @@ MonoBehaviour:
       propertyId: 0
       overrideBaseValue: 1
       baseValue: {r: 1, g: 1, b: 1, a: 1}
-      targetValue: {r: 1, g: 0, b: 0.72234964, a: 1}
+      targetValue: {r: 1, g: 0, b: 0, a: 1}
       uv: {x: 0, y: 0}
     - displayName: Color
       propertyName: _EmissionColor
@@ -5703,7 +5703,7 @@ MonoBehaviour:
       targetValue: {r: 0, g: 0, b: 0, a: 0}
       uv: {x: 0, y: 0}
     material: {fileID: 2100000, guid: 83f3f99b2b9ba854c87ac99eb6131ff1, type: 2}
-    showCoords: 0
+    showCoords: 1
     showTextures: 0
     showFloats: 0
     textureProperties:
@@ -6897,7 +6897,7 @@ MonoBehaviour:
       propertyId: 0
       overrideBaseValue: 1
       baseValue: {r: 1, g: 1, b: 1, a: 1}
-      targetValue: {r: 1, g: 0, b: 0.72234964, a: 1}
+      targetValue: {r: 0.03468108, g: 1, b: 0, a: 1}
       uv: {x: 0, y: 0}
     - displayName: Color
       propertyName: _EmissionColor
@@ -7073,7 +7073,7 @@ MonoBehaviour:
     - displayName: Albedo
       propertyName: _MainTex
       propertyId: 4
-      overrideBaseValue: 1
+      overrideBaseValue: 0
       baseValue: {fileID: 2800000, guid: 4725acc979f15fd45a7b9533e93b3391, type: 3}
       targetValue: {fileID: 10309, guid: 0000000000000000f000000000000000, type: 0}
       finalTexture: {fileID: 0}
@@ -7212,7 +7212,7 @@ MonoBehaviour:
     - displayName: Color
       propertyName: _Color
       propertyId: 0
-      overrideBaseValue: 1
+      overrideBaseValue: 0
       baseValue: {r: 1, g: 1, b: 1, a: 1}
       targetValue: {r: 0.15362978, g: 1, b: 0, a: 1}
       uv: {x: 0, y: 0}
@@ -9126,7 +9126,7 @@ MonoBehaviour:
       propertyId: 0
       overrideBaseValue: 1
       baseValue: {r: 1, g: 1, b: 1, a: 1}
-      targetValue: {r: 1, g: 0.9582331, b: 0, a: 1}
+      targetValue: {r: 0, g: 0.05493021, b: 1, a: 1}
       uv: {x: 0, y: 0}
     - displayName: Color
       propertyName: _EmissionColor
@@ -9302,7 +9302,7 @@ MonoBehaviour:
     - displayName: Albedo
       propertyName: _MainTex
       propertyId: 4
-      overrideBaseValue: 1
+      overrideBaseValue: 0
       baseValue: {fileID: 2800000, guid: 4725acc979f15fd45a7b9533e93b3391, type: 3}
       targetValue: {fileID: 10309, guid: 0000000000000000f000000000000000, type: 0}
       finalTexture: {fileID: 0}
@@ -9441,9 +9441,9 @@ MonoBehaviour:
     - displayName: Color
       propertyName: _Color
       propertyId: 0
-      overrideBaseValue: 1
+      overrideBaseValue: 0
       baseValue: {r: 1, g: 1, b: 1, a: 1}
-      targetValue: {r: 0.15362978, g: 1, b: 0, a: 1}
+      targetValue: {r: 0.0017166138, g: 0, b: 1, a: 1}
       uv: {x: 0, y: 0}
     - displayName: Color
       propertyName: _EmissionColor

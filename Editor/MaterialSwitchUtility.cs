@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace Unity.MaterialSwitch
@@ -24,9 +25,16 @@ namespace Unity.MaterialSwitch
             {
                 needsUpdate = false,
             };
+            var materialProperties = new List<MaterialProperty>();
+
+            foreach (var i in materials)
+            {
+                var mps = MaterialEditor.GetMaterialProperties(new[] {i});
+                if (mps == null) continue;
+                materialProperties.AddRange(mps);
+            }
             
-            MaterialProperty[] materialProperties = MaterialEditor.GetMaterialProperties(materials);
-            if (null == materialProperties)
+            if (materialProperties.Count == 0)
                 return ppm;
             
             foreach (var mp in materialProperties)

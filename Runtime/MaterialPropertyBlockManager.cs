@@ -131,7 +131,7 @@ namespace Unity.MaterialSwitch
         {
             if (!colors.TryGetValue(property.propertyName, out var color))
             {
-                color = colors[property.propertyName] = Color.black;
+                color = colors[property.propertyName] = property.baseValue;
             }
 
             return color;
@@ -141,7 +141,7 @@ namespace Unity.MaterialSwitch
         {
             if (!floats.TryGetValue(property.propertyName, out var f))
             {
-                f  = floats[property.propertyName] = 0;
+                f  = floats[property.propertyName] = property.baseValue;
             }
 
             return f;

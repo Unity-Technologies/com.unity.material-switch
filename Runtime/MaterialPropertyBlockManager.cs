@@ -118,10 +118,7 @@ namespace Unity.MaterialSwitch
                 texture = textures[textureProperty.propertyName] = new RenderTexture(
                     textureProperty.baseValue.width, textureProperty.baseValue.height, 0,
                     RenderTextureFormat.ARGB32);
-                
-                RenderTexture.active = texture;
-                GL.Clear(true, true, Color.magenta);
-                RenderTexture.active = null;
+                Graphics.Blit(textureProperty.baseValue, texture);
             }
 
             return texture;

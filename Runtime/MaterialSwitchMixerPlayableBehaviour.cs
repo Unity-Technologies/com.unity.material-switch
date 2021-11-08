@@ -108,7 +108,8 @@ namespace Unity.MaterialSwitch
                 
                 foreach (var pm in paletteSwitchBehaviour.palettePropertyMap)
                 {
-                    blockManagers[pm.material].BlendPalettePropertyMap(weight, paletteSwitchBehaviour.clip.globalPalettePropertyMap, pm);
+                    if(blockManagers.TryGetValue(pm.material, out var bm))
+                        bm.BlendPalettePropertyMap(weight, paletteSwitchBehaviour.clip.globalPalettePropertyMap, pm);
                 }
             }
         }

@@ -118,10 +118,7 @@ namespace Unity.MaterialSwitch
                 texture = textures[textureProperty.propertyName] = new RenderTexture(
                     textureProperty.baseValue.width, textureProperty.baseValue.height, 0,
                     RenderTextureFormat.ARGB32);
-                
-                RenderTexture.active = texture;
-                GL.Clear(true, true, Color.magenta);
-                RenderTexture.active = null;
+                Graphics.Blit(textureProperty.baseValue, texture);
             }
 
             return texture;
@@ -131,7 +128,7 @@ namespace Unity.MaterialSwitch
         {
             if (!colors.TryGetValue(property.propertyName, out var color))
             {
-                color = colors[property.propertyName] = Color.black;
+                color = colors[property.propertyName] = property.baseValue;
             }
 
             return color;
@@ -141,7 +138,7 @@ namespace Unity.MaterialSwitch
         {
             if (!floats.TryGetValue(property.propertyName, out var f))
             {
-                f  = floats[property.propertyName] = 0;
+                f  = floats[property.propertyName] = property.baseValue;
             }
 
             return f;

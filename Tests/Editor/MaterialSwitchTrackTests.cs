@@ -26,7 +26,7 @@ internal class MaterialSwitchTrackTests
         TimelineClip clip = TimelineEditorUtility.CreateTrackAndClip<MaterialSwitchTrack, MaterialSwitchClip>(
             timelineAsset, "TrackWithEmptyDefaultClip");
         director.playableAsset = timelineAsset;
-        EditorTestUtility.SelectDirectorInTimelineWindow(director);                
+        TimelineEditorUtility.SelectDirectorInTimelineWindow(director);
         yield return EditorTestUtility.WaitForFrames(3);
 
         EditorTestUtility.DestroyTimelineAssets(clip);
@@ -57,7 +57,7 @@ internal class MaterialSwitchTrackTests
         PlayableDirector    director = new GameObject("Director").AddComponent<PlayableDirector>();
         MaterialSwitchTrack track    = timelineAsset.CreateTrack<MaterialSwitchTrack>(null, "TestTrack");
         director.playableAsset = timelineAsset;
-        EditorTestUtility.SelectDirectorInTimelineWindow(director);                
+        TimelineEditorUtility.SelectDirectorInTimelineWindow(director);
         yield return EditorTestUtility.WaitForFrames(3);
 
         SelectionGroup group = CreateSceneSelectionGroup("New Group", string.Empty, Color.green, new List<Object>());

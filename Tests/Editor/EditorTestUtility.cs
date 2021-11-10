@@ -10,13 +10,6 @@ namespace Unity.MaterialSwitch.EditorTests
 {
 internal static class EditorTestUtility
 {
-
-    //[TODO-sin: 2021-10-25] Move to FIU ?
-    internal static void SelectDirectorInTimelineWindow(PlayableDirector director) {
-        //Select gameObject and open Timeline Window. This will trigger the TimelineWindow's update etc.
-        EditorApplication.ExecuteMenuItem("Window/Sequencing/Timeline");
-        Selection.activeObject = director;        
-    }
     
 //----------------------------------------------------------------------------------------------------------------------
     

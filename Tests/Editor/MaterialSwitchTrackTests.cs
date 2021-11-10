@@ -18,6 +18,8 @@ internal class MaterialSwitchTrackTests
 {
 //----------------------------------------------------------------------------------------------------------------------    
 
+    //[TODO-sin: 2021-11-10] Include this test as well
+    [Ignore("CreateEmptyPlayableAsset")]
     [UnityTest]
     public IEnumerator CreateEmptyPlayableAsset() {
         TimelineAsset timelineAsset = TimelineEditorUtility.CreateAsset(MaterialSwitchTestEditorConstants.TEST_TIMELINE_ASSET_PATH);

@@ -29,7 +29,7 @@ internal class MaterialSwitchTrackTests
         TimelineEditorUtility.SelectDirectorInTimelineWindow(director);
         yield return EditorTestUtility.WaitForFrames(3);
 
-        EditorTestUtility.DestroyTimelineAssets(clip);
+        TimelineEditorUtility.DestroyAssets(clip);
     }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ internal class MaterialSwitchTrackTests
         
         yield return EditorTestUtility.WaitForFrames(3);
 
-        EditorTestUtility.DestroyTimelineAssets(clip);
+        TimelineEditorUtility.DestroyAssets(clip);
     }
     
 //----------------------------------------------------------------------------------------------------------------------    
@@ -65,7 +65,7 @@ internal class MaterialSwitchTrackTests
         TimelineClip clip = TimelineEditorReflection.CreateClipOnTrack(typeof(MaterialSwitchClip), track, 0);            
         yield return EditorTestUtility.WaitForFrames(3);
 
-        EditorTestUtility.DestroyTimelineAssets(clip);
+        TimelineEditorUtility.DestroyAssets(clip);
     }
     
 //----------------------------------------------------------------------------------------------------------------------    

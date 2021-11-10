@@ -32,6 +32,7 @@ internal class MaterialSwitchTrackTests
     }
 
 //----------------------------------------------------------------------------------------------------------------------
+    //[TODO-sin: 2021-11-10] Include this test as well
     [Ignore("CreateClip")]
     [UnityTest]
     public IEnumerator CreateClip() {

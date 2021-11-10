@@ -31,7 +31,8 @@ internal class MaterialSwitchTrackTests
         EditorTestUtility.DestroyTimelineAssets(clip);
     }
 
-//----------------------------------------------------------------------------------------------------------------------    
+//----------------------------------------------------------------------------------------------------------------------
+    [Ignore("CreateClip")]
     [UnityTest]
     public IEnumerator CreateClip() {
         TimelineAsset timelineAsset = TimelineEditorUtility.CreateAsset(MaterialSwitchTestEditorConstants.TEST_TIMELINE_ASSET_PATH);

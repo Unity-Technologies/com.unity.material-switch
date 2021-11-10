@@ -23,7 +23,8 @@ internal class MaterialSwitchTrackTests
         TimelineAsset timelineAsset = TimelineEditorUtility.CreateAsset(MaterialSwitchTestEditorConstants.TEST_TIMELINE_ASSET_PATH);
         
         PlayableDirector  director = new GameObject("Director").AddComponent<PlayableDirector>();  
-        TimelineClip clip = EditorTestUtility.CreateTrackAndClip<MaterialSwitchTrack>(timelineAsset, "TrackWithEmptyDefaultClip");
+        TimelineClip clip = TimelineEditorUtility.CreateTrackAndClip<MaterialSwitchTrack, MaterialSwitchClip>(
+            timelineAsset, "TrackWithEmptyDefaultClip");
         director.playableAsset = timelineAsset;
         EditorTestUtility.SelectDirectorInTimelineWindow(director);                
         yield return EditorTestUtility.WaitForFrames(3);

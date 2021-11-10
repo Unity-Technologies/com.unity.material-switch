@@ -11,17 +11,6 @@ namespace Unity.MaterialSwitch.EditorTests
 internal static class EditorTestUtility
 {
 
-    
-    //[TODO-sin:2021-10-25] Move to FIU
-    internal static TimelineClip CreateTrackAndClip<T>(TimelineAsset timelineAsset, string trackName) 
-        where T: TrackAsset, new() 
-    {
-        T            track = timelineAsset.CreateTrack<T>(null, trackName);
-        TimelineClip clip  = track.CreateDefaultClip();
-        return clip;
-    }
-//----------------------------------------------------------------------------------------------------------------------
-
     //[TODO-sin: 2021-10-25] Move to FIU ?
     internal static void SelectDirectorInTimelineWindow(PlayableDirector director) {
         //Select gameObject and open Timeline Window. This will trigger the TimelineWindow's update etc.

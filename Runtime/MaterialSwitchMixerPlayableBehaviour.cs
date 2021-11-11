@@ -12,7 +12,7 @@ namespace Unity.MaterialSwitch
 
         HashSet<Renderer> renderers;
 
-        HashSet<PalettePropertyMap> activePalettePropertyMapInstances= new HashSet<PalettePropertyMap>();
+        HashSet<MaterialProperties> activePalettePropertyMapInstances= new HashSet<MaterialProperties>();
 
         private Dictionary<Material, MaterialPropertyBlockManager> blockManagers =
             new Dictionary<Material, MaterialPropertyBlockManager>();

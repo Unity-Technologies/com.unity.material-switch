@@ -12,16 +12,16 @@ namespace Unity.MaterialSwitch
             MaterialSwitchPlayableBehaviour.CreatePalettePropertyMap = InitPalettePropertyMap;
         }
 
-        internal static PalettePropertyMap InitPalettePropertyMap(Material material)
+        internal static MaterialProperties InitPalettePropertyMap(Material material)
         {
             var map = InitPalettePropertyMap(new[] {material});
             map.material = material;
             return map;
         }
         
-        internal static PalettePropertyMap InitPalettePropertyMap(Material[] materials)
+        internal static MaterialProperties InitPalettePropertyMap(Material[] materials)
         {
-            PalettePropertyMap ppm = new PalettePropertyMap() 
+            MaterialProperties ppm = new MaterialProperties() 
             {
                 needsUpdate = false,
             };

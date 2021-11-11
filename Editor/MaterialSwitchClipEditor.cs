@@ -89,11 +89,11 @@ namespace Unity.MaterialSwitch
             if (globalPalettePropertyMap != null)
             {
                 //This is a per material ppm, so draw the material field.
-                EditorGUILayout.PropertyField(ppm.FindPropertyRelative(nameof(PalettePropertyMap.material)));
+                EditorGUILayout.PropertyField(ppm.FindPropertyRelative(nameof(MaterialProperties.material)));
             }
 
-            var textureProperty = ppm.FindPropertyRelative(nameof(PalettePropertyMap.texture));
-            var globalTextureProperty = globalPalettePropertyMap?.FindPropertyRelative(nameof(PalettePropertyMap.texture));
+            var textureProperty = ppm.FindPropertyRelative(nameof(MaterialProperties.texture));
+            var globalTextureProperty = globalPalettePropertyMap?.FindPropertyRelative(nameof(MaterialProperties.texture));
             
             EditorGUI.indentLevel += 1;
             EditorGUILayout.PropertyField(textureProperty, new GUIContent("Palette Texture"));
@@ -119,7 +119,7 @@ namespace Unity.MaterialSwitch
                     EditorGUILayout.LabelField($"{displayNameProperty.stringValue}");
                     GUILayout.BeginHorizontal();
                     GUILayout.Label("Sampled Color");
-                    var texture = ppm.FindPropertyRelative(nameof(PalettePropertyMap.texture)).objectReferenceValue as Texture2D;
+                    var texture = ppm.FindPropertyRelative(nameof(MaterialProperties.texture)).objectReferenceValue as Texture2D;
                     var globalPaletteTexture = globalTextureProperty?.objectReferenceValue as Texture2D;
                     if (texture == null && globalPaletteTexture == null)
                     {

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Unity.MaterialSwitch
 {
     [System.Serializable]
-    internal class PalettePropertyMap
+    internal class MaterialProperties
     {
         public Texture2D texture;
         public List<ColorProperty> colorCoordinates = new List<ColorProperty>();

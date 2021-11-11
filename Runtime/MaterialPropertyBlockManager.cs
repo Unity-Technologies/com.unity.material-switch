@@ -18,7 +18,7 @@ namespace Unity.MaterialSwitch
         public Material material;
         
         
-        public PalettePropertyMap globalMap;
+        public MaterialProperties globalMap;
         private Material textureLerpMaterial;
 
         private List<MaterialSlot> materialSlots = new List<MaterialSlot>();
@@ -38,14 +38,14 @@ namespace Unity.MaterialSwitch
             }
         }
 
-        public void BlendPalettePropertyMap(float weight, PalettePropertyMap globalMap, PalettePropertyMap map)
+        public void BlendPalettePropertyMap(float weight, MaterialProperties globalMap, MaterialProperties map)
         {
             BlendTextureProperties(weight, globalMap, map);
             BlendColorProperties(weight, globalMap, map);
             BlendFloatProperties(weight, globalMap, map);
         }
 
-        private void BlendTextureProperties(float weight, PalettePropertyMap globalMap, PalettePropertyMap map)
+        private void BlendTextureProperties(float weight, MaterialProperties globalMap, MaterialProperties map)
         {
             if (textureLerpMaterial == null) textureLerpMaterial = CreateTextureLerpMaterial();
             var textureProperties = new Dictionary<string, TextureProperty>();
@@ -71,7 +71,7 @@ namespace Unity.MaterialSwitch
             }
         }
         
-        private void BlendColorProperties(float weight, PalettePropertyMap globalMap, PalettePropertyMap map)
+        private void BlendColorProperties(float weight, MaterialProperties globalMap, MaterialProperties map)
         {
             var colorProperties = new Dictionary<string, ColorProperty>();
             foreach (var cp in map.colorCoordinates)
@@ -91,7 +91,7 @@ namespace Unity.MaterialSwitch
             }
         }
         
-        private void BlendFloatProperties(float weight, PalettePropertyMap globalMap, PalettePropertyMap map)
+        private void BlendFloatProperties(float weight, MaterialProperties globalMap, MaterialProperties map)
         {
             var floatProperties = new Dictionary<string, FloatProperty>();
             foreach (var cp in map.floatProperties)
@@ -144,7 +144,7 @@ namespace Unity.MaterialSwitch
             return f;
         }
 
-        static void LerpCurrentColorsToTargetColors(float weight, PalettePropertyMap map,
+        static void LerpCurrentColorsToTargetColors(float weight, MaterialProperties map,
             MaterialPropertyBlock block)
         {
             //lerp the colors towards targets.
@@ -159,7 +159,7 @@ namespace Unity.MaterialSwitch
             }
         }
 
-        static void LerpCurrentFloatsToTargetFloats(float weight, PalettePropertyMap map, MaterialPropertyBlock block)
+        static void LerpCurrentFloatsToTargetFloats(float weight, MaterialProperties map, MaterialPropertyBlock block)
         {
             //lerp the floats towards targets.
             foreach (var i in map.floatProperties)

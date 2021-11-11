@@ -8,10 +8,10 @@ namespace Unity.MaterialSwitch
 
     internal class MaterialSwitchClip : PlayableAsset
     {
-        public PalettePropertyMap globalPalettePropertyMap;
-        public List<PalettePropertyMap> palettePropertyMap;
+        public MaterialProperties globalPalettePropertyMap;
+        public List<MaterialProperties> palettePropertyMap;
 
-        [NonSerialized] public Dictionary<Material, PalettePropertyMap> materialMap = null;
+        [NonSerialized] public Dictionary<Material, MaterialProperties> materialMap = null;
 
         void OnValidate()
         {

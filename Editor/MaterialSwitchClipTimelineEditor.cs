@@ -78,7 +78,7 @@ namespace Unity.MaterialSwitch
 
             asset.globalPalettePropertyMap =
                 MaterialSwitchUtility.InitPalettePropertyMap(materialPropertyGroup.sharedMaterials);
-            asset.palettePropertyMap = new List<PalettePropertyMap>(materialPropertyGroup.sharedMaterials.Length);
+            asset.palettePropertyMap = new List<MaterialProperties>(materialPropertyGroup.sharedMaterials.Length);
             for (var i = 0; i < materialPropertyGroup.sharedMaterials.Length; i++)
             {
                 var ppm = MaterialSwitchUtility.InitPalettePropertyMap(materialPropertyGroup.sharedMaterials[i]);

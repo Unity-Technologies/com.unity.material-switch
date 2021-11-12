@@ -43,7 +43,7 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
+  serializedVersion: 11
   m_GIWorkflowMode: 0
   m_GISettings:
     serializedVersion: 2
@@ -98,8 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 4890085278179872738, guid: 627f6995fdb57e44c865393eb689ee25,
-    type: 2}
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -119,8 +118,6 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
-    maxJobWorkers: 0
-    preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
@@ -171,11 +168,10 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c1e4580c1eb8f8b47b904f3b37f4fe05, type: 2}
+  - {fileID: 2100000, guid: 8c0bf6edd4f1c6e48b9e4b7a788e11cf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -196,7 +192,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &38488961
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -279,7 +274,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: {r: 0.96347374, g: 0.009007792, b: 0.48055536, a: 1}
   query: 
-  scope: 1
   _legacyMembers: []
   members:
   - {fileID: 1510964214}
@@ -331,7 +325,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -356,7 +349,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &119136130
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -455,7 +447,6 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
-  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!4 &705507995
@@ -634,7 +625,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: {r: 0.5748495, g: 0.024709772, b: 0.9534702, a: 1}
   query: 
-  scope: 1
   _legacyMembers: []
   members:
   - {fileID: 119136127}
@@ -698,7 +688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sharedMaterials:
-  - {fileID: 2100000, guid: c1e4580c1eb8f8b47b904f3b37f4fe05, type: 2}
+  - {fileID: 2100000, guid: 8c0bf6edd4f1c6e48b9e4b7a788e11cf, type: 2}
   - {fileID: 2100000, guid: 4bce7a79310f1f04abbaf46203b5a9ff, type: 2}
 --- !u!114 &1192746966
 MonoBehaviour:
@@ -714,7 +704,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: {r: 0.0037877015, g: 0.9023242, b: 0.5897427, a: 1}
   query: 
-  scope: 1
   _legacyMembers: []
   members:
   - {fileID: 38488958}
@@ -733,7 +722,7 @@ GameObject:
   - component: {fileID: 1244513089}
   - component: {fileID: 1244513088}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: ToonPlane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -768,7 +757,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -793,7 +781,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1244513090
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -863,7 +850,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -888,7 +874,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1510964217
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -993,7 +978,7 @@ PlayableDirector:
     value: {fileID: 1192746966}
   - key: {fileID: -6692993918659511509, guid: 1774505f4ecc62b4f8607375681acb66, type: 2}
     value: {fileID: 1192746966}
-  - key: {fileID: -2779051503649719240, guid: 1774505f4ecc62b4f8607375681acb66, type: 2}
+  - key: {fileID: 6848472317322973437, guid: 1774505f4ecc62b4f8607375681acb66, type: 2}
     value: {fileID: 1192746966}
   m_ExposedReferences:
     m_References: []

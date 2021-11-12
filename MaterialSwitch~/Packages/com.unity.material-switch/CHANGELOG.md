@@ -4,6 +4,19 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.6.1-preview] - 2021-11-12
+
+### Changed
+* deps: use com.unity.film-internal-utilities@0.12.2-preview
+
+### Fixed
+* fix: errors when adding a new MaterialSwitchClip on a new MaterialSwitchTrack
+* allow handling of selection groups with different shaders
+* handle new selection group members when creating a clip.
+* use the current material setup of the bound selection group when creating a clip
+* fix clip blending
+
+
 ## [0.6.0-preview] - 2021-10-13
 
 ### Added

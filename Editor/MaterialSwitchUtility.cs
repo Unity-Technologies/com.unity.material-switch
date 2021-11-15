@@ -9,17 +9,17 @@ namespace Unity.MaterialSwitch
         [InitializeOnLoadMethod]
         static void InitCallbacks()
         {
-            MaterialSwitchPlayableBehaviour.CreatePalettePropertyMap = InitPalettePropertyMap;
+            MaterialSwitchPlayableBehaviour.CreateMaterialProperties = CreateMaterialProperties;
         }
 
-        internal static MaterialProperties InitPalettePropertyMap(Material material)
+        internal static MaterialProperties CreateMaterialProperties(Material material)
         {
-            var map = InitPalettePropertyMap(new[] {material});
+            var map = CreateMaterialProperties(new[] {material});
             map.material = material;
             return map;
         }
         
-        internal static MaterialProperties InitPalettePropertyMap(Material[] materials)
+        internal static MaterialProperties CreateMaterialProperties(Material[] materials)
         {
             MaterialProperties ppm = new MaterialProperties() 
             {
@@ -46,7 +46,7 @@ namespace Unity.MaterialSwitch
 
                 if (mp.type == MaterialProperty.PropType.Color)
                 {
-                    ppm.colorCoordinates.Add(
+                    ppm.colorProperties.Add(
                         new ColorProperty()
                         {
                             uv = Vector2.zero,

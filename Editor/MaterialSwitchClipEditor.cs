@@ -1,5 +1,10 @@
-﻿using UnityEditor;
+﻿using System;
+using Unity.SelectionGroups.Runtime;
+using UnityEditor;
+using UnityEditor.Timeline;
 using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.Timeline;
 
 namespace Unity.MaterialSwitch
 {
@@ -13,13 +18,13 @@ namespace Unity.MaterialSwitch
         void UpdateSampledColors()
         {
             var clip          = target as MaterialSwitchClip;
-            var globalTexture = clip.globalPalettePropertyMap.texture;
-            foreach (var map in clip.palettePropertyMap)
+            var globalTexture = clip.globalMaterialProperties.texture;
+            foreach (var map in clip.materialPropertiesList)
             {
                 var textureToUse = map.texture == null ? globalTexture : map.texture;
                 if (textureToUse == null) continue;
                 if(!textureToUse.isReadable) continue;
-                foreach (var c in map.colorCoordinates)
+                foreach (var c in map.colorProperties)
                 {
                     c.targetValue = textureToUse.GetPixel((int) c.uv.x, (int) c.uv.y);
                 }
@@ -47,6 +52,36 @@ namespace Unity.MaterialSwitch
             e.Use();
         }
 
+        private void OnEnable()
+        {
+            //when the editor is enabled, get the target clip and make sure it is up to date.
+            var clip = target as MaterialSwitchClip;
+            
+            PlayableDirector inspectedDirector = TimelineEditor.inspectedDirector;
+            if (inspectedDirector == null)
+                return;
+            
+            // TrackAsset track = clip.GetParentTrack();
+            // SelectionGroup selectionGroup = inspectedDirector.GetGenericBinding(track) as SelectionGroups.Runtime.SelectionGroup;
+            //
+            // MaterialSwitchUtility.UpdateClip(clip);
+            //
+            // if (selectionGroup == null)
+            //     return;
+            // if (!selectionGroup.TryGetComponent(out MaterialGroup materialGroup))
+            //     materialGroup = selectionGroup.gameObject.AddComponent<MaterialGroup>();
+            //
+            // var asset = clip.asset as MaterialSwitchClip;
+            //
+            // if (asset.globalMaterialProperties == null || asset.globalMaterialProperties.needsUpdate)
+            // {
+            //     asset.globalMaterialProperties =
+            //         MaterialSwitchUtility.CreateMaterialProperties(materialGroup.sharedMaterials);
+            // }
+            
+
+        }
+
         public override void OnInspectorGUI()
         {
             if (Event.current.type == EventType.ContextClick)
@@ -54,11 +89,13 @@ namespace Unity.MaterialSwitch
             serializedObject.Update();
             
             
+            var selectionGroupProperty = serializedObject.FindProperty(nameof(MaterialSwitchClip.selectionGroup));
+            EditorGUILayout.PropertyField(selectionGroupProperty);
             
             GUILayout.BeginVertical("box");
             
             GUILayout.Label("Global Properties");
-            var globalPalettePropertyMap = serializedObject.FindProperty(nameof(MaterialSwitchClip.globalPalettePropertyMap));
+            var globalPalettePropertyMap = serializedObject.FindProperty(nameof(MaterialSwitchClip.globalMaterialProperties));
             DrawPalettePropertyMapUI(globalPalettePropertyMap, null);                        
 
             EditorGUI.indentLevel += 1;
@@ -66,7 +103,7 @@ namespace Unity.MaterialSwitch
             GUILayout.Space(16);
             GUILayout.BeginVertical("box");
             GUILayout.Label("Per Material Properties");
-            var palettePropertyMap = serializedObject.FindProperty(nameof(MaterialSwitchClip.palettePropertyMap));
+            var palettePropertyMap = serializedObject.FindProperty(nameof(MaterialSwitchClip.materialPropertiesList));
             
             for (var i = 0; i < palettePropertyMap.arraySize; i++)
             {
@@ -111,7 +148,7 @@ namespace Unity.MaterialSwitch
             }
 
 
-            DrawPropertyOverrideList(ppm, "showCoords", "Color Properties", "colorCoordinates",
+            DrawPropertyOverrideList(ppm, "showCoords", "Color Properties", "colorProperties",
                 (itemProperty) =>
                 {
                     var displayNameProperty = itemProperty.FindPropertyRelative(nameof(ColorProperty.displayName));
@@ -183,9 +220,9 @@ namespace Unity.MaterialSwitch
         private void DrawPropertyOverrideList(SerializedProperty ppm, string togglePropertyPath, string heading,
             string arrayPropertyPath, System.Action<SerializedProperty> guiMethod = null)
         {
-            var show = ppm.FindPropertyRelative(togglePropertyPath);
-            show.boolValue = EditorGUILayout.Foldout(show.boolValue, heading);
-            if (show.boolValue)
+            var showPropertyListToggle = ppm.FindPropertyRelative(togglePropertyPath);
+            showPropertyListToggle.boolValue = EditorGUILayout.Foldout(showPropertyListToggle.boolValue, heading);
+            if (showPropertyListToggle.boolValue)
             {
                 var propertyList = ppm.FindPropertyRelative(arrayPropertyPath);
                 if (propertyList != null)

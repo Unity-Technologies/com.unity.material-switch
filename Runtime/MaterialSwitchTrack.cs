@@ -1,4 +1,5 @@
-﻿using Unity.SelectionGroups.Runtime;
+﻿using System;
+using Unity.SelectionGroups.Runtime;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -9,6 +10,7 @@ namespace Unity.MaterialSwitch
     [TrackBindingType(typeof(SelectionGroup))]
     internal class MaterialSwitchTrack : TrackAsset
     {
+        
         public override Playable CreateTrackMixer(UnityEngine.Playables.PlayableGraph graph, UnityEngine.GameObject go, int inputCount)
         {
             var director = go.GetComponent<PlayableDirector>();

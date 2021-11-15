@@ -74,10 +74,10 @@ namespace Unity.MaterialSwitch
         private void BlendColorProperties(float weight, MaterialProperties globalMap, MaterialProperties map)
         {
             var colorProperties = new Dictionary<string, ColorProperty>();
-            foreach (var cp in map.colorCoordinates)
+            foreach (var cp in map.colorProperties)
                 if (cp.overrideBaseValue)
                     colorProperties[cp.propertyName] = cp;
-            foreach (var cp in globalMap.colorCoordinates)
+            foreach (var cp in globalMap.colorProperties)
                 if (cp.overrideBaseValue)
                     colorProperties[cp.propertyName] = cp;
             foreach (var kv in colorProperties)
@@ -143,34 +143,7 @@ namespace Unity.MaterialSwitch
 
             return f;
         }
-
-        static void LerpCurrentColorsToTargetColors(float weight, MaterialProperties map,
-            MaterialPropertyBlock block)
-        {
-            //lerp the colors towards targets.
-            foreach (var i in map.colorCoordinates)
-            {
-                if (i.overrideBaseValue)
-                {
-                    var color = block.GetColor(i.propertyName);
-                    //var color = Color.Lerp(i.baseValue, i.targetValue, weight);
-                    block.SetColor(i.propertyName, color + i.targetValue * weight );
-                }
-            }
-        }
-
-        static void LerpCurrentFloatsToTargetFloats(float weight, MaterialProperties map, MaterialPropertyBlock block)
-        {
-            //lerp the floats towards targets.
-            foreach (var i in map.floatProperties)
-            {
-                if (i.overrideBaseValue)
-                {
-                    var v = Mathf.Lerp(i.baseValue, i.targetValue, weight);
-                    block.SetFloat(i.propertyName, v);
-                }
-            }
-        }
+        
 
         static Material CreateTextureLerpMaterial()
         {

@@ -106,10 +106,10 @@ namespace Unity.MaterialSwitch
 
                 var paletteSwitchBehaviour = ((ScriptPlayable<MaterialSwitchPlayableBehaviour>) playable.GetInput(i)).GetBehaviour();
                 
-                foreach (var pm in paletteSwitchBehaviour.palettePropertyMap)
+                foreach (var pm in paletteSwitchBehaviour.materialPropertiesList)
                 {
                     if(blockManagers.TryGetValue(pm.material, out var bm))
-                        bm.BlendPalettePropertyMap(weight, paletteSwitchBehaviour.clip.globalPalettePropertyMap, pm);
+                        bm.BlendPalettePropertyMap(weight, paletteSwitchBehaviour.clip.globalMaterialProperties, pm);
                 }
             }
         }

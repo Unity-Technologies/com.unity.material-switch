@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.SelectionGroups.Runtime;
 using UnityEditor;
 using UnityEditor.Timeline;
@@ -12,8 +14,11 @@ namespace Unity.MaterialSwitch
     [CanEditMultipleObjects]
     internal class MaterialSwitchClipEditor : Editor
     {
-        bool              showTextureProperties;
+        bool showTextureProperties;
         private static MaterialSwitchClip copySource;
+        private string errorMessage = null;
+
+        private HashSet<Material> activeMaterials = null;
 
         void UpdateSampledColors()
         {
@@ -54,31 +59,58 @@ namespace Unity.MaterialSwitch
 
         private void OnEnable()
         {
+            errorMessage = null;
             //when the editor is enabled, get the target clip and make sure it is up to date.
-            var clip = target as MaterialSwitchClip;
             
             PlayableDirector inspectedDirector = TimelineEditor.inspectedDirector;
             if (inspectedDirector == null)
+            {
+                errorMessage = "Could not find Timeline Director.";
                 return;
+            }
+
+            var selectedClip = TimelineEditor.selectedClip;
+            if(selectedClip == null) 
+            {
+                errorMessage = "Could not find Selected Clip.";
+                return;
+            }
             
-            // TrackAsset track = clip.GetParentTrack();
-            // SelectionGroup selectionGroup = inspectedDirector.GetGenericBinding(track) as SelectionGroups.Runtime.SelectionGroup;
-            //
-            // MaterialSwitchUtility.UpdateClip(clip);
-            //
-            // if (selectionGroup == null)
-            //     return;
-            // if (!selectionGroup.TryGetComponent(out MaterialGroup materialGroup))
-            //     materialGroup = selectionGroup.gameObject.AddComponent<MaterialGroup>();
-            //
-            // var asset = clip.asset as MaterialSwitchClip;
-            //
-            // if (asset.globalMaterialProperties == null || asset.globalMaterialProperties.needsUpdate)
-            // {
-            //     asset.globalMaterialProperties =
-            //         MaterialSwitchUtility.CreateMaterialProperties(materialGroup.sharedMaterials);
-            // }
+            var track = selectedClip.GetParentTrack();
+            var selectionGroup = inspectedDirector.GetGenericBinding(track) as SelectionGroups.Runtime.SelectionGroup;
+            if (selectionGroup == null)
+            {
+                errorMessage = "No Selection Group is bound to the Track.";
+                return;
+            }
+             
+            if (!selectionGroup.TryGetComponent(out MaterialGroup materialGroup))
+            {
+                materialGroup = selectionGroup.gameObject.AddComponent<MaterialGroup>();
+            }
+            materialGroup.CollectMaterials();
             
+            var asset = target as MaterialSwitchClip;
+            
+            if (asset.globalMaterialProperties == null || asset.globalMaterialProperties.needsUpdate)
+            {
+                asset.globalMaterialProperties =
+                    MaterialSwitchUtility.CreateMaterialProperties(materialGroup.sharedMaterials);
+            }
+
+            activeMaterials = new HashSet<Material>(materialGroup.sharedMaterials);
+            var storedMaterials = new HashSet<Material>(from i in asset.materialPropertiesList select i.material);
+            var missingMaterials = activeMaterials.Except(storedMaterials).ToArray();
+            if (missingMaterials.Length > 0)
+            {
+                errorMessage = $"Created {missingMaterials.Length} new material maps. These will be saved in the clip asset.";
+                foreach (var material in missingMaterials)
+                {
+                    var materialProperties = MaterialSwitchUtility.CreateMaterialProperties(material);
+                    asset.materialPropertiesList.Add(materialProperties);
+                }
+                EditorUtility.SetDirty(asset);
+            }
 
         }
 
@@ -87,10 +119,11 @@ namespace Unity.MaterialSwitch
             if (Event.current.type == EventType.ContextClick)
                 HandleContextClick();
             serializedObject.Update();
-            
-            
-            var selectionGroupProperty = serializedObject.FindProperty(nameof(MaterialSwitchClip.selectionGroup));
-            EditorGUILayout.PropertyField(selectionGroupProperty);
+
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                EditorGUILayout.HelpBox(errorMessage, MessageType.Warning);
+            }
             
             GUILayout.BeginVertical("box");
             
@@ -103,12 +136,17 @@ namespace Unity.MaterialSwitch
             GUILayout.Space(16);
             GUILayout.BeginVertical("box");
             GUILayout.Label("Per Material Properties");
-            var palettePropertyMap = serializedObject.FindProperty(nameof(MaterialSwitchClip.materialPropertiesList));
             
-            for (var i = 0; i < palettePropertyMap.arraySize; i++)
+            var materialPropertiesList = serializedObject.FindProperty(nameof(MaterialSwitchClip.materialPropertiesList));
+            for (var i = 0; i < materialPropertiesList.arraySize; i++)
             {
-                var ppm = palettePropertyMap.GetArrayElementAtIndex(i);
-                DrawPalettePropertyMapUI(ppm, globalPalettePropertyMap);
+                var property = materialPropertiesList.GetArrayElementAtIndex(i);
+                var materialProperty = property.FindPropertyRelative(nameof(MaterialProperties.material));
+                var material = materialProperty.objectReferenceValue as Material;
+                if (activeMaterials.Contains(material))
+                {
+                    DrawPalettePropertyMapUI(property, globalPalettePropertyMap);
+                }
             }
             GUILayout.EndVertical();
 

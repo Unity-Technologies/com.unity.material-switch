@@ -84,7 +84,6 @@ namespace Unity.MaterialSwitch
             {
                 var property = kv.Value;
                 var color = GetOrCreateFinalColor(property);
-                //var newColor = color + property.targetValue * weight;
                 var newColor = Color.Lerp(color, property.targetValue, weight);
                 block.SetColor(property.propertyName,  newColor);
                 colors[property.propertyName] = newColor;

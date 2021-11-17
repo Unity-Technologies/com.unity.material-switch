@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 * fix: color blending between MaterialSwitchClips
+* fix: update materials in MaterialSwitchClips if the materials in the bound SelectionGroup are replaced
 
 ## [0.6.1-preview] - 2021-11-12
 

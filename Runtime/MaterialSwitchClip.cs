@@ -12,7 +12,7 @@ namespace Unity.MaterialSwitch
     {
         
         [FormerlySerializedAs("globalPalettePropertyMap")] public MaterialProperties globalMaterialProperties;
-        [FormerlySerializedAs("materialPropertiesList")] public List<MaterialProperties> materialPropertiesList;
+        [FormerlySerializedAs("palettePropertyMap")] public List<MaterialProperties> materialPropertiesList;
 
         void OnValidate()
         {

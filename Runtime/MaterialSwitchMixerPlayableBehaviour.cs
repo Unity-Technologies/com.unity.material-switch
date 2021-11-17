@@ -88,7 +88,10 @@ namespace Unity.MaterialSwitch
                 for (var index = 0; index < renderer.sharedMaterials.Length; index++)
                 {
                     var material = renderer.sharedMaterials[index];
-                    var bm = blockManagers[material] = new MaterialPropertyBlockManager();
+                    if (!blockManagers.TryGetValue(material, out var bm))
+                    {
+                        bm = blockManagers[material] = new MaterialPropertyBlockManager();    
+                    }
                     bm.material = material;
                     bm.AddRenderer(renderer, index);
                 }

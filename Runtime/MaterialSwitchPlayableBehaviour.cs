@@ -7,34 +7,12 @@ namespace Unity.MaterialSwitch
 {
     internal class MaterialSwitchPlayableBehaviour : PlayableBehaviour
     {
-        public List<PalettePropertyMap> palettePropertyMap;
+        public List<MaterialProperties> materialPropertiesList;
         public MaterialSwitchClip clip;
 
         // This magic method is only available in the editor.
-        internal static System.Func<Material[], PalettePropertyMap> CreatePalettePropertyMap;
+        internal static System.Func<Material[], MaterialProperties> CreateMaterialProperties;
 
-        public PalettePropertyMap GetGlobalMap()
-        {
-            return clip.globalPalettePropertyMap;
-        }
-
-        public PalettePropertyMap GetMap(Material material)
-        {
-            foreach (var i in clip.palettePropertyMap)
-            {
-                if (i.material.GetInstanceID() == material.GetInstanceID()) return i;
-            }
-            if (CreatePalettePropertyMap != null)
-            {
-                var ppm = CreatePalettePropertyMap(new [] { material });
-                ppm.material = material;
-                clip.palettePropertyMap.Add(ppm);
-                
-                return ppm;
-            }
-            
-            return null;
-        }
-
+   
     }
 }

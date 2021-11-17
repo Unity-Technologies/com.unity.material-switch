@@ -12,7 +12,7 @@ namespace Unity.MaterialSwitch
 
         HashSet<Renderer> renderers;
 
-        HashSet<PalettePropertyMap> activePalettePropertyMapInstances= new HashSet<PalettePropertyMap>();
+        HashSet<MaterialProperties> activePalettePropertyMapInstances= new HashSet<MaterialProperties>();
 
         private Dictionary<Material, MaterialPropertyBlockManager> blockManagers =
             new Dictionary<Material, MaterialPropertyBlockManager>();
@@ -88,7 +88,10 @@ namespace Unity.MaterialSwitch
                 for (var index = 0; index < renderer.sharedMaterials.Length; index++)
                 {
                     var material = renderer.sharedMaterials[index];
-                    var bm = blockManagers[material] = new MaterialPropertyBlockManager();
+                    if (!blockManagers.TryGetValue(material, out var bm))
+                    {
+                        bm = blockManagers[material] = new MaterialPropertyBlockManager();    
+                    }
                     bm.material = material;
                     bm.AddRenderer(renderer, index);
                 }
@@ -104,12 +107,14 @@ namespace Unity.MaterialSwitch
                 var weight = playable.GetInputWeight(i);
                 if (weight == 0) continue;
 
-                var paletteSwitchBehaviour = ((ScriptPlayable<MaterialSwitchPlayableBehaviour>) playable.GetInput(i)).GetBehaviour();
+                var behaviour = ((ScriptPlayable<MaterialSwitchPlayableBehaviour>) playable.GetInput(i)).GetBehaviour();
                 
-                foreach (var pm in paletteSwitchBehaviour.palettePropertyMap)
+                foreach (var pm in behaviour.materialPropertiesList)
                 {
-                    if(blockManagers.TryGetValue(pm.material, out var bm))
-                        bm.BlendPalettePropertyMap(weight, paletteSwitchBehaviour.clip.globalPalettePropertyMap, pm);
+                    if (blockManagers.TryGetValue(pm.material, out var bm))
+                    {
+                        bm.BlendPalettePropertyMap(weight, behaviour.clip.globalMaterialProperties, pm);
+                    }
                 }
             }
         }

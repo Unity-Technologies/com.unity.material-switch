@@ -18,7 +18,7 @@ namespace Unity.MaterialSwitch
         public Material material;
         
         
-        public PalettePropertyMap globalMap;
+        public MaterialProperties globalMap;
         private Material textureLerpMaterial;
 
         private List<MaterialSlot> materialSlots = new List<MaterialSlot>();
@@ -38,14 +38,14 @@ namespace Unity.MaterialSwitch
             }
         }
 
-        public void BlendPalettePropertyMap(float weight, PalettePropertyMap globalMap, PalettePropertyMap map)
+        public void BlendPalettePropertyMap(float weight, MaterialProperties globalMap, MaterialProperties map)
         {
             BlendTextureProperties(weight, globalMap, map);
             BlendColorProperties(weight, globalMap, map);
             BlendFloatProperties(weight, globalMap, map);
         }
 
-        private void BlendTextureProperties(float weight, PalettePropertyMap globalMap, PalettePropertyMap map)
+        private void BlendTextureProperties(float weight, MaterialProperties globalMap, MaterialProperties map)
         {
             if (textureLerpMaterial == null) textureLerpMaterial = CreateTextureLerpMaterial();
             var textureProperties = new Dictionary<string, TextureProperty>();
@@ -71,27 +71,26 @@ namespace Unity.MaterialSwitch
             }
         }
         
-        private void BlendColorProperties(float weight, PalettePropertyMap globalMap, PalettePropertyMap map)
+        private void BlendColorProperties(float weight, MaterialProperties globalMap, MaterialProperties map)
         {
             var colorProperties = new Dictionary<string, ColorProperty>();
-            foreach (var cp in map.colorCoordinates)
+            foreach (var cp in map.colorProperties)
                 if (cp.overrideBaseValue)
                     colorProperties[cp.propertyName] = cp;
-            foreach (var cp in globalMap.colorCoordinates)
+            foreach (var cp in globalMap.colorProperties)
                 if (cp.overrideBaseValue)
                     colorProperties[cp.propertyName] = cp;
             foreach (var kv in colorProperties)
             {
                 var property = kv.Value;
                 var color = GetOrCreateFinalColor(property);
-                //var newColor = color + property.targetValue * weight;
                 var newColor = Color.Lerp(color, property.targetValue, weight);
                 block.SetColor(property.propertyName,  newColor);
                 colors[property.propertyName] = newColor;
             }
         }
         
-        private void BlendFloatProperties(float weight, PalettePropertyMap globalMap, PalettePropertyMap map)
+        private void BlendFloatProperties(float weight, MaterialProperties globalMap, MaterialProperties map)
         {
             var floatProperties = new Dictionary<string, FloatProperty>();
             foreach (var cp in map.floatProperties)
@@ -143,34 +142,7 @@ namespace Unity.MaterialSwitch
 
             return f;
         }
-
-        static void LerpCurrentColorsToTargetColors(float weight, PalettePropertyMap map,
-            MaterialPropertyBlock block)
-        {
-            //lerp the colors towards targets.
-            foreach (var i in map.colorCoordinates)
-            {
-                if (i.overrideBaseValue)
-                {
-                    var color = block.GetColor(i.propertyName);
-                    //var color = Color.Lerp(i.baseValue, i.targetValue, weight);
-                    block.SetColor(i.propertyName, color + i.targetValue * weight );
-                }
-            }
-        }
-
-        static void LerpCurrentFloatsToTargetFloats(float weight, PalettePropertyMap map, MaterialPropertyBlock block)
-        {
-            //lerp the floats towards targets.
-            foreach (var i in map.floatProperties)
-            {
-                if (i.overrideBaseValue)
-                {
-                    var v = Mathf.Lerp(i.baseValue, i.targetValue, weight);
-                    block.SetFloat(i.propertyName, v);
-                }
-            }
-        }
+        
 
         static Material CreateTextureLerpMaterial()
         {

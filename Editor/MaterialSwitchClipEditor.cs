@@ -1,5 +1,12 @@
-﻿using UnityEditor;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Unity.SelectionGroups.Runtime;
+using UnityEditor;
+using UnityEditor.Timeline;
 using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.Timeline;
 
 namespace Unity.MaterialSwitch
 {
@@ -7,19 +14,22 @@ namespace Unity.MaterialSwitch
     [CanEditMultipleObjects]
     internal class MaterialSwitchClipEditor : Editor
     {
-        bool              showTextureProperties;
+        bool showTextureProperties;
         private static MaterialSwitchClip copySource;
+        private string errorMessage = null;
+
+        private HashSet<Material> activeMaterials = null;
 
         void UpdateSampledColors()
         {
             var clip          = target as MaterialSwitchClip;
-            var globalTexture = clip.globalPalettePropertyMap.texture;
-            foreach (var map in clip.palettePropertyMap)
+            var globalTexture = clip.globalMaterialProperties.texture;
+            foreach (var map in clip.materialPropertiesList)
             {
                 var textureToUse = map.texture == null ? globalTexture : map.texture;
                 if (textureToUse == null) continue;
                 if(!textureToUse.isReadable) continue;
-                foreach (var c in map.colorCoordinates)
+                foreach (var c in map.colorProperties)
                 {
                     c.targetValue = textureToUse.GetPixel((int) c.uv.x, (int) c.uv.y);
                 }
@@ -47,18 +57,78 @@ namespace Unity.MaterialSwitch
             e.Use();
         }
 
+        private void OnEnable()
+        {
+            errorMessage = null;
+            //when the editor is enabled, get the target clip and make sure it is up to date.
+            
+            PlayableDirector inspectedDirector = TimelineEditor.inspectedDirector;
+            if (inspectedDirector == null)
+            {
+                errorMessage = "Could not find Timeline Director.";
+                return;
+            }
+
+            var selectedClip = TimelineEditor.selectedClip;
+            if(selectedClip == null) 
+            {
+                errorMessage = "Could not find Selected Clip.";
+                return;
+            }
+            
+            var track = selectedClip.GetParentTrack();
+            var selectionGroup = inspectedDirector.GetGenericBinding(track) as SelectionGroups.Runtime.SelectionGroup;
+            if (selectionGroup == null)
+            {
+                errorMessage = "No Selection Group is bound to the Track.";
+                return;
+            }
+             
+            if (!selectionGroup.TryGetComponent(out MaterialGroup materialGroup))
+            {
+                materialGroup = selectionGroup.gameObject.AddComponent<MaterialGroup>();
+            }
+            materialGroup.CollectMaterials();
+            
+            var asset = target as MaterialSwitchClip;
+            
+            if (asset.globalMaterialProperties == null || asset.globalMaterialProperties.needsUpdate)
+            {
+                asset.globalMaterialProperties =
+                    MaterialSwitchUtility.CreateMaterialProperties(materialGroup.sharedMaterials);
+            }
+
+            activeMaterials = new HashSet<Material>(materialGroup.sharedMaterials);
+            var storedMaterials = new HashSet<Material>(from i in asset.materialPropertiesList select i.material);
+            var missingMaterials = activeMaterials.Except(storedMaterials).ToArray();
+            if (missingMaterials.Length > 0)
+            {
+                errorMessage = $"Created {missingMaterials.Length} new material maps. These will be saved in the clip asset.";
+                foreach (var material in missingMaterials)
+                {
+                    var materialProperties = MaterialSwitchUtility.CreateMaterialProperties(material);
+                    asset.materialPropertiesList.Add(materialProperties);
+                }
+                EditorUtility.SetDirty(asset);
+            }
+
+        }
+
         public override void OnInspectorGUI()
         {
             if (Event.current.type == EventType.ContextClick)
                 HandleContextClick();
             serializedObject.Update();
-            
-            
+
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                EditorGUILayout.HelpBox(errorMessage, MessageType.Warning);
+            }
             
             GUILayout.BeginVertical("box");
             
             GUILayout.Label("Global Properties");
-            var globalPalettePropertyMap = serializedObject.FindProperty(nameof(MaterialSwitchClip.globalPalettePropertyMap));
+            var globalPalettePropertyMap = serializedObject.FindProperty(nameof(MaterialSwitchClip.globalMaterialProperties));
             DrawPalettePropertyMapUI(globalPalettePropertyMap, null);                        
 
             EditorGUI.indentLevel += 1;
@@ -66,12 +136,17 @@ namespace Unity.MaterialSwitch
             GUILayout.Space(16);
             GUILayout.BeginVertical("box");
             GUILayout.Label("Per Material Properties");
-            var palettePropertyMap = serializedObject.FindProperty(nameof(MaterialSwitchClip.palettePropertyMap));
             
-            for (var i = 0; i < palettePropertyMap.arraySize; i++)
+            var materialPropertiesList = serializedObject.FindProperty(nameof(MaterialSwitchClip.materialPropertiesList));
+            for (var i = 0; i < materialPropertiesList.arraySize; i++)
             {
-                var ppm = palettePropertyMap.GetArrayElementAtIndex(i);
-                DrawPalettePropertyMapUI(ppm, globalPalettePropertyMap);
+                var property = materialPropertiesList.GetArrayElementAtIndex(i);
+                var materialProperty = property.FindPropertyRelative(nameof(MaterialProperties.material));
+                var material = materialProperty.objectReferenceValue as Material;
+                if (activeMaterials.Contains(material))
+                {
+                    DrawPalettePropertyMapUI(property, globalPalettePropertyMap);
+                }
             }
             GUILayout.EndVertical();
 
@@ -89,11 +164,11 @@ namespace Unity.MaterialSwitch
             if (globalPalettePropertyMap != null)
             {
                 //This is a per material ppm, so draw the material field.
-                EditorGUILayout.PropertyField(ppm.FindPropertyRelative(nameof(PalettePropertyMap.material)));
+                EditorGUILayout.PropertyField(ppm.FindPropertyRelative(nameof(MaterialProperties.material)));
             }
 
-            var textureProperty = ppm.FindPropertyRelative(nameof(PalettePropertyMap.texture));
-            var globalTextureProperty = globalPalettePropertyMap?.FindPropertyRelative(nameof(PalettePropertyMap.texture));
+            var textureProperty = ppm.FindPropertyRelative(nameof(MaterialProperties.texture));
+            var globalTextureProperty = globalPalettePropertyMap?.FindPropertyRelative(nameof(MaterialProperties.texture));
             
             EditorGUI.indentLevel += 1;
             EditorGUILayout.PropertyField(textureProperty, new GUIContent("Palette Texture"));
@@ -111,7 +186,7 @@ namespace Unity.MaterialSwitch
             }
 
 
-            DrawPropertyOverrideList(ppm, "showCoords", "Color Properties", "colorCoordinates",
+            DrawPropertyOverrideList(ppm, "showCoords", "Color Properties", "colorProperties",
                 (itemProperty) =>
                 {
                     var displayNameProperty = itemProperty.FindPropertyRelative(nameof(ColorProperty.displayName));
@@ -119,7 +194,7 @@ namespace Unity.MaterialSwitch
                     EditorGUILayout.LabelField($"{displayNameProperty.stringValue}");
                     GUILayout.BeginHorizontal();
                     GUILayout.Label("Sampled Color");
-                    var texture = ppm.FindPropertyRelative(nameof(PalettePropertyMap.texture)).objectReferenceValue as Texture2D;
+                    var texture = ppm.FindPropertyRelative(nameof(MaterialProperties.texture)).objectReferenceValue as Texture2D;
                     var globalPaletteTexture = globalTextureProperty?.objectReferenceValue as Texture2D;
                     if (texture == null && globalPaletteTexture == null)
                     {
@@ -183,9 +258,9 @@ namespace Unity.MaterialSwitch
         private void DrawPropertyOverrideList(SerializedProperty ppm, string togglePropertyPath, string heading,
             string arrayPropertyPath, System.Action<SerializedProperty> guiMethod = null)
         {
-            var show = ppm.FindPropertyRelative(togglePropertyPath);
-            show.boolValue = EditorGUILayout.Foldout(show.boolValue, heading);
-            if (show.boolValue)
+            var showPropertyListToggle = ppm.FindPropertyRelative(togglePropertyPath);
+            showPropertyListToggle.boolValue = EditorGUILayout.Foldout(showPropertyListToggle.boolValue, heading);
+            if (showPropertyListToggle.boolValue)
             {
                 var propertyList = ppm.FindPropertyRelative(arrayPropertyPath);
                 if (propertyList != null)

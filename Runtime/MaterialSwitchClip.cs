@@ -1,29 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.SelectionGroups.Runtime;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Serialization;
 
 namespace Unity.MaterialSwitch
 {
 
     internal class MaterialSwitchClip : PlayableAsset
     {
-        public PalettePropertyMap globalPalettePropertyMap;
-        public List<PalettePropertyMap> palettePropertyMap;
-
-        [NonSerialized] public Dictionary<Material, PalettePropertyMap> materialMap = null;
+        
+        [FormerlySerializedAs("globalPalettePropertyMap")] public MaterialProperties globalMaterialProperties;
+        [FormerlySerializedAs("materialPropertiesList")] public List<MaterialProperties> materialPropertiesList;
 
         void OnValidate()
         {
-            foreach (var ppm in palettePropertyMap)
+            foreach (var ppm in materialPropertiesList)
             {
                 if (ppm.texture == null) continue;
                 if(!ppm.texture.isReadable) continue;
-                for (int i = 0; i < ppm.colorCoordinates.Count; i++)
+                for (int i = 0; i < ppm.colorProperties.Count; i++)
                 {
-                    var cc = ppm.colorCoordinates[i];
+                    var cc = ppm.colorProperties[i];
                     cc.targetValue = ppm.texture.GetPixel((int)cc.uv.x, (int)cc.uv.y);
-                    ppm.colorCoordinates[i] = cc;
+                    ppm.colorProperties[i] = cc;
                 }
             }
         }
@@ -33,7 +34,7 @@ namespace Unity.MaterialSwitch
             var playable = ScriptPlayable<MaterialSwitchPlayableBehaviour>.Create(graph);
             var behaviour = playable.GetBehaviour();
             behaviour.clip = this;
-            behaviour.palettePropertyMap = palettePropertyMap;
+            behaviour.materialPropertiesList = materialPropertiesList;
             return playable;
         }
     }

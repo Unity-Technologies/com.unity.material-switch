@@ -14,6 +14,9 @@ namespace Unity.MaterialSwitch
     internal class MaterialSwitchClipTimelineEditor : ClipEditor
     {
         
+         
+       
+        
         public override void OnClipChanged(TimelineClip clip) 
         {
             
@@ -30,18 +33,11 @@ namespace Unity.MaterialSwitch
                 materialGroup = selectionGroup.gameObject.AddComponent<MaterialGroup>();
             
             var asset = clip.asset as MaterialSwitchClip;
-            // var allClips = track.GetClips().ToList();
-            // var index = allClips.IndexOf(clip);
-            // var previousIndex = index - 1;
-            // if (previousIndex >= 0)
-            // {
-            //     var previousClip = allClips[previousIndex].asset as MaterialSwitchClip;
-            //     asset.palettePropertyMap
-            // }
-            if (asset.globalPalettePropertyMap == null || asset.globalPalettePropertyMap.needsUpdate)
+            
+            if (asset.globalMaterialProperties == null || asset.globalMaterialProperties.needsUpdate)
             {
-                asset.globalPalettePropertyMap =
-                    MaterialSwitchUtility.InitPalettePropertyMap(materialGroup.sharedMaterials);
+                asset.globalMaterialProperties =
+                    MaterialSwitchUtility.CreateMaterialProperties(materialGroup.sharedMaterials);
             }
         }
 
@@ -67,7 +63,7 @@ namespace Unity.MaterialSwitch
                 Debug.LogError("Material Group is null.");
                 return;
             }
-            if (asset.palettePropertyMap != null)
+            if (asset.materialPropertiesList != null)
             {
                 //This should be ok, probably from a duplicate operation.
                 
@@ -76,13 +72,13 @@ namespace Unity.MaterialSwitch
                 return;
             }
 
-            asset.globalPalettePropertyMap =
-                MaterialSwitchUtility.InitPalettePropertyMap(materialPropertyGroup.sharedMaterials);
-            asset.palettePropertyMap = new List<PalettePropertyMap>(materialPropertyGroup.sharedMaterials.Length);
+            asset.globalMaterialProperties =
+                MaterialSwitchUtility.CreateMaterialProperties(materialPropertyGroup.sharedMaterials);
+            asset.materialPropertiesList = new List<MaterialProperties>(materialPropertyGroup.sharedMaterials.Length);
             for (var i = 0; i < materialPropertyGroup.sharedMaterials.Length; i++)
             {
-                var ppm = MaterialSwitchUtility.InitPalettePropertyMap(materialPropertyGroup.sharedMaterials[i]);
-                asset.palettePropertyMap.Add(ppm);
+                var ppm = MaterialSwitchUtility.CreateMaterialProperties(materialPropertyGroup.sharedMaterials[i]);
+                asset.materialPropertiesList.Add(ppm);
             }
         }
     }

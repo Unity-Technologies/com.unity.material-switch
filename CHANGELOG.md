@@ -4,6 +4,15 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.6.2-preview] - 2021-11-17
+
+### Changed
+* deps: use com.unity.timeline@1.5.7
+
+### Fixed
+* fix: color blending between MaterialSwitchClips
+* fix: update materials in MaterialSwitchClips if the materials in the bound SelectionGroup are replaced
+
 ## [0.6.1-preview] - 2021-11-12
 
 ### Changed

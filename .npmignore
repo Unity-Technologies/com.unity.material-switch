@@ -5,6 +5,7 @@ node_modules/**
 Documentation/ApiDocs/**
 Documentation~/ApiDocs/**
 MaterialSwitch~/**
+Scripts~/**
 .DS_Store
 .npmrc
 .npmignore

@@ -58,6 +58,8 @@ namespace Unity.MaterialSwitch
             foreach (var kv in textureProperties)
             {
                 var textureProperty = kv.Value;
+                if (textureProperty.baseValue == null || textureProperty.targetValue == null) 
+                    continue;
                 var texture = GetOrCreateFinalTexture(textureProperty);
                 textureLerpMaterial.SetFloat("_Weight", weight);
                 textureLerpMaterial.SetTexture("_TargetTex", textureProperty.targetValue);

@@ -104,9 +104,8 @@ namespace Unity.MaterialSwitch
             foreach (var kv in floatProperties)
             {
                 var property = kv.Value;
-                var color = GetOrCreateFinalFloat(property);
-                var newValue = color + property.targetValue * weight;
-                //var color = Color.Lerp(i.baseValue, i.targetValue, weight);
+                var floatValue = GetOrCreateFinalFloat(property);
+                var newValue = Mathf.Lerp(floatValue , property.targetValue, weight);
                 block.SetFloat(property.propertyName,  newValue);
                 floats[property.propertyName] = newValue;
             }

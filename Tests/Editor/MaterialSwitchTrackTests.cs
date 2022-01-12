@@ -61,7 +61,7 @@ internal class MaterialSwitchTrackTests
         TimelineEditorUtility.SelectDirectorInTimelineWindow(director);
         yield return EditorTestsUtility.WaitForFrames(3);
 
-        SelectionGroup group = CreateSceneSelectionGroup("New Group", string.Empty, Color.green, new List<Object>());
+        SelectionGroup group = SelectionGroupManager.GetOrCreateInstance().CreateSceneSelectionGroup("New Group", Color.green);
         director.SetGenericBinding(track, group);
         TimelineClip clip = TimelineEditorReflection.CreateClipOnTrack(typeof(MaterialSwitchClip), track, 0);            
         yield return EditorTestsUtility.WaitForFrames(3);
@@ -70,24 +70,6 @@ internal class MaterialSwitchTrackTests
     }
     
 //----------------------------------------------------------------------------------------------------------------------    
-    
-    
-
-    //[TODO-sin: 2021-10-25] make CreateSceneSelectionGroup() into a public API 
-    SelectionGroup CreateSceneSelectionGroup(string name, string query, Color color, IList<Object> members)
-    {
-        var g = new GameObject(name);
-        Undo.RegisterCreatedObjectUndo(g,"New Scene Selection Group");
-        var group = g.AddComponent<Unity.SelectionGroups.SelectionGroup>();
-        group.Name        = name;
-        group.Query       = query;
-        group.Color       = color;
-        group.Scope       = SelectionGroupDataLocation.Scene;
-        group.ShowMembers = true;
-        group.Add(members);
-        SelectionGroupManager.Register(group);
-        return group;
-    }
     
     
 }

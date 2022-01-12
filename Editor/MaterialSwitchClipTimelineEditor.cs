@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEditor.Timeline;
 using UnityEngine.Timeline;
 using Unity.FilmInternalUtilities;
-using Unity.SelectionGroups.Runtime;
+using Unity.SelectionGroups;
 using UnityEngine.Playables;
 
 namespace Unity.MaterialSwitch
@@ -26,7 +26,7 @@ namespace Unity.MaterialSwitch
                
             TrackAsset track = clip.GetParentTrack();
             
-            SelectionGroup selectionGroup = inspectedDirector.GetGenericBinding(track) as SelectionGroups.Runtime.SelectionGroup;
+            SelectionGroup selectionGroup = inspectedDirector.GetGenericBinding(track) as SelectionGroups.SelectionGroup;
             if (selectionGroup == null)
                 return;
             if (!selectionGroup.TryGetComponent(out MaterialGroup materialGroup))
@@ -49,7 +49,7 @@ namespace Unity.MaterialSwitch
                 Debug.LogError("Asset is not a PaletteSwitchClip: " + clip.asset);
                 return;
             }
-            var selectionGroup = TimelineEditor.inspectedDirector.GetGenericBinding(track) as SelectionGroups.Runtime.SelectionGroup;
+            var selectionGroup = TimelineEditor.inspectedDirector.GetGenericBinding(track) as SelectionGroups.SelectionGroup;
             if (selectionGroup == null)
             {
                 return;

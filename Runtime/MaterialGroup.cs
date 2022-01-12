@@ -11,7 +11,7 @@ using UnityEditor;
 namespace Unity.MaterialSwitch
 {
     [ExecuteAlways]
-    [RequireComponent(typeof(SelectionGroups.Runtime.SelectionGroup))]
+    [RequireComponent(typeof(SelectionGroups.SelectionGroup))]
     internal class MaterialGroup : MonoBehaviour
     {
         public Material[] sharedMaterials;
@@ -34,7 +34,7 @@ namespace Unity.MaterialSwitch
 
         public void CollectMaterials()
         {
-            var group = GetComponent<SelectionGroups.Runtime.SelectionGroup>();
+            var group = GetComponent<SelectionGroups.SelectionGroup>();
             var materials = new HashSet<Material>();
             foreach (var i in group.GetMemberComponents<Renderer>())
             {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.SelectionGroups.Runtime;
+using Unity.SelectionGroups;
 using UnityEditor;
 using UnityEditor.Timeline;
 using UnityEngine;
@@ -77,7 +77,7 @@ namespace Unity.MaterialSwitch
             }
             
             var track = selectedClip.GetParentTrack();
-            var selectionGroup = inspectedDirector.GetGenericBinding(track) as SelectionGroups.Runtime.SelectionGroup;
+            var selectionGroup = inspectedDirector.GetGenericBinding(track) as SelectionGroups.SelectionGroup;
             if (selectionGroup == null)
             {
                 errorMessage = "No Selection Group is bound to the Track.";

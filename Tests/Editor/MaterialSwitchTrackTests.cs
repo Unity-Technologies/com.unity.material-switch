@@ -4,7 +4,6 @@ using NUnit.Framework;
 using Unity.FilmInternalUtilities;
 using Unity.FilmInternalUtilities.Editor;
 using Unity.SelectionGroups;
-using Unity.SelectionGroups.Runtime;
 using UnityEditor;
 using UnityEditor.Timeline;
 using UnityEngine;
@@ -79,7 +78,7 @@ internal class MaterialSwitchTrackTests
     {
         var g = new GameObject(name);
         Undo.RegisterCreatedObjectUndo(g,"New Scene Selection Group");
-        var group = g.AddComponent<Unity.SelectionGroups.Runtime.SelectionGroup>();
+        var group = g.AddComponent<Unity.SelectionGroups.SelectionGroup>();
         group.Name        = name;
         group.Query       = query;
         group.Color       = color;

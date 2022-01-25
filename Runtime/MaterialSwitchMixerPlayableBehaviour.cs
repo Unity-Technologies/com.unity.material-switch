@@ -32,7 +32,7 @@ namespace Unity.MaterialSwitch
 
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
-            var group = playerData as SelectionGroups.SelectionGroup;
+            var group = playerData as SelectionGroups.Runtime.SelectionGroup;
             if (group == null) return;
             var materialGroup = group.GetComponent<MaterialGroup>();
             if (materialGroup == null) return;

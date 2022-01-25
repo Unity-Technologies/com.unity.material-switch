@@ -77,7 +77,7 @@ namespace Unity.MaterialSwitch
             }
             
             var track = selectedClip.GetParentTrack();
-            var selectionGroup = inspectedDirector.GetGenericBinding(track) as SelectionGroups.SelectionGroup;
+            var selectionGroup = inspectedDirector.GetGenericBinding(track) as SelectionGroups.Runtime.SelectionGroup;
             if (selectionGroup == null)
             {
                 errorMessage = "No Selection Group is bound to the Track.";

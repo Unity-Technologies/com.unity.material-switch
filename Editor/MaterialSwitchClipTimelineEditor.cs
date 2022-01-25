@@ -26,7 +26,7 @@ namespace Unity.MaterialSwitch
                
             TrackAsset track = clip.GetParentTrack();
             
-            SelectionGroup selectionGroup = inspectedDirector.GetGenericBinding(track) as SelectionGroups.SelectionGroup;
+            var selectionGroup = inspectedDirector.GetGenericBinding(track) as SelectionGroups.Runtime.SelectionGroup;
             if (selectionGroup == null)
                 return;
             if (!selectionGroup.TryGetComponent(out MaterialGroup materialGroup))
@@ -49,7 +49,7 @@ namespace Unity.MaterialSwitch
                 Debug.LogError("Asset is not a PaletteSwitchClip: " + clip.asset);
                 return;
             }
-            var selectionGroup = TimelineEditor.inspectedDirector.GetGenericBinding(track) as SelectionGroups.SelectionGroup;
+            var selectionGroup = TimelineEditor.inspectedDirector.GetGenericBinding(track) as SelectionGroups.Runtime.SelectionGroup;
             if (selectionGroup == null)
             {
                 return;

@@ -4,6 +4,7 @@ using NUnit.Framework;
 using Unity.FilmInternalUtilities;
 using Unity.FilmInternalUtilities.Editor;
 using Unity.SelectionGroups;
+using Unity.SelectionGroups.Runtime;
 using UnityEditor;
 using UnityEditor.Timeline;
 using UnityEngine;
@@ -61,7 +62,7 @@ internal class MaterialSwitchTrackTests
         TimelineEditorUtility.SelectDirectorInTimelineWindow(director);
         yield return EditorTestsUtility.WaitForFrames(3);
 
-        SelectionGroup group = SelectionGroupManager.GetOrCreateInstance().CreateSceneSelectionGroup("New Group", Color.green);
+        var group = SelectionGroupManager.CreateSceneSelectionGroup("New Group", null, Color.green, new List<Object>());
         director.SetGenericBinding(track, group);
         TimelineClip clip = TimelineEditorReflection.CreateClipOnTrack(typeof(MaterialSwitchClip), track, 0);            
         yield return EditorTestsUtility.WaitForFrames(3);

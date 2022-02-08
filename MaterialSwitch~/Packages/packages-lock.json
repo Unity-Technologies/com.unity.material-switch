@@ -18,8 +18,8 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.film-internal-utilities": {
-      "version": "0.12.4-preview",
-      "depth": 2,
+      "version": "0.13.0-preview",
+      "depth": 1,
       "source": "registry",
       "dependencies": {
         "com.unity.modules.uielements": "1.0.0",
@@ -70,13 +70,12 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.selection-groups": {
-      "version": "0.6.2-preview",
-      "depth": 1,
-      "source": "registry",
+      "version": "file:com.unity.selection-groups",
+      "depth": 0,
+      "source": "embedded",
       "dependencies": {
-        "com.unity.film-internal-utilities": "0.12.4-preview"
-      },
-      "url": "https://packages.unity.com"
+        "com.unity.film-internal-utilities": "0.13.0-preview"
+      }
     },
     "com.unity.services.core": {
       "version": "1.0.1",

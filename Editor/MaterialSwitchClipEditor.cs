@@ -19,6 +19,7 @@ namespace Unity.MaterialSwitch
         private string errorMessage = null;
 
         private HashSet<Material> activeMaterials = null;
+        private GUIContent RemoveButtonGuiContent;
 
         void UpdateSampledColors()
         {
@@ -59,6 +60,9 @@ namespace Unity.MaterialSwitch
 
         private void OnEnable()
         {
+            RemoveButtonGuiContent = EditorGUIUtility.IconContent("d_winbtn_win_close");
+            RemoveButtonGuiContent.tooltip = "Remove Property";
+            
             errorMessage = null;
             //when the editor is enabled, get the target clip and make sure it is up to date.
             
@@ -191,7 +195,11 @@ namespace Unity.MaterialSwitch
                 {
                     var displayNameProperty = itemProperty.FindPropertyRelative(nameof(ColorProperty.displayName));
                     GUILayout.BeginVertical("box");
+                    GUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField($"{displayNameProperty.stringValue}");
+                    GUILayout.FlexibleSpace();
+                    ShowRemoveOverrideButton(itemProperty);
+                    GUILayout.EndHorizontal();
                     GUILayout.BeginHorizontal();
                     GUILayout.Label("Sampled Color");
                     var texture = ppm.FindPropertyRelative(nameof(MaterialProperties.texture)).objectReferenceValue as Texture2D;
@@ -228,8 +236,12 @@ namespace Unity.MaterialSwitch
             DrawPropertyOverrideList(ppm, "showFloats", "Float Properties", "floatProperties", (itemProperty) =>
             {
                 GUILayout.BeginVertical("box");
+                GUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField(
                     $"{itemProperty.FindPropertyRelative(nameof(FloatProperty.displayName)).stringValue}");
+                GUILayout.FlexibleSpace();
+                ShowRemoveOverrideButton(itemProperty);
+                GUILayout.EndHorizontal();
                 //EditorGUILayout.PropertyField(itemProperty.FindPropertyRelative(nameof(FloatProperty.baseValue)));
                 var limits = itemProperty.FindPropertyRelative(nameof(RangeProperty.rangeLimits));
                 if (limits != null)
@@ -253,6 +265,15 @@ namespace Unity.MaterialSwitch
 
 
             GUILayout.EndVertical();
+        }
+
+        private void ShowRemoveOverrideButton(SerializedProperty itemProperty)
+        {
+            if (GUILayout.Button(RemoveButtonGuiContent, EditorStyles.toolbarButton))
+            {
+                var overrideBaseValueProperty = itemProperty.FindPropertyRelative(nameof(MaterialSwitchProperty.overrideBaseValue));
+                overrideBaseValueProperty.boolValue = false;
+            }
         }
 
         private void DrawPropertyOverrideList(SerializedProperty ppm, string togglePropertyPath, string heading,
@@ -280,8 +301,12 @@ namespace Unity.MaterialSwitch
                         if (guiMethod == null)
                         {
                             GUILayout.BeginVertical("box");
+                            GUILayout.BeginHorizontal();
                             EditorGUILayout.LabelField(
                                 $"{displayNameProperty.stringValue}");
+                            GUILayout.FlexibleSpace();
+                            ShowRemoveOverrideButton(itemProperty);
+                            GUILayout.EndHorizontal();
 
                             //EditorGUILayout.PropertyField(itemProperty.FindPropertyRelative("baseValue"));
                             EditorGUILayout.PropertyField(itemProperty.FindPropertyRelative("targetValue"),

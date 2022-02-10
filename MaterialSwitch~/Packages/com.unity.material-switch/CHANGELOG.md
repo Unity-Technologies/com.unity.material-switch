@@ -4,6 +4,16 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+
+## [0.6.7-preview] - 2022-02-10
+
+### Changed
+* deps: update dependencies to com.unity.film-internal-utilities@0.13.0-preview
+* deps: update dependencies to com.unity.selection-groups@0.7.1-preview
+
+### Fixed
+* fix: add UI to allow removal of property overrides
+
 ## [0.6.6-preview] - 2022-01-14
 
 * re-releasing due to package distribution issues

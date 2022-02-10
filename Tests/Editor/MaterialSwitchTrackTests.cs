@@ -61,7 +61,7 @@ internal class MaterialSwitchTrackTests
         TimelineEditorUtility.SelectDirectorInTimelineWindow(director);
         yield return EditorTestsUtility.WaitForFrames(3);
 
-        SelectionGroup group = SelectionGroupManager.GetOrCreateInstance().CreateSceneSelectionGroup("New Group", Color.green);
+        SelectionGroup group = SelectionGroupManager.GetOrCreateInstance().CreateSelectionGroup("New Group", Color.green);
         director.SetGenericBinding(track, group);
         TimelineClip clip = TimelineEditorReflection.CreateClipOnTrack(typeof(MaterialSwitchClip), track, 0);            
         yield return EditorTestsUtility.WaitForFrames(3);

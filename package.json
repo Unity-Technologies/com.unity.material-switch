@@ -10,8 +10,8 @@
     "Unity Technologies Japan"
   ],
   "dependencies": {
-    "com.unity.film-internal-utilities": "0.12.2-preview",
-    "com.unity.selection-groups": "0.6.2-preview",
+    "com.unity.film-internal-utilities": "0.13.0-preview",
+    "com.unity.selection-groups": "0.7.1-preview",
     "com.unity.timeline": "1.5.7"
   }
 }

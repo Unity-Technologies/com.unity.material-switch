@@ -16,10 +16,12 @@ namespace Unity.MaterialSwitch
     {
         bool showTextureProperties;
         private static MaterialSwitchClip copySource;
+        private static int copyIndex;
         private string errorMessage = null;
 
         private HashSet<Material> activeMaterials = null;
         private GUIContent RemoveButtonGuiContent;
+        private GUIContent SettingsGuiContent;
 
         void UpdateSampledColors()
         {
@@ -37,20 +39,37 @@ namespace Unity.MaterialSwitch
             }
         }
 
-        void HandleContextClick()
+        void HandleContextClick(SerializedProperty property, int index)
         {
             var e = Event.current;
             var menu = new GenericMenu();
             menu.AddItem(new GUIContent("Copy Settings"), false, () =>
             {
                 copySource = Instantiate(target) as MaterialSwitchClip;
+                copyIndex = index;
             });
             if(copySource == null)
                 menu.AddDisabledItem(new GUIContent("Paste Settings"));
             else
                 menu.AddItem(new GUIContent("Paste Settings"), false, () =>
                 {
-                    EditorUtility.CopySerializedManagedFieldsOnly(copySource, target);
+                    var targetClip = target as MaterialSwitchClip;
+                    Undo.RecordObject(targetClip, "Paste");
+                    //negative index is reserved for global properties
+                    if (index < 0)
+                    {
+                        var json = EditorJsonUtility.ToJson(copySource.globalMaterialProperties);
+                        EditorJsonUtility.FromJsonOverwrite(json, targetClip.globalMaterialProperties);
+                    }
+                    else
+                    {
+                        //preserve material reference, this is not normally changed.
+                        var oldMaterial = targetClip.materialPropertiesList[index].material;
+                        var json = EditorJsonUtility.ToJson(copySource.materialPropertiesList[copyIndex]);
+                        EditorJsonUtility.FromJsonOverwrite(json, targetClip.materialPropertiesList[index]);
+                        targetClip.materialPropertiesList[index].material = oldMaterial;
+                    }
+                    
                     serializedObject.ApplyModifiedProperties();
                 });
             
@@ -62,6 +81,9 @@ namespace Unity.MaterialSwitch
         {
             RemoveButtonGuiContent = EditorGUIUtility.IconContent("d_winbtn_win_close");
             RemoveButtonGuiContent.tooltip = "Remove Property";
+            SettingsGuiContent = EditorGUIUtility.IconContent("d_SettingsIcon");
+            SettingsGuiContent.tooltip = "Settings";
+            
             
             errorMessage = null;
             //when the editor is enabled, get the target clip and make sure it is up to date.
@@ -120,8 +142,7 @@ namespace Unity.MaterialSwitch
 
         public override void OnInspectorGUI()
         {
-            if (Event.current.type == EventType.ContextClick)
-                HandleContextClick();
+            
             serializedObject.Update();
 
             if (!string.IsNullOrEmpty(errorMessage))
@@ -131,9 +152,19 @@ namespace Unity.MaterialSwitch
             
             GUILayout.BeginVertical("box");
             
-            GUILayout.Label("Global Properties");
             var globalPalettePropertyMap = serializedObject.FindProperty(nameof(MaterialSwitchClip.globalMaterialProperties));
-            DrawPalettePropertyMapUI(globalPalettePropertyMap, null);                        
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Global Properties");
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button(SettingsGuiContent, EditorStyles.toolbarDropDown))
+            {
+                //negative index is reserved for global properties
+                HandleContextClick(globalPalettePropertyMap, -1);
+            }
+            GUILayout.EndHorizontal();
+            
+            //negative index is reserved for global properties
+            DrawPalettePropertyMapUI(globalPalettePropertyMap, null, -1);                        
 
             EditorGUI.indentLevel += 1;
             EditorGUILayout.EndVertical();
@@ -149,7 +180,7 @@ namespace Unity.MaterialSwitch
                 var material = materialProperty.objectReferenceValue as Material;
                 if (activeMaterials.Contains(material))
                 {
-                    DrawPalettePropertyMapUI(property, globalPalettePropertyMap);
+                    DrawPalettePropertyMapUI(property, globalPalettePropertyMap, i);
                 }
             }
             GUILayout.EndVertical();
@@ -160,15 +191,24 @@ namespace Unity.MaterialSwitch
                 serializedObject.ApplyModifiedProperties();
             }
         }
-        
-        private void DrawPalettePropertyMapUI(SerializedProperty ppm, SerializedProperty globalPalettePropertyMap)
+
+
+        private void DrawPalettePropertyMapUI(SerializedProperty ppm, SerializedProperty globalPalettePropertyMap, int index)
         {
             GUILayout.BeginVertical("box");
             EditorGUI.indentLevel--;
             if (globalPalettePropertyMap != null)
             {
                 //This is a per material ppm, so draw the material field.
-                EditorGUILayout.PropertyField(ppm.FindPropertyRelative(nameof(MaterialProperties.material)));
+                GUILayout.BeginHorizontal();
+                EditorGUILayout.PropertyField(ppm.FindPropertyRelative(nameof(MaterialProperties.material)), GUILayout.MinWidth(384));
+                GUILayout.FlexibleSpace();
+                if (GUILayout.Button(SettingsGuiContent, EditorStyles.toolbarDropDown))
+                {
+                    HandleContextClick(ppm, index);
+                }
+                GUILayout.EndHorizontal();
+                
             }
 
             var textureProperty = ppm.FindPropertyRelative(nameof(MaterialProperties.texture));

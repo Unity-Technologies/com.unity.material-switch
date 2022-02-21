@@ -16,7 +16,7 @@ namespace Unity.MaterialSwitch
     {
         bool showTextureProperties;
         private static MaterialSwitchClip copySource;
-        private static int copyIndex;
+        private static int sourceIndex;
         private string errorMessage = null;
 
         private HashSet<Material> activeMaterials = null;
@@ -39,14 +39,14 @@ namespace Unity.MaterialSwitch
             }
         }
 
-        void HandleContextClick(SerializedProperty property, int index)
+        void HandleContextClick(SerializedProperty property, int targetIndex)
         {
             var e = Event.current;
             var menu = new GenericMenu();
             menu.AddItem(new GUIContent("Copy Settings"), false, () =>
             {
                 copySource = Instantiate(target) as MaterialSwitchClip;
-                copyIndex = index;
+                sourceIndex = targetIndex;
             });
             if(copySource == null)
                 menu.AddDisabledItem(new GUIContent("Paste Settings"));
@@ -55,19 +55,23 @@ namespace Unity.MaterialSwitch
                 {
                     var targetClip = target as MaterialSwitchClip;
                     Undo.RecordObject(targetClip, "Paste");
-                    //negative index is reserved for global properties
-                    if (index < 0)
+                    //negative targetIndex is reserved for global properties
+                    if (targetIndex < 0)
                     {
-                        var json = EditorJsonUtility.ToJson(copySource.globalMaterialProperties);
+                        string json;
+                        if (sourceIndex < 0)
+                            json = EditorJsonUtility.ToJson(copySource.globalMaterialProperties);
+                        else
+                            json = EditorJsonUtility.ToJson(copySource.materialPropertiesList[sourceIndex]);
                         EditorJsonUtility.FromJsonOverwrite(json, targetClip.globalMaterialProperties);
                     }
                     else
                     {
                         //preserve material reference, this is not normally changed.
-                        var oldMaterial = targetClip.materialPropertiesList[index].material;
-                        var json = EditorJsonUtility.ToJson(copySource.materialPropertiesList[copyIndex]);
-                        EditorJsonUtility.FromJsonOverwrite(json, targetClip.materialPropertiesList[index]);
-                        targetClip.materialPropertiesList[index].material = oldMaterial;
+                        var oldMaterial = targetClip.materialPropertiesList[targetIndex].material;
+                        var json = EditorJsonUtility.ToJson(copySource.materialPropertiesList[sourceIndex]);
+                        EditorJsonUtility.FromJsonOverwrite(json, targetClip.materialPropertiesList[targetIndex]);
+                        targetClip.materialPropertiesList[targetIndex].material = oldMaterial;
                     }
                     
                     serializedObject.ApplyModifiedProperties();
@@ -158,12 +162,12 @@ namespace Unity.MaterialSwitch
             GUILayout.FlexibleSpace();
             if (GUILayout.Button(SettingsGuiContent, EditorStyles.toolbarDropDown))
             {
-                //negative index is reserved for global properties
+                //negative targetIndex is reserved for global properties
                 HandleContextClick(globalPalettePropertyMap, -1);
             }
             GUILayout.EndHorizontal();
             
-            //negative index is reserved for global properties
+            //negative targetIndex is reserved for global properties
             DrawPalettePropertyMapUI(globalPalettePropertyMap, null, -1);                        
 
             EditorGUI.indentLevel += 1;

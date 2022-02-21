@@ -69,7 +69,12 @@ namespace Unity.MaterialSwitch
                     {
                         //preserve material reference, this is not normally changed.
                         var oldMaterial = targetClip.materialPropertiesList[targetIndex].material;
-                        var json = EditorJsonUtility.ToJson(copySource.materialPropertiesList[sourceIndex]);
+                        string json;
+                        if (sourceIndex < 0)
+                            json = EditorJsonUtility.ToJson(copySource.globalMaterialProperties);
+                        else
+                            json = EditorJsonUtility.ToJson(copySource.materialPropertiesList[sourceIndex]);
+
                         EditorJsonUtility.FromJsonOverwrite(json, targetClip.materialPropertiesList[targetIndex]);
                         targetClip.materialPropertiesList[targetIndex].material = oldMaterial;
                     }

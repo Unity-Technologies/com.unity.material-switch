@@ -8,11 +8,14 @@ using UnityEngine.Serialization;
 namespace Unity.MaterialSwitch
 {
 
-    internal class MaterialSwitchClip : PlayableAsset
+    /// <summary>
+    /// A Timeline clip for changing and blending between material parameters.
+    /// </summary>
+    public class MaterialSwitchClip : PlayableAsset
     {
         
-        [FormerlySerializedAs("globalPalettePropertyMap")] public MaterialProperties globalMaterialProperties;
-        [FormerlySerializedAs("palettePropertyMap")] public List<MaterialProperties> materialPropertiesList;
+        [FormerlySerializedAs("globalPalettePropertyMap")] [SerializeField] internal MaterialProperties globalMaterialProperties;
+        [FormerlySerializedAs("palettePropertyMap")] [SerializeField] internal List<MaterialProperties> materialPropertiesList;
 
         void OnValidate()
         {

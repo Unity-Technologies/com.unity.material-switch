@@ -17,20 +17,16 @@ internal class MaterialSwitchTrackTests
 {
 //----------------------------------------------------------------------------------------------------------------------    
 
-    //[TODO-sin: 2021-11-10] Include this test as well
-    [Ignore("CreateEmptyPlayableAsset")]
     [UnityTest]
     public IEnumerator CreateEmptyPlayableAsset() {
-        TimelineAsset timelineAsset = TimelineEditorUtility.CreateAsset(MaterialSwitchTestEditorConstants.TEST_TIMELINE_ASSET_PATH);
+        TimelineAsset    timelineAsset = ScriptableObject.CreateInstance<TimelineAsset>();
+        PlayableDirector director      = new GameObject("Director").AddComponent<PlayableDirector>();  
         
-        PlayableDirector  director = new GameObject("Director").AddComponent<PlayableDirector>();  
-        TimelineClip clip = TimelineEditorUtility.CreateTrackAndClip<MaterialSwitchTrack, MaterialSwitchClip>(
-            timelineAsset, "TrackWithEmptyDefaultClip");
+        TimelineEditorUtility.CreateTrackAndClip<MaterialSwitchTrack, MaterialSwitchClip>(timelineAsset, "TestTrack");
         director.playableAsset = timelineAsset;
         TimelineEditorUtility.SelectDirectorInTimelineWindow(director);
         yield return EditorTestsUtility.WaitForFrames(3);
 
-        TimelineEditorUtility.DestroyAssets(clip);
     }
 
 //----------------------------------------------------------------------------------------------------------------------

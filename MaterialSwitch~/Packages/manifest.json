@@ -8,7 +8,7 @@
     "com.unity.test-framework": "1.1.31",
     "com.unity.textmeshpro": "2.1.6",
     "com.unity.timeline": "1.5.6",
-    "com.unity.toonshader": "0.6.1-preview",
+    "com.unity.toonshader": "https://github.com/Unity-Technologies/com.unity.toonshader.git?path=/com.unity.toonshader",
     "com.unity.ugui": "1.0.0",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",

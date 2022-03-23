@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using NUnit.Framework;
 using Unity.SelectionGroups;
 using UnityEditor;
@@ -23,12 +24,13 @@ namespace Unity.MaterialSwitch
         /// Init a MaterialSwitchClip 
         /// </summary>
         /// <param name="clip">The clip to be initialized</param>
-        public static void InitMaterialSwitchClip(TimelineClip clip) {
+        [CanBeNull]
+        public static MaterialSwitchClip InitMaterialSwitchClip(TimelineClip clip) {
             
             TrackAsset track = clip.GetParentTrack();
             SelectionGroup selectionGroup = TimelineEditor.inspectedDirector.GetGenericBinding(track) as SelectionGroup;
             if (selectionGroup == null)
-                return;
+                return null;
             
             if (!selectionGroup.TryGetComponent<MaterialGroup>(out MaterialGroup materialPropertyGroup))
             {
@@ -40,23 +42,26 @@ namespace Unity.MaterialSwitch
             if (null == playableAsset)
             {
                 Debug.LogError("Asset is not a MaterialSwitchClip: " + clip.asset);
-                return;
+                return null;
             }
             
             if (playableAsset.materialPropertiesList != null)
             {
-                //This should be ok, probably from a duplicate operation.                
-                //Debug.LogError("PalettePropertyMap is already created.");                
-                return;
+                //This should be ok, probably from a duplicate operation.
+                //Debug.LogError("PalettePropertyMap is already created.");
+                return playableAsset;
             }
 
             playableAsset.globalMaterialProperties = CreateMaterialProperties(materialPropertyGroup.sharedMaterials);
             playableAsset.materialPropertiesList   = new List<MaterialProperties>(materialPropertyGroup.sharedMaterials.Length);
-            foreach (Material t in materialPropertyGroup.sharedMaterials) {
+            foreach (Material t in materialPropertyGroup.sharedMaterials) 
+            {
                 MaterialProperties ppm = CreateMaterialProperties(t);
                 playableAsset.materialPropertiesList.Add(ppm);
             }
-            
+
+            return playableAsset;
+
         }
         
 

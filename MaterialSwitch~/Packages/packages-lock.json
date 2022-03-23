@@ -101,11 +101,11 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.toonshader": {
-      "version": "https://github.com/Unity-Technologies/com.unity.toonshader.git?path=/com.unity.toonshader",
+      "version": "0.6.1-preview",
       "depth": 0,
-      "source": "git",
+      "source": "registry",
       "dependencies": {},
-      "hash": "16ea266f7bcaa169a44024899991e787892a7d55"
+      "url": "https://packages.unity.com"
     },
     "com.unity.ugui": {
       "version": "1.0.0",

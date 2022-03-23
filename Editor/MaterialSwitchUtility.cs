@@ -39,7 +39,7 @@ namespace Unity.MaterialSwitch
             MaterialSwitchClip playableAsset = clip.asset as MaterialSwitchClip;             
             if (null == playableAsset)
             {
-                Debug.LogError("Asset is not a PaletteSwitchClip: " + clip.asset);
+                Debug.LogError("Asset is not a MaterialSwitchClip: " + clip.asset);
                 return;
             }
             

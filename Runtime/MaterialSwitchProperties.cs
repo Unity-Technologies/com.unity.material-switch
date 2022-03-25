@@ -13,6 +13,12 @@ namespace Unity.MaterialSwitch
         [SerializeField] internal string propertyName;
         [SerializeField] internal int    propertyId;
         [SerializeField] internal bool   overrideBaseValue = false;
+
+        /// <summary>
+        /// Check if the property is overridden 
+        /// </summary>
+        /// <returns>true if overridden, false otherwise.</returns>
+        public bool IsOverridden() => overrideBaseValue;
     }
 
     /// <summary>

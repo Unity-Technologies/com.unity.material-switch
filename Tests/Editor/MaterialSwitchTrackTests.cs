@@ -1,15 +1,12 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
-using Unity.FilmInternalUtilities;
 using Unity.FilmInternalUtilities.Editor;
 using Unity.SelectionGroups;
-using UnityEditor;
-using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.TestTools;
 using UnityEngine.Timeline;
+using Assert = UnityEngine.Assertions.Assert;
 
 namespace Unity.MaterialSwitch.EditorTests
 {

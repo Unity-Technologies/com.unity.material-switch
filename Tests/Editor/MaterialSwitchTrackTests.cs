@@ -1,15 +1,12 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
-using Unity.FilmInternalUtilities;
 using Unity.FilmInternalUtilities.Editor;
 using Unity.SelectionGroups;
-using UnityEditor;
-using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.TestTools;
 using UnityEngine.Timeline;
+using Assert = UnityEngine.Assertions.Assert;
 
 namespace Unity.MaterialSwitch.EditorTests
 {
@@ -17,20 +14,15 @@ internal class MaterialSwitchTrackTests
 {
 //----------------------------------------------------------------------------------------------------------------------    
 
-    //[TODO-sin: 2021-11-10] Include this test as well
-    [Ignore("CreateEmptyPlayableAsset")]
     [UnityTest]
     public IEnumerator CreateEmptyPlayableAsset() {
-        TimelineAsset timelineAsset = TimelineEditorUtility.CreateAsset(MaterialSwitchTestEditorConstants.TEST_TIMELINE_ASSET_PATH);
+        PlayableDirector director = InitDirector();  
+        yield return EditorTestsUtility.WaitForFrames(3);
         
-        PlayableDirector  director = new GameObject("Director").AddComponent<PlayableDirector>();  
-        TimelineClip clip = TimelineEditorUtility.CreateTrackAndClip<MaterialSwitchTrack, MaterialSwitchClip>(
-            timelineAsset, "TrackWithEmptyDefaultClip");
-        director.playableAsset = timelineAsset;
-        TimelineEditorUtility.SelectDirectorInTimelineWindow(director);
+        TimelineAsset timelineAsset = director.playableAsset as TimelineAsset;        
+        TimelineEditorUtility.CreateTrackAndClip<MaterialSwitchTrack, MaterialSwitchClip>(timelineAsset, "TestTrack");
         yield return EditorTestsUtility.WaitForFrames(3);
 
-        TimelineEditorUtility.DestroyAssets(clip);
     }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -52,25 +44,31 @@ internal class MaterialSwitchTrackTests
 //----------------------------------------------------------------------------------------------------------------------    
     [UnityTest]
     public IEnumerator AssignSelectionGroupToTrack() {
-        TimelineAsset timelineAsset = TimelineEditorUtility.CreateAsset(MaterialSwitchTestEditorConstants.TEST_TIMELINE_ASSET_PATH);
+        
+        PlayableDirector director = InitDirector();  
         yield return EditorTestsUtility.WaitForFrames(3);
         
-        PlayableDirector    director = new GameObject("Director").AddComponent<PlayableDirector>();
-        MaterialSwitchTrack track    = timelineAsset.CreateTrack<MaterialSwitchTrack>(null, "TestTrack");
-        director.playableAsset = timelineAsset;
-        TimelineEditorUtility.SelectDirectorInTimelineWindow(director);
-        yield return EditorTestsUtility.WaitForFrames(3);
+        TimelineAsset timelineAsset = director.playableAsset as TimelineAsset;
+        Assert.IsNotNull(timelineAsset);
+        MaterialSwitchTrack track = timelineAsset.CreateTrack<MaterialSwitchTrack>(null, "TestTrack");
 
         SelectionGroup group = SelectionGroupManager.GetOrCreateInstance().CreateSelectionGroup("New Group", Color.green);
         director.SetGenericBinding(track, group);
         TimelineClip clip = TimelineEditorReflection.CreateClipOnTrack(typeof(MaterialSwitchClip), track, 0);            
         yield return EditorTestsUtility.WaitForFrames(3);
-
-        TimelineEditorUtility.DestroyAssets(clip);
     }
     
 //----------------------------------------------------------------------------------------------------------------------    
-    
+
+
+    PlayableDirector InitDirector() {
+        TimelineAsset    timelineAsset = ScriptableObject.CreateInstance<TimelineAsset>();
+        PlayableDirector director      = new GameObject("Director").AddComponent<PlayableDirector>();  
+        
+        director.playableAsset = timelineAsset;
+        TimelineEditorUtility.SelectDirectorInTimelineWindow(director);
+        return director;
+    }
     
 }
 

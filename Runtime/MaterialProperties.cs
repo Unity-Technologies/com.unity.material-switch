@@ -4,17 +4,20 @@ using UnityEngine.Serialization;
 
 namespace Unity.MaterialSwitch
 {
+    /// <summary>
+    /// A class to store material properties 
+    /// </summary>
     [System.Serializable]
-    internal class MaterialProperties
+    public class MaterialProperties
     {
-        public Texture2D texture;
-        [FormerlySerializedAs("colorCoordinates")] public List<ColorProperty> colorProperties = new List<ColorProperty>();
-        public Material material;
-        public bool showCoords = false;
-        public bool showTextures = false;
-        public bool showFloats = false;
-        public List<TextureProperty> textureProperties = new List<TextureProperty>();
-        public List<FloatProperty> floatProperties = new List<FloatProperty>();
-        public bool needsUpdate = true;
+        [SerializeField] internal Texture2D texture;
+        [FormerlySerializedAs("colorCoordinates")] [SerializeField] internal List<ColorProperty> colorProperties = new List<ColorProperty>();
+        [SerializeField] internal Material material;
+        [SerializeField] internal bool showCoords = false;
+        [SerializeField] internal bool showTextures = false;
+        [SerializeField] internal bool showFloats = false;
+        [SerializeField] internal List<TextureProperty> textureProperties = new List<TextureProperty>();
+        [SerializeField] internal List<FloatProperty> floatProperties = new List<FloatProperty>();
+        [SerializeField] internal bool needsUpdate = true;
     }
 }

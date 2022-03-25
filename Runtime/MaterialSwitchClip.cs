@@ -17,6 +17,16 @@ namespace Unity.MaterialSwitch
         [FormerlySerializedAs("globalPalettePropertyMap")] [SerializeField] internal MaterialProperties globalMaterialProperties;
         [FormerlySerializedAs("palettePropertyMap")] [SerializeField] internal List<MaterialProperties> materialPropertiesList;
 
+        /// <summary>
+        /// Enumerate all material properties set in the clip
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<MaterialProperties> GetMaterialProperties() 
+        {
+            foreach (MaterialProperties mp in materialPropertiesList) 
+                yield return mp;
+        }
+
         void OnValidate()
         {
             foreach (var ppm in materialPropertiesList)

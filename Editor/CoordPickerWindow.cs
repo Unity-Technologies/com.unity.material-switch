@@ -10,12 +10,10 @@ namespace Unity.MaterialSwitch
         SerializedProperty ccProperty;
         SerializedProperty sampledColorProperty;
         SerializedProperty uvProperty;
-        MaterialSwitchClipEditor inspector;
 
-        public static void Open(MaterialSwitchClipEditor inspector, Texture2D texture, SerializedProperty cc, Rect rect)
+        public static void Open(Texture2D texture, SerializedProperty cc, Rect rect)
         {
             var window = ScriptableObject.CreateInstance<CoordPickerWindow>();
-            window.inspector = inspector;
             window.texture = texture;
             window.ccProperty = cc;
             window.sampledColorProperty = cc.FindPropertyRelative("targetValue");

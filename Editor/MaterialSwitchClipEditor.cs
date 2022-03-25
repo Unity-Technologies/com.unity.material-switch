@@ -271,7 +271,7 @@ namespace Unity.MaterialSwitch
                         if (GUILayout.Button("Pick") || GUI.Button(rect, GUIContent.none, "label"))
                         {
                             rect = GUIUtility.GUIToScreenRect(rect);
-                            CoordPickerWindow.Open(this, textureToUse, itemProperty, rect);
+                            CoordPickerWindow.Open(textureToUse, itemProperty, rect);
                         }
                     }
 

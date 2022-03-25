@@ -19,6 +19,13 @@ namespace Unity.MaterialSwitch
         /// </summary>
         /// <returns>true if overridden, false otherwise.</returns>
         public bool IsOverridden() => overrideBaseValue;
+        
+        /// <summary>
+        /// The name of the property
+        /// </summary>
+        /// <returns>The property name</returns>
+        public string GetPropertyName() => propertyName;
+        
     }
 
     /// <summary>
@@ -29,6 +36,12 @@ namespace Unity.MaterialSwitch
     {
         [SerializeField] internal T baseValue;
         [SerializeField] internal T targetValue;
+        
+        /// <summary>
+        /// Get the value to be used for overriding a property.
+        /// </summary>
+        /// <returns>The value for overriding a property.</returns>
+        public T GetTargetValue() => targetValue;
     }
 
     /// <summary>

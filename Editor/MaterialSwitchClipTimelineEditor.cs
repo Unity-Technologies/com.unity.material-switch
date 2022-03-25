@@ -43,7 +43,7 @@ namespace Unity.MaterialSwitch
 
         public override void OnCreate(TimelineClip clip, TrackAsset track, TimelineClip clonedFrom)
         {
-            MaterialSwitchUtility.InitMaterialSwitchClip(clip);
+            MaterialSwitchUtility.InitMaterialSwitchClip(clip, track);
         }
     }
 }

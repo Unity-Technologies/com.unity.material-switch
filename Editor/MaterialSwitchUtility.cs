@@ -25,9 +25,8 @@ namespace Unity.MaterialSwitch
         /// </summary>
         /// <param name="clip">The clip to be initialized</param>
         [CanBeNull]
-        public static MaterialSwitchClip InitMaterialSwitchClip(TimelineClip clip) {
+        public static MaterialSwitchClip InitMaterialSwitchClip(TimelineClip clip, TrackAsset track) {
             
-            TrackAsset track = clip.GetParentTrack();
             SelectionGroup selectionGroup = TimelineEditor.inspectedDirector.GetGenericBinding(track) as SelectionGroup;
             if (selectionGroup == null)
                 return null;

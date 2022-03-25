@@ -76,6 +76,14 @@ namespace Unity.MaterialSwitch
             }
             return null;
         }
-        
+ 
+//----------------------------------------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Get the material associated with the properties.
+        /// </summary>
+        /// <returns>The associated material</returns>
+        public Material GetMaterial() => material;
+
     }
 }

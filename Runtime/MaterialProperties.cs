@@ -10,7 +10,6 @@ namespace Unity.MaterialSwitch
         public Texture2D texture;
         [FormerlySerializedAs("colorCoordinates")] public List<ColorProperty> colorProperties = new List<ColorProperty>();
         public Material material;
-        public MaterialPropertyBlock materialPropertyBlock;
         public bool showCoords = false;
         public bool showTextures = false;
         public bool showFloats = false;

@@ -27,6 +27,25 @@ namespace Unity.MaterialSwitch
                 yield return mp;
         }
 
+        /// <summary>
+        /// Override a texture property in a certain material.
+        /// </summary>
+        /// <param name="mat">The material which has the property.</param>
+        /// <param name="propertyName">The name of the property to be overridden</param>
+        /// <param name="tex">The texture for overriding.</param>
+        /// <returns>True if the applicable property is found and overridable, false otherwise.</returns>
+        public bool OverrideTextureProperty(Material mat, string propertyName, Texture2D tex) 
+        {
+            MaterialProperties mp = FindMaterialProperties(mat);
+            TextureProperty p = mp?.FindTextureProperty(propertyName);
+            if (p == null)
+                return false;
+
+            p.targetValue       = tex;
+            p.overrideBaseValue = true;
+            return true;
+        }
+
         void OnValidate()
         {
             foreach (var ppm in materialPropertiesList)
@@ -50,5 +69,18 @@ namespace Unity.MaterialSwitch
             behaviour.materialPropertiesList = materialPropertiesList;
             return playable;
         }
+
+        [CanBeNull]
+        MaterialProperties FindMaterialProperties(Material mat) 
+        {
+            foreach (MaterialProperties mp in materialPropertiesList) 
+            {
+                if (mp.material == mat)
+                    return mp;
+            }
+
+            return null;
+        }
+        
     }
 }

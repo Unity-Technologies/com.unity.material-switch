@@ -19,12 +19,11 @@ internal class MaterialSwitchTrackTests
 
     [UnityTest]
     public IEnumerator CreateEmptyPlayableAsset() {
-        TimelineAsset    timelineAsset = ScriptableObject.CreateInstance<TimelineAsset>();
-        PlayableDirector director      = new GameObject("Director").AddComponent<PlayableDirector>();  
+        PlayableDirector director = InitDirector();  
+        yield return EditorTestsUtility.WaitForFrames(3);
         
+        TimelineAsset timelineAsset = director.playableAsset as TimelineAsset;        
         TimelineEditorUtility.CreateTrackAndClip<MaterialSwitchTrack, MaterialSwitchClip>(timelineAsset, "TestTrack");
-        director.playableAsset = timelineAsset;
-        TimelineEditorUtility.SelectDirectorInTimelineWindow(director);
         yield return EditorTestsUtility.WaitForFrames(3);
 
     }
@@ -66,7 +65,16 @@ internal class MaterialSwitchTrackTests
     }
     
 //----------------------------------------------------------------------------------------------------------------------    
-    
+
+
+    PlayableDirector InitDirector() {
+        TimelineAsset    timelineAsset = ScriptableObject.CreateInstance<TimelineAsset>();
+        PlayableDirector director      = new GameObject("Director").AddComponent<PlayableDirector>();  
+        
+        director.playableAsset = timelineAsset;
+        TimelineEditorUtility.SelectDirectorInTimelineWindow(director);
+        return director;
+    }
     
 }
 

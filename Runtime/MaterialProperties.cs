@@ -50,7 +50,32 @@ namespace Unity.MaterialSwitch
             foreach (ColorProperty c in colorProperties)
                 yield return c;
         }
-        
+
+//----------------------------------------------------------------------------------------------------------------------        
+        internal TextureProperty FindTextureProperty(string propertyName) 
+        {
+            return FindProperty(textureProperties, propertyName);
+        }
+
+        internal ColorProperty FindColorProperty(string propertyName) 
+        {
+            return FindProperty(colorProperties, propertyName);
+        }
+
+        internal FloatProperty FindFloatProperty(string propertyName) 
+        {
+            return FindProperty(floatProperties, propertyName);
+        }
+
+        private static T FindProperty<T>(IEnumerable<T> properties,string propertyName) where T:MaterialSwitchProperty 
+        {
+            foreach(T p in properties) 
+            {
+                if (p.propertyName == propertyName)
+                    return p;
+            }
+            return null;
+        }
         
     }
 }

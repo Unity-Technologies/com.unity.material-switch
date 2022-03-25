@@ -33,7 +33,7 @@ namespace Unity.MaterialSwitch
         /// <param name="propertyName">The name of the property to be overridden</param>
         /// <param name="obj">The object for overriding.</param>
         /// <returns>True if the applicable property is found and overridable, false otherwise.</returns>
-        public bool OverrideTextureProperty<T>(Material mat, string propertyName, T obj) 
+        public bool OverrideProperty<T>(Material mat, string propertyName, T obj) 
         {
             MaterialProperties  mp = FindMaterialProperties(mat);
             if (null == mp)

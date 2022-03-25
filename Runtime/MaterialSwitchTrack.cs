@@ -6,9 +6,12 @@ using UnityEngine.Timeline;
 
 namespace Unity.MaterialSwitch
 {
+    /// <summary>
+    /// Tracks for changing and blending between material parameters. 
+    /// </summary>
     [TrackClipType(typeof(MaterialSwitchClip))]
     [TrackBindingType(typeof(SelectionGroup))]
-    internal class MaterialSwitchTrack : TrackAsset
+    public class MaterialSwitchTrack : TrackAsset
     {
         
         public override Playable CreateTrackMixer(UnityEngine.Playables.PlayableGraph graph, UnityEngine.GameObject go, int inputCount)

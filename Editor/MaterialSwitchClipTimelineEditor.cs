@@ -43,43 +43,7 @@ namespace Unity.MaterialSwitch
 
         public override void OnCreate(TimelineClip clip, TrackAsset track, TimelineClip clonedFrom)
         {
-            var asset = clip.asset as MaterialSwitchClip;
-            if (asset == null)
-            {
-                Debug.LogError("Asset is not a PaletteSwitchClip: " + clip.asset);
-                return;
-            }
-            var selectionGroup = TimelineEditor.inspectedDirector.GetGenericBinding(track) as SelectionGroups.SelectionGroup;
-            if (selectionGroup == null)
-            {
-                return;
-            }
-            if (!selectionGroup.TryGetComponent<MaterialGroup>(out MaterialGroup materialPropertyGroup))
-            {
-                materialPropertyGroup = selectionGroup.gameObject.AddComponent<MaterialGroup>();
-            }
-            if (materialPropertyGroup == null)
-            {
-                Debug.LogError("Material Group is null.");
-                return;
-            }
-            if (asset.materialPropertiesList != null)
-            {
-                //This should be ok, probably from a duplicate operation.
-                
-                //Debug.LogError("PalettePropertyMap is already created.");
-                
-                return;
-            }
-
-            asset.globalMaterialProperties =
-                MaterialSwitchUtility.CreateMaterialProperties(materialPropertyGroup.sharedMaterials);
-            asset.materialPropertiesList = new List<MaterialProperties>(materialPropertyGroup.sharedMaterials.Length);
-            for (var i = 0; i < materialPropertyGroup.sharedMaterials.Length; i++)
-            {
-                var ppm = MaterialSwitchUtility.CreateMaterialProperties(materialPropertyGroup.sharedMaterials[i]);
-                asset.materialPropertiesList.Add(ppm);
-            }
+            MaterialSwitchUtility.InitMaterialSwitchClip(clip, track);
         }
     }
 }

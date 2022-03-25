@@ -1,9 +1,17 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
+using NUnit.Framework;
+using Unity.SelectionGroups;
 using UnityEditor;
+using UnityEditor.Timeline;
 using UnityEngine;
+using UnityEngine.Timeline;
 
 namespace Unity.MaterialSwitch
 {
+    /// <summary>
+    /// Utility class to perform various functions on MaterialSwitch classes.
+    /// </summary>
     public static class MaterialSwitchUtility
     {
         [InitializeOnLoadMethod]
@@ -11,6 +19,50 @@ namespace Unity.MaterialSwitch
         {
             MaterialSwitchPlayableBehaviour.CreateMaterialProperties = CreateMaterialProperties;
         }
+
+        /// <summary>
+        /// Init a MaterialSwitchClip 
+        /// </summary>
+        /// <param name="clip">The clip to be initialized</param>
+        [CanBeNull]
+        public static MaterialSwitchClip InitMaterialSwitchClip(TimelineClip clip, TrackAsset track) {
+            
+            SelectionGroup selectionGroup = TimelineEditor.inspectedDirector.GetGenericBinding(track) as SelectionGroup;
+            if (selectionGroup == null)
+                return null;
+            
+            if (!selectionGroup.TryGetComponent<MaterialGroup>(out MaterialGroup materialPropertyGroup))
+            {
+                materialPropertyGroup = selectionGroup.gameObject.AddComponent<MaterialGroup>();
+            }
+            Assert.IsNotNull(materialPropertyGroup);
+            
+            MaterialSwitchClip playableAsset = clip.asset as MaterialSwitchClip;             
+            if (null == playableAsset)
+            {
+                Debug.LogError("Asset is not a MaterialSwitchClip: " + clip.asset);
+                return null;
+            }
+            
+            if (playableAsset.materialPropertiesList != null)
+            {
+                //This should be ok, probably from a duplicate operation.
+                //Debug.LogError("PalettePropertyMap is already created.");
+                return playableAsset;
+            }
+
+            playableAsset.globalMaterialProperties = CreateMaterialProperties(materialPropertyGroup.sharedMaterials);
+            playableAsset.materialPropertiesList   = new List<MaterialProperties>(materialPropertyGroup.sharedMaterials.Length);
+            foreach (Material t in materialPropertyGroup.sharedMaterials) 
+            {
+                MaterialProperties ppm = CreateMaterialProperties(t);
+                playableAsset.materialPropertiesList.Add(ppm);
+            }
+
+            return playableAsset;
+
+        }
+        
 
         internal static MaterialProperties CreateMaterialProperties(Material material)
         {

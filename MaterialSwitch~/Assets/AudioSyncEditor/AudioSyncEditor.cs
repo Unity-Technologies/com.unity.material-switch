@@ -218,7 +218,7 @@ public class AudioSyncEditor : Editor
                     }
 
                     bool overrideSuccessful = materialSwitchClip.OverrideProperty(mat, 
-                        textureProperty.propertyName, textureProperty.targetValue);
+                        textureProperty.GetPropertyName(), textureProperty.GetTargetValue());
                     Assert.IsTrue(overrideSuccessful);
                 }
             }

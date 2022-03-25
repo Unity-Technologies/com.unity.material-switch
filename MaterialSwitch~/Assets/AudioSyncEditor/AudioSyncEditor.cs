@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.Timeline;
 using Unity.MaterialSwitch;
 using UnityEditor.Timeline;
+using UnityEngine.Assertions;
 using UnityEngine.Audio;
 using UnityEngine.Playables;
 
@@ -202,41 +203,26 @@ public class AudioSyncEditor : Editor
                 return true;
             }
 
-            MaterialSwitchUtility.InitMaterialSwitchClip(defaultClip);
-            
+            MaterialSwitchClip materialSwitchClip = MaterialSwitchUtility.InitMaterialSwitchClip(defaultClip);
+            Assert.IsNotNull(materialSwitchClip);
 
-
-            foreach (var sm in materialPropertyGroup.sharedMaterials)
+            MaterialSwitchClip templateMaterialSwitchClip = templateClip.asset as MaterialSwitchClip;
+            foreach (MaterialProperties tmp in templateMaterialSwitchClip.GetMaterialProperties()) 
             {
-                var mp = MaterialSwitchUtility.CreateMaterialProperties(sm);
-
-                var templateMaterialSwitchClip = templateClip.asset as MaterialSwitchClip;
-                foreach (var tmp in templateMaterialSwitchClip.materialPropertiesList)
+                Material mat = tmp.GetMaterial();
+                foreach (var textureProperty in tmp.GetTextureProperties())
                 {
-                    foreach (var textureProperty in tmp.textureProperties)
+                    if (!textureProperty.IsOverridden())
                     {
-                        if (!textureProperty.overrideBaseValue)
-                        {
-                            continue;
-                        }
-
-                        mp.textureProperties.Add(new TextureProperty()
-                        {
-                            displayName = textureProperty.displayName,
-                            propertyName = textureProperty.propertyName,
-                            propertyId = textureProperty.propertyId,
-                            targetValue = textureProperty.targetValue,
-                            overrideBaseValue = true
-                        });
-                        // Debug.Log(textureProperty.propertyName);
-                        // Debug.Log(textureProperty.overrideBaseValue);
-                        // Debug.Log(textureProperty.baseValue);
-                        // Debug.Log(textureProperty.targetValue);
+                        continue;
                     }
-                }
 
-                asset.materialPropertiesList.Add(mp);
+                    bool overrideSuccessful = materialSwitchClip.OverrideProperty(mat, 
+                        textureProperty.propertyName, textureProperty.targetValue);
+                    Assert.IsTrue(overrideSuccessful);
+                }
             }
+            
 
             return false;
         }

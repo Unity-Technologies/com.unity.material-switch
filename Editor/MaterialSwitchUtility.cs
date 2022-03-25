@@ -5,6 +5,7 @@ using Unity.SelectionGroups;
 using UnityEditor;
 using UnityEditor.Timeline;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
 namespace Unity.MaterialSwitch
@@ -27,7 +28,11 @@ namespace Unity.MaterialSwitch
         [CanBeNull]
         public static MaterialSwitchClip InitMaterialSwitchClip(TimelineClip clip, TrackAsset track) {
             
-            SelectionGroup selectionGroup = TimelineEditor.inspectedDirector.GetGenericBinding(track) as SelectionGroup;
+            PlayableDirector inspectedDirector = TimelineEditor.inspectedDirector;
+            if (null == inspectedDirector)
+                return null;
+            
+            SelectionGroup selectionGroup = inspectedDirector.GetGenericBinding(track) as SelectionGroup;
             if (selectionGroup == null)
                 return null;
             

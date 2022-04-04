@@ -17,11 +17,11 @@ internal class MaterialSwitchTrackTests
     [UnityTest]
     public IEnumerator CreateEmptyPlayableAsset() {
         PlayableDirector director = InitDirector();  
-        yield return EditorTestsUtility.WaitForFrames(3);
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(3);
         
         TimelineAsset timelineAsset = director.playableAsset as TimelineAsset;        
         TimelineEditorUtility.CreateTrackAndClip<MaterialSwitchTrack, MaterialSwitchClip>(timelineAsset, "TestTrack");
-        yield return EditorTestsUtility.WaitForFrames(3);
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(3);
 
     }
 
@@ -31,12 +31,12 @@ internal class MaterialSwitchTrackTests
     [UnityTest]
     public IEnumerator CreateClip() {
         TimelineAsset timelineAsset = TimelineEditorUtility.CreateAsset(MaterialSwitchTestEditorConstants.TEST_TIMELINE_ASSET_PATH);
-        yield return EditorTestsUtility.WaitForFrames(3);
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(3);
         
         TimelineClip clip = TimelineEditorUtility.CreateTrackAndClip(timelineAsset, "TestTrack",
             typeof(MaterialSwitchTrack), typeof(MaterialSwitchClip));
         
-        yield return EditorTestsUtility.WaitForFrames(3);
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(3);
 
         TimelineEditorUtility.DestroyAssets(clip);
     }
@@ -46,7 +46,7 @@ internal class MaterialSwitchTrackTests
     public IEnumerator AssignSelectionGroupToTrack() {
         
         PlayableDirector director = InitDirector();  
-        yield return EditorTestsUtility.WaitForFrames(3);
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(3);
         
         TimelineAsset timelineAsset = director.playableAsset as TimelineAsset;
         Assert.IsNotNull(timelineAsset);
@@ -55,7 +55,7 @@ internal class MaterialSwitchTrackTests
         SelectionGroup group = SelectionGroupManager.GetOrCreateInstance().CreateSelectionGroup("New Group", Color.green);
         director.SetGenericBinding(track, group);
         TimelineClip clip = TimelineEditorReflection.CreateClipOnTrack(typeof(MaterialSwitchClip), track, 0);            
-        yield return EditorTestsUtility.WaitForFrames(3);
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(3);
     }
     
 //----------------------------------------------------------------------------------------------------------------------    

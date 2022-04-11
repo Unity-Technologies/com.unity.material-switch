@@ -11,7 +11,7 @@ namespace Unity.MaterialSwitch
 public class MaterialPropertiesClipboardData
 {    
 
-    internal MaterialPropertiesClipboardData(MaterialSwitchClip clip, int matIndex) {
+    MaterialPropertiesClipboardData(MaterialSwitchClip clip, int matIndex) {
         m_clip          = clip;
         m_materialIndex = matIndex;
     }
@@ -38,19 +38,14 @@ public class MaterialPropertiesClipboardData
     ///     The index of the material in the target clip.
     ///     Index less than 0 means global properties.
     /// </param>
-    /// <returns></returns>
-    public void PasteInto(MaterialSwitchClip target, int targetMaterialIndex) 
-    {
+    public void PasteInto(MaterialSwitchClip target, int targetMaterialIndex) {
             
         Undo.RecordObject(target, "Paste");
         //negative targetIndex is reserved for global properties
-        if (targetMaterialIndex < 0)
-        {
+        if (targetMaterialIndex < 0) {
             string json = ConvertClipboardDataToJson(this);
             EditorJsonUtility.FromJsonOverwrite(json, target.globalMaterialProperties);
-        }
-        else
-        {
+        } else {
             //preserve material reference, this is not normally changed.
             var    oldMaterial = target.materialPropertiesList[targetMaterialIndex].material;
             string json        = ConvertClipboardDataToJson(this);
@@ -58,8 +53,6 @@ public class MaterialPropertiesClipboardData
             EditorJsonUtility.FromJsonOverwrite(json, target.materialPropertiesList[targetMaterialIndex]);
             target.materialPropertiesList[targetMaterialIndex].material = oldMaterial;
         }
-                    
-        //serializedObject.ApplyModifiedProperties();
     }
     
     static string ConvertClipboardDataToJson(MaterialPropertiesClipboardData clipboardData) {

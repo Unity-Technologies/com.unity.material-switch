@@ -48,7 +48,7 @@ internal class MaterialSwitchTrackTests
     public IEnumerator AssignSelectionGroupToTrack() {
              
         PlayableDirector director = MaterialSwitchEditorTestUtility.CreateDefaultDirectorAndTrack(
-            out TimelineAsset timelineAsset, out MaterialSwitchTrack _, out SelectionGroup _
+            out TimelineAsset _, out MaterialSwitchTrack _, out SelectionGroup _
         );  
         TimelineEditorUtility.SelectDirectorInTimelineWindow(director);
         yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(3);

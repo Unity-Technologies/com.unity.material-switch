@@ -7,7 +7,7 @@ The inspector of MaterialSwitchClip is used to override material properties of o
 and it contains two sections:
 1. The global properties section   
    To override the same properties of all materials related to the track with the same values.
-2. The per material panels  
+2. The per material section  
    To override the material property of each material separately. 
 
 

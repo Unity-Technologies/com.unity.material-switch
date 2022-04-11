@@ -11,7 +11,7 @@ and it contains two sections:
    To override the material property of each material separately. 
 
 
-Currently, we can override the following material properties
+Currently, we can override the following material properties:
 1. Texture
 2. Color
 3. Float 

@@ -49,7 +49,7 @@ internal class MaterialSwitchTrackTests
      
         
         PlayableDirector director = MaterialSwitchEditorTestUtility.CreateDefaultDirectorAndTrack(
-            out TimelineAsset _, out MaterialSwitchTrack _
+            out TimelineAsset timelineAsset, out MaterialSwitchTrack _, out SelectionGroup _
         );  
         TimelineEditorUtility.SelectDirectorInTimelineWindow(director);
         yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(3);

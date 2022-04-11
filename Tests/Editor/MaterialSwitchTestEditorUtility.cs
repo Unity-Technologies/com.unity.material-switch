@@ -20,7 +20,7 @@ internal static class MaterialSwitchEditorTestUtility
     
 
     internal static PlayableDirector CreateDefaultDirectorAndTrack(out TimelineAsset timelineAsset, 
-        out MaterialSwitchTrack track) 
+        out MaterialSwitchTrack track, out SelectionGroup group) 
     {        
         PlayableDirector director = MaterialSwitchEditorTestUtility.CreateDirectorWithTimelineAsset(
             out timelineAsset
@@ -28,7 +28,7 @@ internal static class MaterialSwitchEditorTestUtility
         TimelineEditorUtility.SelectDirectorInTimelineWindow(director);        
         track = timelineAsset.CreateTrack<MaterialSwitchTrack>(null, "TestTrack");
 
-        SelectionGroup group = SelectionGroupManager.GetOrCreateInstance().CreateSelectionGroup("New Group", Color.green);
+        group = SelectionGroupManager.GetOrCreateInstance().CreateSelectionGroup("New Group", Color.green);
         director.SetGenericBinding(track, group);
         return director;
     }

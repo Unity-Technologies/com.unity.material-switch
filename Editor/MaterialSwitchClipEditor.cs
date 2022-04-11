@@ -19,7 +19,8 @@ namespace Unity.MaterialSwitch
         private static int sourceIndex;
         private string errorMessage = null;
 
-        private HashSet<Material> activeMaterials = null;
+        private HashSet<Material> activeMaterials = new HashSet<Material>();
+        
         private GUIContent RemoveButtonGuiContent;
         private GUIContent SettingsGuiContent;
 

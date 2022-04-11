@@ -24,7 +24,7 @@ Please refer to the [installation](Documentation~/installation.md) page to insta
 [Quick Start](Documentation~/index.md#quick-start)
 
 # Features
-1. [MaterialSwitchClip](material-switch-clip.md)
+1. [MaterialSwitchClip](Documentation~/material-switch-clip.md)
 
 # License
 - [License](LICENSE.md)

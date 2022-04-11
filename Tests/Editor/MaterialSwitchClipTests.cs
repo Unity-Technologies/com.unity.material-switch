@@ -50,15 +50,6 @@ internal class MaterialSwitchClipTests
 
         //Copy and paste
         MaterialPropertiesClipboardData clipboardData = MaterialPropertiesClipboardData.Create(msClip0, 0);
-        // ColorProperty                   colorProp     = msClip0.materialPropertiesList[0].FindColorProperty("_Color");
-        // colorProp.overrideBaseValue
-        
-        // foreach (var a in msClip0.GetMaterialProperties()) {
-        //     foreach (var b in a.GetColorProperties()) {
-        //         Debug.Log(a.material.name + " " + b.propertyName);
-        //         
-        //     }
-        // }
 
         const int TARGET_MAT_INDEX = 0;
         TimelineClip       clip1   = TimelineEditorReflection.CreateClipOnTrack(typeof(MaterialSwitchClip), track, 0);

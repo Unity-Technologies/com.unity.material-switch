@@ -46,18 +46,12 @@ internal class MaterialSwitchTrackTests
 //----------------------------------------------------------------------------------------------------------------------    
     [UnityTest]
     public IEnumerator AssignSelectionGroupToTrack() {
+     
         
-        PlayableDirector director = MaterialSwitchEditorTestUtility.CreateDirectorWithTimelineAsset(
-            out TimelineAsset timelineAsset
+        PlayableDirector director = MaterialSwitchEditorTestUtility.CreateDefaultDirectorAndTrack(
+            out TimelineAsset _, out MaterialSwitchTrack _
         );  
         TimelineEditorUtility.SelectDirectorInTimelineWindow(director);
-        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(3);
-        
-        MaterialSwitchTrack track = timelineAsset.CreateTrack<MaterialSwitchTrack>(null, "TestTrack");
-
-        SelectionGroup group = SelectionGroupManager.GetOrCreateInstance().CreateSelectionGroup("New Group", Color.green);
-        director.SetGenericBinding(track, group);
-        TimelineClip clip = TimelineEditorReflection.CreateClipOnTrack(typeof(MaterialSwitchClip), track, 0);            
         yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(3);
     }
     

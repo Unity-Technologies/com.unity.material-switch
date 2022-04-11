@@ -46,8 +46,7 @@ internal class MaterialSwitchTrackTests
 //----------------------------------------------------------------------------------------------------------------------    
     [UnityTest]
     public IEnumerator AssignSelectionGroupToTrack() {
-     
-        
+             
         PlayableDirector director = MaterialSwitchEditorTestUtility.CreateDefaultDirectorAndTrack(
             out TimelineAsset timelineAsset, out MaterialSwitchTrack _, out SelectionGroup _
         );  

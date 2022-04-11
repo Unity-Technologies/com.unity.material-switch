@@ -29,13 +29,21 @@ which lists all available properties automatically.
 The selected material property will then appear in the inspector, and assigning a custom value to it will 
 override the material property without changing the original value.
 
-### Removing a material property override 
+### Remove a material property override 
 
 To remove a material property override, simply click on the **X** button at the top right of the property.
 
 ![](images/remove-texture-property-override.png)
 
-### Copy and Paste Material properties. 
+### Copy and Paste Material properties.
+
+![](images/copy-paste-material-properties.png)
+
+The gears button at the top right of both sections contains items that can be used to copy the override values of the 
+corresponding material properties and apply them to another material.
+
+
+ 
 
 
 

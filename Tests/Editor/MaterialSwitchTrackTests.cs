@@ -16,10 +16,12 @@ internal class MaterialSwitchTrackTests
 
     [UnityTest]
     public IEnumerator CreateEmptyPlayableAsset() {
-        PlayableDirector director = InitDirector();  
-        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(3);
         
-        TimelineAsset timelineAsset = director.playableAsset as TimelineAsset;        
+        PlayableDirector director = MaterialSwitchEditorTestUtility.CreateDirectorWithTimelineAsset(
+            out TimelineAsset timelineAsset
+        );  
+        
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(3);        
         TimelineEditorUtility.CreateTrackAndClip<MaterialSwitchTrack, MaterialSwitchClip>(timelineAsset, "TestTrack");
         yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(3);
 
@@ -44,30 +46,12 @@ internal class MaterialSwitchTrackTests
 //----------------------------------------------------------------------------------------------------------------------    
     [UnityTest]
     public IEnumerator AssignSelectionGroupToTrack() {
-        
-        PlayableDirector director = InitDirector();  
-        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(3);
-        
-        TimelineAsset timelineAsset = director.playableAsset as TimelineAsset;
-        Assert.IsNotNull(timelineAsset);
-        MaterialSwitchTrack track = timelineAsset.CreateTrack<MaterialSwitchTrack>(null, "TestTrack");
-
-        SelectionGroup group = SelectionGroupManager.GetOrCreateInstance().CreateSelectionGroup("New Group", Color.green);
-        director.SetGenericBinding(track, group);
-        TimelineClip clip = TimelineEditorReflection.CreateClipOnTrack(typeof(MaterialSwitchClip), track, 0);            
-        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(3);
-    }
-    
-//----------------------------------------------------------------------------------------------------------------------    
-
-
-    PlayableDirector InitDirector() {
-        TimelineAsset    timelineAsset = ScriptableObject.CreateInstance<TimelineAsset>();
-        PlayableDirector director      = new GameObject("Director").AddComponent<PlayableDirector>();  
-        
-        director.playableAsset = timelineAsset;
+             
+        PlayableDirector director = MaterialSwitchEditorTestUtility.CreateDefaultDirectorAndTrack(
+            out TimelineAsset _, out MaterialSwitchTrack _, out SelectionGroup _
+        );  
         TimelineEditorUtility.SelectDirectorInTimelineWindow(director);
-        return director;
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(3);
     }
     
 }

@@ -10,8 +10,8 @@ Material Switch allows you to change and blend between material parameters using
    This is used to specify the set of renderers that have material parameters 
    we want to use in Timeline with a Material Switch clip. 
 
-# Getting Started
-1. In the timleline window, add a new Material Switch Track. <br> ![](images/image1.png)
+# Quick Start
+1. In the timeline window, add a new Material Switch Track. <br> ![](images/image1.png)
 2. The new track has an object field which you must change to the Selection Group you want to modify. All renderers and materials in this selection group can be used in the clips you will add to this track. You will manually choose which properties to use per clip in a later step. <br> ![](images/image2.png)
 3. Add a new material switch clip to the track. <br> ![](images/image3.png)
 4. The inspector window will show a number of options for modifying the clip. You can add values to override texture, color and float properties. The global properties panel allows all properties in all materials in the clip to have share an override value. The per material panels allow property overrides per material, these take precedence over any values in the global property panel. In the next step, we will override a colour property. <br> ![](images/image4.png)
@@ -20,3 +20,5 @@ Material Switch allows you to change and blend between material parameters using
 7. A new row appears in the foldout, with a "Pick Color" button. If you are using a palette texture, the palette image will appear, allowing you to choose a new colour for the property. If you are not using a palette texture, the standard color picker control is used.<br> ![](images/image7.png)
 8. You can now play the clip, and see your colour changes take effect.
 
+# Features 
+1. [MaterialSwitchClip](material-switch-clip.md)

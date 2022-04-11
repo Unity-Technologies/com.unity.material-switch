@@ -11,7 +11,7 @@
   ],
   "dependencies": {
     "com.unity.film-internal-utilities": "0.14.1-preview",
-    "com.unity.selection-groups": "0.7.1-preview",
+    "com.unity.selection-groups": "0.7.3-preview",
     "com.unity.timeline": "1.5.7"
   }
 }

@@ -55,16 +55,16 @@
       "source": "embedded",
       "dependencies": {
         "com.unity.film-internal-utilities": "0.14.1-preview",
-        "com.unity.selection-groups": "0.7.1-preview",
+        "com.unity.selection-groups": "0.7.3-preview",
         "com.unity.timeline": "1.5.7"
       }
     },
     "com.unity.selection-groups": {
-      "version": "0.7.1-preview",
+      "version": "0.7.3-preview",
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.unity.film-internal-utilities": "0.13.0-preview"
+        "com.unity.film-internal-utilities": "0.14.1-preview"
       },
       "url": "https://packages.unity.com"
     },

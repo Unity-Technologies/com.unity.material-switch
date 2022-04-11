@@ -37,13 +37,13 @@ namespace Unity.MaterialSwitch
             if (asset.globalMaterialProperties == null || asset.globalMaterialProperties.needsUpdate)
             {
                 asset.globalMaterialProperties =
-                    MaterialSwitchUtility.CreateMaterialProperties(materialGroup.sharedMaterials);
+                    MaterialSwitchEditorUtility.CreateMaterialProperties(materialGroup.sharedMaterials);
             }
         }
 
         public override void OnCreate(TimelineClip clip, TrackAsset track, TimelineClip clonedFrom)
         {
-            MaterialSwitchUtility.InitMaterialSwitchClip(clip, track);
+            MaterialSwitchEditorUtility.InitMaterialSwitchClip(clip, track);
         }
     }
 }

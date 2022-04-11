@@ -130,7 +130,7 @@ namespace Unity.MaterialSwitch
             if (asset.globalMaterialProperties == null || asset.globalMaterialProperties.needsUpdate)
             {
                 asset.globalMaterialProperties =
-                    MaterialSwitchUtility.CreateMaterialProperties(materialGroup.sharedMaterials);
+                    MaterialSwitchEditorUtility.CreateMaterialProperties(materialGroup.sharedMaterials);
             }
 
             activeMaterials = new HashSet<Material>(materialGroup.sharedMaterials);
@@ -141,7 +141,7 @@ namespace Unity.MaterialSwitch
                 errorMessage = $"Created {missingMaterials.Length} new material maps. These will be saved in the clip asset.";
                 foreach (var material in missingMaterials)
                 {
-                    var materialProperties = MaterialSwitchUtility.CreateMaterialProperties(material);
+                    var materialProperties = MaterialSwitchEditorUtility.CreateMaterialProperties(material);
                     asset.materialPropertiesList.Add(materialProperties);
                 }
                 EditorUtility.SetDirty(asset);

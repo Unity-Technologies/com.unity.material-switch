@@ -13,3 +13,19 @@
 ![ReleaseBadge](https://badge-proxy.cds.internal.unity3d.com/e54b07c0-f16e-4790-b214-65b7f306bfeb)
 
 
+## Supported Unity Versions and Settings
+
+Unity 2019.4 or higher.
+
+Please refer to the [installation](Documentation~/installation.md) page to install MaterialSwitch package.
+
+## Quick Start
+
+[Quick Start](Documentation~/index.md#quick-start)
+
+# Features
+1. [MaterialSwitchClip](material-switch-clip.md)
+
+# License
+- [License](LICENSE.md)
+

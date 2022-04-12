@@ -48,7 +48,7 @@ public class MaterialPropertiesClipboardData
             return false;
         
         //negative targetIndex is reserved for global properties
-        if (targetMaterialIndex < 0) {
+        if (IsGlobalMaterialProperty(targetMaterialIndex)) {
             EditorJsonUtility.FromJsonOverwrite(json, target.globalMaterialProperties);
             return true;
         } 
@@ -68,14 +68,18 @@ public class MaterialPropertiesClipboardData
     static string ConvertClipboardDataToJson(MaterialPropertiesClipboardData clipboardData) {
         int                matIndex = clipboardData.m_materialIndex;
         MaterialSwitchClip clip     = clipboardData.m_clip;
-        if (matIndex < 0)
+        if (IsGlobalMaterialProperty(matIndex))
             return EditorJsonUtility.ToJson(clip.globalMaterialProperties);
 
         if (matIndex >= clip.materialPropertiesList.Count)
             return null;
         
         return EditorJsonUtility.ToJson(clip.materialPropertiesList[matIndex]);
-    }    
+    }
+
+    static bool IsGlobalMaterialProperty(int index) {
+        return index < 0;
+    }
 
 //----------------------------------------------------------------------------------------------------------------------
 

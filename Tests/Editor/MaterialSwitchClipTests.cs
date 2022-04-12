@@ -1,6 +1,4 @@
 ﻿using System.Collections;
-using NUnit.Framework;
-using Unity.FilmInternalUtilities;
 using Unity.FilmInternalUtilities.Editor;
 using Unity.SelectionGroups;
 using UnityEngine;

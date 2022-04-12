@@ -60,6 +60,47 @@ internal class MaterialSwitchClipTests
         VerifyTargetColor(msClip1, TARGET_MAT_INDEX, colorPropertyName, targetColor);
         VerifyTargetColor(msClip1, TARGET_MAT_INDEX, emissionColorPropertyName, targetEmissionColor);
         
+    }   
+
+//----------------------------------------------------------------------------------------------------------------------
+    
+    [UnityTest]
+    public IEnumerator CheckMaterialPropertiesCopyAndPasteValidity() {
+        
+        PlayableDirector director = MaterialSwitchEditorTestUtility.CreateDefaultDirectorAndTrack(
+            out TimelineAsset _, out MaterialSwitchTrack track, out SelectionGroup group
+        );  
+        TimelineEditorUtility.SelectDirectorInTimelineWindow(director);
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(3);
+
+        //Add Sphere and material
+        GameObject   sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        MeshRenderer mr     = sphere.GetComponent<MeshRenderer>();
+        Material     mat    = new Material(mr.sharedMaterial) {
+            name = "TestMaterial"
+        };
+        mr.material = mat;        
+        group.Add(sphere);
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(1);
+        
+        TimelineClip       clip0   = TimelineEditorReflection.CreateClipOnTrack(typeof(MaterialSwitchClip), track, 0);
+        MaterialSwitchClip msClip0 = clip0.asset as MaterialSwitchClip;
+        Assert.IsNotNull(msClip0);
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(1);
+
+        //Copy and paste
+        int numMaterialProperties = msClip0.materialPropertiesList.Count;
+        MaterialPropertiesClipboardData validClipboardData = MaterialPropertiesClipboardData.Create(msClip0, 0);
+        MaterialPropertiesClipboardData invalidClipboardData = MaterialPropertiesClipboardData.Create(msClip0, numMaterialProperties);
+
+        TimelineClip       clip1   = TimelineEditorReflection.CreateClipOnTrack(typeof(MaterialSwitchClip), track, 0);
+        MaterialSwitchClip msClip1 = clip1.asset as MaterialSwitchClip;
+        Assert.IsNotNull(msClip1);
+        Assert.IsTrue(validClipboardData.PasteInto(msClip1,0));
+        Assert.IsFalse(validClipboardData.PasteInto(msClip1,numMaterialProperties));
+        Assert.IsFalse(invalidClipboardData.PasteInto(msClip1,0));
+        Assert.IsFalse(invalidClipboardData.PasteInto(msClip1,numMaterialProperties));
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(1);
         
     }   
     

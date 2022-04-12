@@ -4,6 +4,20 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.7.2-preview] - 2022-04-12
+
+### Added
+* api: open API to copy and paste material properties of MaterialSwitchClip
+* doc: add TableOfContents structure and installation page
+* doc: add documentations on MaterialSwitchClip
+
+### Changed
+* deps: use com.unity.selection-groups@0.7.3-preview
+* refactor: rename MaterialSwitchUtility (obsolete) to MaterialSwitchEditorUtility 
+
+### Fixed
+* fix: null error of activeMaterials in MaterialSwitchClipEditor 
+
 ## [0.7.1-preview] - 2022-04-05
 
 ### Changed

@@ -26,6 +26,7 @@ public class MaterialPropertiesClipboardData
     /// <param name="materialIndex">The index of the material in the clip. Index less than 0 means global properties
     /// </param>
     /// <returns>Material properties data that can be pasted on another MaterialSwitchClip</returns>
+    [NotNull]
     public static MaterialPropertiesClipboardData Create(MaterialSwitchClip src, int materialIndex) {
         Assert.IsNotNull(src);
         return new MaterialPropertiesClipboardData(Object.Instantiate(src), materialIndex);

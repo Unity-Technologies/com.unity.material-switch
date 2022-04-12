@@ -22,13 +22,8 @@ internal class MaterialSwitchClipTests
         yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(3);
 
         //Add Sphere and material
-        GameObject   sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        MeshRenderer mr     = sphere.GetComponent<MeshRenderer>();
-        Material     mat    = new Material(mr.sharedMaterial) {
-            name = "TestMaterial"
-        };
-        mr.material = mat;        
-        group.Add(sphere);
+        MeshRenderer mr = CreateNewSphereWithMaterialInGroup(group);
+        Material mat = mr.sharedMaterial;
         yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(1);
         
         TimelineClip       clip0   = TimelineEditorReflection.CreateClipOnTrack(typeof(MaterialSwitchClip), track, 0);
@@ -53,7 +48,7 @@ internal class MaterialSwitchClipTests
         TimelineClip       clip1   = TimelineEditorReflection.CreateClipOnTrack(typeof(MaterialSwitchClip), track, 0);
         MaterialSwitchClip msClip1 = clip1.asset as MaterialSwitchClip;
         Assert.IsNotNull(msClip1);
-        clipboardData.PasteInto(msClip1,TARGET_MAT_INDEX);
+        Assert.IsTrue(clipboardData.PasteInto(msClip1,TARGET_MAT_INDEX));
         yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(1);
 
         //Check
@@ -74,13 +69,7 @@ internal class MaterialSwitchClipTests
         yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(3);
 
         //Add Sphere and material
-        GameObject   sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        MeshRenderer mr     = sphere.GetComponent<MeshRenderer>();
-        Material     mat    = new Material(mr.sharedMaterial) {
-            name = "TestMaterial"
-        };
-        mr.material = mat;        
-        group.Add(sphere);
+        CreateNewSphereWithMaterialInGroup(group);
         yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(1);
         
         TimelineClip       clip0   = TimelineEditorReflection.CreateClipOnTrack(typeof(MaterialSwitchClip), track, 0);
@@ -112,8 +101,18 @@ internal class MaterialSwitchClipTests
     }
 
     static void VerifyTargetColor(MaterialSwitchClip msClip, int matIndex, string propertyName, Color color) {
-        Assert.AreEqual(color, msClip.materialPropertiesList[matIndex].FindColorProperty(propertyName).GetTargetValue());
-        
+        Assert.AreEqual(color, msClip.materialPropertiesList[matIndex].FindColorProperty(propertyName).GetTargetValue());        
+    }
+
+    static MeshRenderer CreateNewSphereWithMaterialInGroup(SelectionGroup group) {
+        GameObject   sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        MeshRenderer mr     = sphere.GetComponent<MeshRenderer>();
+        Material mat = new Material(mr.sharedMaterial) {
+            name = "TestMaterial"
+        };
+        mr.material = mat;
+        group.Add(sphere);
+        return mr;
     }
     
 }

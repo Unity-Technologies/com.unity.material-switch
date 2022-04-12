@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using JetBrains.Annotations;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -38,29 +39,41 @@ public class MaterialPropertiesClipboardData
     ///     The index of the material in the target clip.
     ///     Index less than 0 means global properties.
     /// </param>
-    public void PasteInto(MaterialSwitchClip target, int targetMaterialIndex) {
+    /// <returns>true if the paste is successful, false otherwise</returns>
+    public bool PasteInto(MaterialSwitchClip target, int targetMaterialIndex) {
             
         Undo.RecordObject(target, "Paste");
+        string json = ConvertClipboardDataToJson(this);
+        if (null == json)
+            return false;
+        
         //negative targetIndex is reserved for global properties
         if (targetMaterialIndex < 0) {
-            string json = ConvertClipboardDataToJson(this);
             EditorJsonUtility.FromJsonOverwrite(json, target.globalMaterialProperties);
-        } else {
-            //preserve material reference, this is not normally changed.
-            var    oldMaterial = target.materialPropertiesList[targetMaterialIndex].material;
-            string json        = ConvertClipboardDataToJson(this);
+            return true;
+        } 
 
-            EditorJsonUtility.FromJsonOverwrite(json, target.materialPropertiesList[targetMaterialIndex]);
-            target.materialPropertiesList[targetMaterialIndex].material = oldMaterial;
-        }
+        if (targetMaterialIndex >= target.materialPropertiesList.Count)
+            return false;
+        
+        //preserve material reference, this is not normally changed.
+        Material  oldMaterial = target.materialPropertiesList[targetMaterialIndex].material;
+
+        EditorJsonUtility.FromJsonOverwrite(json, target.materialPropertiesList[targetMaterialIndex]);
+        target.materialPropertiesList[targetMaterialIndex].material = oldMaterial;
+        return true;
     }
-    
+
+    [CanBeNull]
     static string ConvertClipboardDataToJson(MaterialPropertiesClipboardData clipboardData) {
         int                matIndex = clipboardData.m_materialIndex;
         MaterialSwitchClip clip     = clipboardData.m_clip;
         if (matIndex < 0)
             return EditorJsonUtility.ToJson(clip.globalMaterialProperties);
-            
+
+        if (matIndex >= clip.materialPropertiesList.Count)
+            return null;
+        
         return EditorJsonUtility.ToJson(clip.materialPropertiesList[matIndex]);
     }    
 

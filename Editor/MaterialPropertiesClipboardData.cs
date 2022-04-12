@@ -43,10 +43,11 @@ public class MaterialPropertiesClipboardData
     /// <returns>true if the paste is successful, false otherwise</returns>
     public bool PasteInto(MaterialSwitchClip target, int targetMaterialIndex) {
             
-        Undo.RecordObject(target, "Paste");
         string json = ConvertClipboardDataToJson(this);
         if (null == json)
             return false;
+
+        Undo.RecordObject(target, "Paste");
         
         //negative targetIndex is reserved for global properties
         if (IsGlobalMaterialProperty(targetMaterialIndex)) {

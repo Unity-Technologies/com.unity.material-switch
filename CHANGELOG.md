@@ -4,6 +4,12 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.7.3-preview] - 2022-04-18
+
+### Changed
+* deps: use com.unity.film-internal-utilities@0.14.2-preview 
+* deps: use com.unity.selection-groups@0.7.4-preview
+
 ## [0.7.2-preview] - 2022-04-12
 
 ### Added

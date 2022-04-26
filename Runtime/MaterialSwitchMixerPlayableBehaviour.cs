@@ -100,7 +100,6 @@ namespace Unity.MaterialSwitch
 
         private void UpdateMaterialPropertyBlockManagers(Playable playable)
         {
-
             var inputCount = playable.GetInputCount();
             for (var i = 0; i < inputCount; i++)
             {
@@ -118,8 +117,6 @@ namespace Unity.MaterialSwitch
                 }
             }
         }
-
-        
 
         void RemoveMaterialPropertyBlocks()
         {

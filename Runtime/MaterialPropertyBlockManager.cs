@@ -9,6 +9,7 @@ namespace Unity.MaterialSwitch
         public Renderer renderer;
         public int index;
     }
+    
     internal class MaterialPropertyBlockManager
     {
         public MaterialPropertyBlock block = new MaterialPropertyBlock();
@@ -49,10 +50,10 @@ namespace Unity.MaterialSwitch
         {
             if (textureLerpMaterial == null) textureLerpMaterial = CreateTextureLerpMaterial();
             var textureProperties = new Dictionary<string, TextureProperty>();
-            foreach (var tp in map.textureProperties)
+            foreach (var tp in globalMap.textureProperties)
                 if (tp.overrideBaseValue)
                     textureProperties[tp.propertyName] = tp;
-            foreach (var tp in globalMap.textureProperties)
+            foreach (var tp in map.textureProperties)
                 if (tp.overrideBaseValue)
                     textureProperties[tp.propertyName] = tp;
             foreach (var kv in textureProperties)
@@ -76,10 +77,10 @@ namespace Unity.MaterialSwitch
         private void BlendColorProperties(float weight, MaterialProperties globalMap, MaterialProperties map)
         {
             var colorProperties = new Dictionary<string, ColorProperty>();
-            foreach (var cp in map.colorProperties)
+            foreach (var cp in globalMap.colorProperties)
                 if (cp.overrideBaseValue)
                     colorProperties[cp.propertyName] = cp;
-            foreach (var cp in globalMap.colorProperties)
+            foreach (var cp in map.colorProperties)
                 if (cp.overrideBaseValue)
                     colorProperties[cp.propertyName] = cp;
             foreach (var kv in colorProperties)
@@ -95,10 +96,10 @@ namespace Unity.MaterialSwitch
         private void BlendFloatProperties(float weight, MaterialProperties globalMap, MaterialProperties map)
         {
             var floatProperties = new Dictionary<string, FloatProperty>();
-            foreach (var cp in map.floatProperties)
+            foreach (var cp in globalMap.floatProperties)
                 if (cp.overrideBaseValue)
                     floatProperties[cp.propertyName] = cp;
-            foreach (var cp in globalMap.floatProperties)
+            foreach (var cp in map.floatProperties)
                 if (cp.overrideBaseValue)
                     floatProperties[cp.propertyName] = cp;
             foreach (var kv in floatProperties)

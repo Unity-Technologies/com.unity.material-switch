@@ -14,7 +14,7 @@ namespace Unity.MaterialSwitch
 
         HashSet<MaterialProperties> activePalettePropertyMapInstances= new HashSet<MaterialProperties>();
 
-        private Dictionary<Material, MaterialPropertyBlockManager> blockManagers =
+        private Dictionary<Material, MaterialPropertyBlockManager> materialPropertyBlockManagers =
             new Dictionary<Material, MaterialPropertyBlockManager>();
 
         public override void OnPlayableDestroy(Playable playable)
@@ -40,12 +40,12 @@ namespace Unity.MaterialSwitch
             {
                 materialGroup.CollectMaterials();
                 renderers = null;
-                blockManagers = null;
+                materialPropertyBlockManagers = null;
             }
 
             //a group has many renderers, get them all. This will not change over the duration of the track
             if (renderers == null) renderers = new HashSet<Renderer>(group.GetMemberComponents<Renderer>());
-            if (blockManagers == null) blockManagers = new Dictionary<Material, MaterialPropertyBlockManager>();
+            if (materialPropertyBlockManagers == null) materialPropertyBlockManagers = new Dictionary<Material, MaterialPropertyBlockManager>();
             
 
 
@@ -67,30 +67,30 @@ namespace Unity.MaterialSwitch
                 RemoveMaterialPropertyBlocks();
                 return;
             }
-            CreateBlockManagers();
-            UpdateBlockManagers(playable);
-            ApplyBlockManagers();
+            CreateMaterialPropertyBlockManagers();
+            UpdateMaterialPropertyBlockManagers(playable);
+            ApplyMaterialPropertyBlockManagers();
 
         }
 
-        private void ApplyBlockManagers()
+        private void ApplyMaterialPropertyBlockManagers()
         {
-            foreach (var blockManager in blockManagers.Values)
+            foreach (var blockManager in materialPropertyBlockManagers.Values)
             {
                 blockManager.ApplyMaterialPropertyBlockToRenderers();
             }
         }
 
-        void CreateBlockManagers()
+        void CreateMaterialPropertyBlockManagers()
         {
             foreach (var renderer in renderers)
             {
                 for (var index = 0; index < renderer.sharedMaterials.Length; index++)
                 {
                     var material = renderer.sharedMaterials[index];
-                    if (!blockManagers.TryGetValue(material, out var bm))
+                    if (!materialPropertyBlockManagers.TryGetValue(material, out var bm))
                     {
-                        bm = blockManagers[material] = new MaterialPropertyBlockManager();    
+                        bm = materialPropertyBlockManagers[material] = new MaterialPropertyBlockManager();    
                     }
                     bm.material = material;
                     bm.AddRenderer(renderer, index);
@@ -98,7 +98,7 @@ namespace Unity.MaterialSwitch
             }
         }
 
-        private void UpdateBlockManagers(Playable playable)
+        private void UpdateMaterialPropertyBlockManagers(Playable playable)
         {
 
             var inputCount = playable.GetInputCount();
@@ -111,7 +111,7 @@ namespace Unity.MaterialSwitch
                 
                 foreach (var pm in behaviour.materialPropertiesList)
                 {
-                    if (blockManagers.TryGetValue(pm.material, out var bm))
+                    if (materialPropertyBlockManagers.TryGetValue(pm.material, out var bm))
                     {
                         bm.BlendPalettePropertyMap(weight, behaviour.clip.globalMaterialProperties, pm);
                     }

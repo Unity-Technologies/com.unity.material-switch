@@ -103,4 +103,5 @@ promotion_types:
     job_name: Prerelease and promote MaterialSwitch to Production
     test_name_prefix: Prerelease and test MaterialSwitch Promotion 
     test_dependencies:
+      - .yamato/MaterialSwitch-pack.yml#pack
       - .yamato/MaterialSwitch-publish.yml#prerelease

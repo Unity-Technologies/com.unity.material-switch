@@ -24,6 +24,8 @@ namespace Unity.MaterialSwitch
         
         private GUIContent RemoveButtonGuiContent;
         private GUIContent SettingsGuiContent;
+        
+        
 
         void UpdateSampledColors()
         {

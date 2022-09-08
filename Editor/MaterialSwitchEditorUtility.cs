@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using NUnit.Framework;
 using Unity.SelectionGroups;
@@ -69,31 +70,44 @@ public static class MaterialSwitchEditorUtility {
     }
 
     internal static MaterialProperties CreateMaterialProperties(Material[] materials) {
+        var mapAssets = Resources.FindObjectsOfTypeAll<MaterialPropertyNameMap>();
+        var nameRemaps = new Dictionary<Shader, MaterialPropertyNameMap>();
+        foreach (var i in mapAssets)
+            if(i != null && i.material != null) nameRemaps[i.Shader] = i;
+        
         MaterialProperties ppm = new MaterialProperties() {
             needsUpdate = false,
         };
-        var materialProperties = new List<MaterialProperty>();
+        var materialProperties = new List<(Material, MaterialProperty)>();
 
         foreach (var i in materials) {
             var mps = MaterialEditor.GetMaterialProperties(new[] { i });
             if (mps == null) continue;
-            materialProperties.AddRange(mps);
+            materialProperties.AddRange(from j in mps select (i,j));
         }
 
         if (materialProperties.Count == 0)
             return ppm;
 
-        foreach (var mp in materialProperties) {
+        foreach (var (material, mp) in materialProperties) {
             if (mp.flags.HasFlag(MaterialProperty.PropFlags.HideInInspector))
                 continue;
             if (mp.flags.HasFlag(MaterialProperty.PropFlags.PerRendererData))
                 continue;
+            var displayName = mp.displayName;
+            if (material.shader != null)
+            {
+                if (nameRemaps.TryGetValue(material.shader, out var map))
+                {
+                    map.TryGetValue(mp.name, out displayName);
+                }
+            }
 
             if (mp.type == MaterialProperty.PropType.Color) {
                 ppm.colorProperties.Add(
                     new ColorProperty() {
                         uv           = Vector2.zero,
-                        displayName  = mp.displayName,
+                        displayName  = displayName,
                         propertyName = mp.name,
                         targetValue  = Color.clear,
                         baseValue    = mp.colorValue
@@ -104,7 +118,7 @@ public static class MaterialSwitchEditorUtility {
             if (mp.type == MaterialProperty.PropType.Texture) {
                 ppm.textureProperties.Add(
                     new TextureProperty() {
-                        displayName  = mp.displayName,
+                        displayName  = displayName,
                         propertyName = mp.name,
                         propertyId   = Shader.PropertyToID(mp.name),
                         baseValue    = (Texture2D)mp.textureValue
@@ -115,7 +129,7 @@ public static class MaterialSwitchEditorUtility {
             if (mp.type == MaterialProperty.PropType.Float) {
                 ppm.floatProperties.Add(
                     new FloatProperty() {
-                        displayName  = mp.displayName,
+                        displayName  = displayName,
                         propertyName = mp.name,
                         propertyId   = Shader.PropertyToID(mp.name),
                         baseValue    = mp.floatValue,
@@ -127,7 +141,7 @@ public static class MaterialSwitchEditorUtility {
             if (mp.type == MaterialProperty.PropType.Range) {
                 ppm.floatProperties.Add(
                     new RangeProperty() {
-                        displayName  = mp.displayName,
+                        displayName  = displayName,
                         propertyName = mp.name,
                         propertyId   = Shader.PropertyToID(mp.name),
                         baseValue    = mp.floatValue,

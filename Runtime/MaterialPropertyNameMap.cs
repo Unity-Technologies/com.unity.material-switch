@@ -8,9 +8,7 @@ namespace Unity.MaterialSwitch
     [CreateAssetMenu]
     public class MaterialPropertyNameMap : ScriptableObject, ISerializationCallbackReceiver
     {
-        public Material material;
-
-        public Shader Shader => material?.shader;
+        public Shader shader;
         
         [System.Serializable]
         public struct PropertyDisplayName

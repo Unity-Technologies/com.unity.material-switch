@@ -73,7 +73,7 @@ public static class MaterialSwitchEditorUtility {
         var mapAssets = Resources.FindObjectsOfTypeAll<MaterialPropertyNameMap>();
         var nameRemaps = new Dictionary<Shader, MaterialPropertyNameMap>();
         foreach (var i in mapAssets)
-            if(i != null && i.material != null) nameRemaps[i.Shader] = i;
+            if(i != null && i.shader != null) nameRemaps[i.shader] = i;
         
         MaterialProperties ppm = new MaterialProperties() {
             needsUpdate = false,

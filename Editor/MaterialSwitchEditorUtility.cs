@@ -99,7 +99,11 @@ public static class MaterialSwitchEditorUtility {
             {
                 if (nameRemaps.TryGetValue(material.shader, out var map))
                 {
-                    map.TryGetValue(mp.name, out displayName);
+                    if (map.TryGetValue(mp.name, out var propertyName))
+                    {
+                        if (propertyName.hidden) continue;
+                        displayName = propertyName.displayName;
+                    }
                 }
             }
 

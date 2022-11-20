@@ -15,15 +15,16 @@ namespace Unity.MaterialSwitch
         {
             [HideInInspector]
             public string propertyName;
+            public bool hidden;
             public string displayName;
         }
 
         public List<PropertyDisplayName> nameMap = new List<PropertyDisplayName>();
-        private Dictionary<string, string> nameMapIndex = new Dictionary<string, string>();
+        private Dictionary<string, PropertyDisplayName> nameMapIndex = new Dictionary<string, PropertyDisplayName>();
 
-        public string this[string key] => nameMapIndex[key];
+        public PropertyDisplayName this[string key] => nameMapIndex[key];
         
-        public bool TryGetValue(string propertyName, out string displayName) => nameMapIndex.TryGetValue(propertyName, out displayName);
+        public bool TryGetValue(string propertyName, out PropertyDisplayName displayName) => nameMapIndex.TryGetValue(propertyName, out displayName);
 
         public void OnBeforeSerialize()
         {
@@ -34,7 +35,7 @@ namespace Unity.MaterialSwitch
         {
             foreach (var i in nameMap)
             {
-                nameMapIndex[i.propertyName] = i.displayName;
+                nameMapIndex[i.propertyName] = i;
             }            
         }
         

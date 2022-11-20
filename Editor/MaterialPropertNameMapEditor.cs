@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Unity.MaterialSwitch
 {
@@ -9,6 +11,34 @@ namespace Unity.MaterialSwitch
     [CustomEditor(typeof(MaterialPropertyNameMap))]
     public class MaterialPropertyNameRemapEditor : Editor
     {
+        private MaterialPropertyNameMap[] _nameMaps = null;
+
+        private string _warningMessage = null;
+        
+        private void OnEnable()
+        {
+            _nameMaps = Resources.FindObjectsOfTypeAll<MaterialPropertyNameMap>();
+        }
+
+        bool CheckForDuplicateMaps(SerializedProperty shaderProperty)
+        {
+            foreach (var i in _nameMaps)
+            {
+                if (i.shader.GetInstanceID() == shaderProperty.objectReferenceValue.GetInstanceID())
+                {
+                    if (i != target)
+                    {
+                        if (EditorUtility.DisplayDialog("Warning", $"This shader is already mapped in {i.name}.", "Select Asset", "Cancel"))
+                        {
+                            Selection.activeObject = i;
+                        }
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
 
         public override void OnInspectorGUI()
         {
@@ -20,6 +50,7 @@ namespace Unity.MaterialSwitch
             EditorGUILayout.PropertyField(shaderProperty);
             if (EditorGUI.EndChangeCheck())
             {
+                if (CheckForDuplicateMaps(shaderProperty)) return;
                 if (shaderProperty.objectReferenceValue == null)
                 {
                     nameMapProperty.ClearArray();

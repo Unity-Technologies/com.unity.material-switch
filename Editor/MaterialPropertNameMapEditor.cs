@@ -11,30 +11,29 @@ namespace Unity.MaterialSwitch
     [CustomEditor(typeof(MaterialPropertyNameMap))]
     public class MaterialPropertyNameRemapEditor : Editor
     {
-        private MaterialPropertyNameMap[] _nameMaps = null;
+        private Dictionary<int, MaterialPropertyNameMap> _nameMaps = new Dictionary<int, MaterialPropertyNameMap>();
 
-        private string _warningMessage = null;
-        
+       
         private void OnEnable()
         {
-            _nameMaps = Resources.FindObjectsOfTypeAll<MaterialPropertyNameMap>();
+            var assets  = Resources.FindObjectsOfTypeAll<MaterialPropertyNameMap>();
+            foreach(var asset in assets) {
+                if (null == asset.shader)
+                    continue;
+                int shaderID = asset.shader.GetInstanceID();
+                _nameMaps[shaderID] = asset;
+            }
         }
 
         bool CheckForDuplicateMaps(SerializedProperty shaderProperty)
         {
-            foreach (var i in _nameMaps)
-            {
-                if (i.shader.GetInstanceID() == shaderProperty.objectReferenceValue.GetInstanceID())
+            if (_nameMaps.TryGetValue(shaderProperty.objectReferenceValue.GetInstanceID(), out var existing )) {
+                if (existing == target) return false; 
+                if (EditorUtility.DisplayDialog("Warning", $"This shader is already mapped in {existing.name}.", "Select Asset", "Cancel"))
                 {
-                    if (i != target)
-                    {
-                        if (EditorUtility.DisplayDialog("Warning", $"This shader is already mapped in {i.name}.", "Select Asset", "Cancel"))
-                        {
-                            Selection.activeObject = i;
-                        }
-                        return true;
-                    }
+                    Selection.activeObject = existing;
                 }
+                return true;                
             }
 
             return false;
@@ -51,6 +50,11 @@ namespace Unity.MaterialSwitch
             if (EditorGUI.EndChangeCheck())
             {
                 if (CheckForDuplicateMaps(shaderProperty)) return;
+                //bookkeeping
+                int shaderID = shaderProperty.objectReferenceValue.GetInstanceID();
+                _nameMaps.Remove(shaderID);
+                _nameMaps[shaderID] = target as MaterialPropertyNameMap;
+                
                 if (shaderProperty.objectReferenceValue == null)
                 {
                     nameMapProperty.ClearArray();

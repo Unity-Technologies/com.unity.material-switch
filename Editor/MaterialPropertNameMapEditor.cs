@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Unity.MaterialSwitch
 {
@@ -9,6 +11,33 @@ namespace Unity.MaterialSwitch
     [CustomEditor(typeof(MaterialPropertyNameMap))]
     public class MaterialPropertyNameRemapEditor : Editor
     {
+        private Dictionary<int, MaterialPropertyNameMap> _nameMaps = new Dictionary<int, MaterialPropertyNameMap>();
+
+       
+        private void OnEnable()
+        {
+            var assets  = Resources.FindObjectsOfTypeAll<MaterialPropertyNameMap>();
+            foreach(var asset in assets) {
+                if (null == asset.shader)
+                    continue;
+                int shaderID = asset.shader.GetInstanceID();
+                _nameMaps[shaderID] = asset;
+            }
+        }
+
+        bool CheckForDuplicateMaps(SerializedProperty shaderProperty)
+        {
+            if (_nameMaps.TryGetValue(shaderProperty.objectReferenceValue.GetInstanceID(), out var existing )) {
+                if (existing == target) return false; 
+                if (EditorUtility.DisplayDialog("Warning", $"This shader is already mapped in {existing.name}.", "Select Asset", "Cancel"))
+                {
+                    Selection.activeObject = existing;
+                }
+                return true;                
+            }
+
+            return false;
+        }
 
         public override void OnInspectorGUI()
         {
@@ -20,6 +49,12 @@ namespace Unity.MaterialSwitch
             EditorGUILayout.PropertyField(shaderProperty);
             if (EditorGUI.EndChangeCheck())
             {
+                if (CheckForDuplicateMaps(shaderProperty)) return;
+                //bookkeeping
+                int shaderID = shaderProperty.objectReferenceValue.GetInstanceID();
+                _nameMaps.Remove(shaderID);
+                _nameMaps[shaderID] = target as MaterialPropertyNameMap;
+                
                 if (shaderProperty.objectReferenceValue == null)
                 {
                     nameMapProperty.ClearArray();

@@ -9,7 +9,7 @@ namespace Unity.MaterialSwitch
     [Serializable]
     public abstract class MaterialSwitchProperty
     {
-        [SerializeField] internal string displayName;
+        //[SerializeField] internal string displayName;
         [SerializeField] internal string propertyName;
         [SerializeField] internal int    propertyId;
         [SerializeField] internal bool   overrideBaseValue = false;

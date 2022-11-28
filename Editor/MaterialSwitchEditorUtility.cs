@@ -74,7 +74,9 @@ public static class MaterialSwitchEditorUtility {
 
     internal static string GetDisplayName(Material material, string propertyName)
     {
-        if(material == null || material.shader == null || _nameRemaps == null)
+        if(_nameRemaps == null) CollectRemaps();
+        
+        if (material == null || material.shader == null || _nameRemaps == null)
             return propertyName;
         if (_nameRemaps.TryGetValue(material.shader, out var nameMap))
         {
@@ -87,11 +89,8 @@ public static class MaterialSwitchEditorUtility {
     }
     
     internal static MaterialProperties CreateMaterialProperties(Material[] materials) {
-        var mapAssets = Resources.FindObjectsOfTypeAll<MaterialPropertyNameMap>();
-        _nameRemaps = new Dictionary<Shader, MaterialPropertyNameMap>();
-        foreach (var i in mapAssets)
-            if(i != null && i.shader != null) _nameRemaps[i.shader] = i;
-        
+        if(_nameRemaps == null) CollectRemaps();
+
         MaterialProperties ppm = new MaterialProperties() {
             needsUpdate = false,
         };
@@ -128,7 +127,6 @@ public static class MaterialSwitchEditorUtility {
                 ppm.colorProperties.Add(
                     new ColorProperty() {
                         uv           = Vector2.zero,
-                        displayName  = displayName,
                         propertyName = mp.name,
                         targetValue  = Color.clear,
                         baseValue    = mp.colorValue
@@ -139,7 +137,6 @@ public static class MaterialSwitchEditorUtility {
             if (mp.type == MaterialProperty.PropType.Texture) {
                 ppm.textureProperties.Add(
                     new TextureProperty() {
-                        displayName  = displayName,
                         propertyName = mp.name,
                         propertyId   = Shader.PropertyToID(mp.name),
                         baseValue    = (Texture2D)mp.textureValue
@@ -150,7 +147,6 @@ public static class MaterialSwitchEditorUtility {
             if (mp.type == MaterialProperty.PropType.Float) {
                 ppm.floatProperties.Add(
                     new FloatProperty() {
-                        displayName  = displayName,
                         propertyName = mp.name,
                         propertyId   = Shader.PropertyToID(mp.name),
                         baseValue    = mp.floatValue,
@@ -162,7 +158,6 @@ public static class MaterialSwitchEditorUtility {
             if (mp.type == MaterialProperty.PropType.Range) {
                 ppm.floatProperties.Add(
                     new RangeProperty() {
-                        displayName  = displayName,
                         propertyName = mp.name,
                         propertyId   = Shader.PropertyToID(mp.name),
                         baseValue    = mp.floatValue,
@@ -174,6 +169,15 @@ public static class MaterialSwitchEditorUtility {
         }
 
         return ppm;
+    }
+
+    private static void CollectRemaps()
+    {
+        var mapAssets = Resources.FindObjectsOfTypeAll<MaterialPropertyNameMap>();
+        _nameRemaps = new Dictionary<Shader, MaterialPropertyNameMap>();
+        foreach (var i in mapAssets)
+            if (i != null && i.shader != null)
+                _nameRemaps[i.shader] = i;
     }
 }
 } //end namespace

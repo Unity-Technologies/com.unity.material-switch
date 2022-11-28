@@ -187,11 +187,13 @@ namespace Unity.MaterialSwitch
             SerializedProperty materialProperty = null;
             GUILayout.BeginVertical("box");
             EditorGUI.indentLevel--;
+            SerializedProperty materialProperty = ppm.FindPropertyRelative(nameof(MaterialProperties.material));;
+            var material = materialProperty.objectReferenceValue as Material;
+            
             if (globalPalettePropertyMap != null)
             {
                 //This is a per material ppm, so draw the material field.
                 GUILayout.BeginHorizontal();
-                materialProperty = ppm.FindPropertyRelative(nameof(MaterialProperties.material));
                 EditorGUILayout.PropertyField(materialProperty, GUILayout.MinWidth(384));
                 GUILayout.FlexibleSpace();
                 if (GUILayout.Button(_settingsIcon, EditorStyles.toolbarDropDown))
@@ -219,12 +221,11 @@ namespace Unity.MaterialSwitch
                 }
             }
 
-            DrawPropertyOverrideList(ppm, "showCoords", "Color Properties", "colorProperties", (itemProperty) =>
-            {
-                var displayNameProperty = itemProperty.FindPropertyRelative(nameof(ColorProperty.displayName));
+            DrawPropertyOverrideList(ppm, "showCoords", "Color Properties", "colorProperties", (itemProperty, displayName) =>
+                {
                 GUILayout.BeginVertical("box");
                 GUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField($"{displayNameProperty.stringValue}");
+                EditorGUILayout.LabelField(displayName);
                 GUILayout.FlexibleSpace();
                 ShowRemoveOverrideButton(itemProperty);
                 GUILayout.EndHorizontal();
@@ -271,11 +272,11 @@ namespace Unity.MaterialSwitch
             });
 
             DrawPropertyOverrideList(ppm, "showTextures", "Texture Properties", "textureProperties");
-            DrawPropertyOverrideList(ppm, "showFloats", "Float Properties", "floatProperties", (itemProperty) =>
+            DrawPropertyOverrideList(ppm, "showFloats", "Float Properties", "floatProperties", (itemProperty, displayName) =>
             {
                 GUILayout.BeginVertical("box");
                 GUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField($"{itemProperty.FindPropertyRelative(nameof(FloatProperty.displayName)).stringValue}");
+                EditorGUILayout.LabelField(displayName);
                 GUILayout.FlexibleSpace();
                 ShowRemoveOverrideButton(itemProperty);
                 GUILayout.EndHorizontal();
@@ -312,12 +313,15 @@ namespace Unity.MaterialSwitch
             }
         }
 
-        private void DrawPropertyOverrideList(SerializedProperty ppm, string togglePropertyPath, string heading, string arrayPropertyPath, System.Action<SerializedProperty> guiMethod = null)
+        private void DrawPropertyOverrideList(SerializedProperty ppm, string togglePropertyPath, string heading, string arrayPropertyPath, System.Action<SerializedProperty, string> guiMethod = null)
         {
             var showPropertyListToggle = ppm.FindPropertyRelative(togglePropertyPath);
             showPropertyListToggle.boolValue = EditorGUILayout.Foldout(showPropertyListToggle.boolValue, heading);
+            
             if (showPropertyListToggle.boolValue)
             {
+                var materialProperty = ppm.FindPropertyRelative(nameof(MaterialProperties.material));
+                var material = materialProperty.objectReferenceValue as Material;
                 var propertyList = ppm.FindPropertyRelative(arrayPropertyPath);
                 if (propertyList != null)
                 {
@@ -327,27 +331,25 @@ namespace Unity.MaterialSwitch
                     for (var j = 0; j < propertyList.arraySize; j++)
                     {
                         var itemProperty = propertyList.GetArrayElementAtIndex(j);
-                        var displayNameProperty = itemProperty.FindPropertyRelative(nameof(MaterialSwitchProperty.displayName));
-
+                        var propertyName = itemProperty.FindPropertyRelative(nameof(ColorProperty.propertyName)).stringValue;
+                        var displayName = MaterialSwitchEditorUtility.GetDisplayName(material, propertyName);
                         var overrideBaseValueProperty = itemProperty.FindPropertyRelative(nameof(MaterialSwitchProperty.overrideBaseValue));
-                        menu.AddItem(new GUIContent(displayNameProperty.stringValue), overrideBaseValueProperty.boolValue, ToggleOverrideBaseValueProperty, itemProperty);
+                        menu.AddItem(new GUIContent(displayName), overrideBaseValueProperty.boolValue, ToggleOverrideBaseValueProperty, itemProperty);
                         if (!overrideBaseValueProperty.boolValue) continue;
                         if (guiMethod == null)
                         {
                             GUILayout.BeginVertical("box");
                             GUILayout.BeginHorizontal();
-                            EditorGUILayout.LabelField($"{displayNameProperty.stringValue}");
+                            EditorGUILayout.LabelField(displayName);
                             GUILayout.FlexibleSpace();
                             ShowRemoveOverrideButton(itemProperty);
                             GUILayout.EndHorizontal();
-
-                            //EditorGUILayout.PropertyField(itemProperty.FindPropertyRelative("baseValue"));
                             EditorGUILayout.PropertyField(itemProperty.FindPropertyRelative("targetValue"), new GUIContent("New Value"));
                             GUILayout.EndVertical();
                         }
                         else
                         {
-                            guiMethod(itemProperty);
+                            guiMethod(itemProperty, displayName);
                         }
                     }
 
@@ -384,5 +386,7 @@ namespace Unity.MaterialSwitch
             AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
             UpdateSampledColors();
         }
+
+        
     }
 }

@@ -14,6 +14,9 @@ namespace Unity.MaterialSwitch {
 /// Utility class to perform various functions on MaterialSwitch classes.
 /// </summary>
 public static class MaterialSwitchEditorUtility {
+    
+    private static Dictionary<Shader,MaterialPropertyNameMap> _nameRemaps;
+
     [InitializeOnLoadMethod]
     static void InitCallbacks() {
         MaterialSwitchPlayableBehaviour.CreateMaterialProperties = CreateMaterialProperties;
@@ -69,11 +72,25 @@ public static class MaterialSwitchEditorUtility {
         return map;
     }
 
+    internal static string GetDisplayName(Material material, string propertyName)
+    {
+        if(material == null || material.shader == null || _nameRemaps == null)
+            return propertyName;
+        if (_nameRemaps.TryGetValue(material.shader, out var nameMap))
+        {
+            if (nameMap.TryGetValue(propertyName, out var remappedName))
+            {
+                return remappedName.displayName;
+            }
+        }
+        return propertyName;
+    }
+    
     internal static MaterialProperties CreateMaterialProperties(Material[] materials) {
         var mapAssets = Resources.FindObjectsOfTypeAll<MaterialPropertyNameMap>();
-        var nameRemaps = new Dictionary<Shader, MaterialPropertyNameMap>();
+        _nameRemaps = new Dictionary<Shader, MaterialPropertyNameMap>();
         foreach (var i in mapAssets)
-            if(i != null && i.shader != null) nameRemaps[i.shader] = i;
+            if(i != null && i.shader != null) _nameRemaps[i.shader] = i;
         
         MaterialProperties ppm = new MaterialProperties() {
             needsUpdate = false,
@@ -97,7 +114,7 @@ public static class MaterialSwitchEditorUtility {
             var displayName = mp.displayName;
             if (material.shader != null)
             {
-                if (nameRemaps.TryGetValue(material.shader, out var map))
+                if (_nameRemaps.TryGetValue(material.shader, out var map))
                 {
                     if (map.TryGetValue(mp.name, out var propertyName))
                     {

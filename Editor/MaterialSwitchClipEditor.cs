@@ -15,27 +15,28 @@ namespace Unity.MaterialSwitch
     internal class MaterialSwitchClipEditor : Editor
     {
         bool showTextureProperties;
-        
+
         private static MaterialPropertiesClipboardData copyClipboardData;
-        
-        private string errorMessage = null;
+
+        private string _errorMessage = null;
 
         private HashSet<Material> activeMaterials = new HashSet<Material>();
         
-        private GUIContent RemoveButtonGuiContent;
-        private GUIContent SettingsGuiContent;
-        
+        private GUIContent _settingsIcon;
+        private GUIContent _duplicateIcon;
+        private GUIContent _trashIcon;
+        private GUIStyle _iconButtonStyle;
         
 
         void UpdateSampledColors()
         {
-            var clip          = target as MaterialSwitchClip;
+            var clip = target as MaterialSwitchClip;
             var globalTexture = clip.globalMaterialProperties.texture;
             foreach (var map in clip.materialPropertiesList)
             {
                 var textureToUse = map.texture == null ? globalTexture : map.texture;
                 if (textureToUse == null) continue;
-                if(!textureToUse.isReadable) continue;
+                if (!textureToUse.isReadable) continue;
                 foreach (var c in map.colorProperties)
                 {
                     c.targetValue = textureToUse.GetPixel((int) c.uv.x, (int) c.uv.y);
@@ -47,11 +48,8 @@ namespace Unity.MaterialSwitch
         {
             var e = Event.current;
             var menu = new GenericMenu();
-            menu.AddItem(new GUIContent("Copy Settings"), false, () =>
-            {
-                copyClipboardData = MaterialPropertiesClipboardData.Create(target as MaterialSwitchClip, targetIndex);
-            });
-            if(copyClipboardData == null)
+            menu.AddItem(new GUIContent("Copy Settings"), false, () => { copyClipboardData = MaterialPropertiesClipboardData.Create(target as MaterialSwitchClip, targetIndex); });
+            if (copyClipboardData == null)
                 menu.AddDisabledItem(new GUIContent("Paste Settings"));
             else
                 menu.AddItem(new GUIContent("Paste Settings"), false, () =>
@@ -60,56 +58,55 @@ namespace Unity.MaterialSwitch
                     copyClipboardData.PasteInto(targetClip, targetIndex);
                     serializedObject.ApplyModifiedProperties();
                 });
-            
+
             menu.ShowAsContext();
             e.Use();
         }
 
         private void OnEnable()
         {
-            RemoveButtonGuiContent = EditorGUIUtility.IconContent("d_winbtn_win_close");
-            RemoveButtonGuiContent.tooltip = "Remove Property";
-            SettingsGuiContent = EditorGUIUtility.IconContent("d_SettingsIcon");
-            SettingsGuiContent.tooltip = "Settings";
+            _settingsIcon = EditorGUIUtility.IconContent("d_SettingsIcon");
+            _settingsIcon.tooltip = "Settings";
+            _duplicateIcon = EditorGUIUtility.IconContent("TreeEditor.Duplicate", "Copy original material color.");
+            _trashIcon = EditorGUIUtility.IconContent("TreeEditor.Trash", "Remove override.");
+            _errorMessage = null;
             
-            
-            errorMessage = null;
             //when the editor is enabled, get the target clip and make sure it is up to date.
-            
+
             PlayableDirector inspectedDirector = TimelineEditor.inspectedDirector;
             if (inspectedDirector == null)
             {
-                errorMessage = "Could not find Timeline Director.";
+                _errorMessage = "Could not find Timeline Director.";
                 return;
             }
 
             var selectedClip = TimelineEditor.selectedClip;
-            if(selectedClip == null) 
+            if (selectedClip == null)
             {
-                errorMessage = "Could not find Selected Clip.";
+                _errorMessage = "Could not find Selected Clip.";
                 return;
             }
-            
+
             var track = selectedClip.GetParentTrack();
             var selectionGroup = inspectedDirector.GetGenericBinding(track) as SelectionGroups.SelectionGroup;
             if (selectionGroup == null)
             {
-                errorMessage = "No Selection Group is bound to the Track.";
+                _errorMessage = "No Selection Group is bound to the Track.";
                 return;
             }
-             
+
             if (!selectionGroup.TryGetComponent(out MaterialGroup materialGroup))
             {
                 materialGroup = selectionGroup.gameObject.AddComponent<MaterialGroup>();
             }
+
             materialGroup.CollectMaterials();
-            
+
             var asset = target as MaterialSwitchClip;
-            
+
             if (asset.globalMaterialProperties == null || asset.globalMaterialProperties.needsUpdate)
             {
-                asset.globalMaterialProperties =
-                    MaterialSwitchEditorUtility.CreateMaterialProperties(materialGroup.sharedMaterials);
+                asset.globalMaterialProperties = MaterialSwitchEditorUtility.CreateMaterialProperties(materialGroup.sharedMaterials);
             }
 
             activeMaterials = new HashSet<Material>(materialGroup.sharedMaterials);
@@ -117,49 +114,53 @@ namespace Unity.MaterialSwitch
             var missingMaterials = activeMaterials.Except(storedMaterials).ToArray();
             if (missingMaterials.Length > 0)
             {
-                errorMessage = $"Created {missingMaterials.Length} new material maps. These will be saved in the clip asset.";
+                _errorMessage = $"Created {missingMaterials.Length} new material maps. These will be saved in the clip asset.";
                 foreach (var material in missingMaterials)
                 {
                     var materialProperties = MaterialSwitchEditorUtility.CreateMaterialProperties(material);
                     asset.materialPropertiesList.Add(materialProperties);
                 }
+
                 EditorUtility.SetDirty(asset);
             }
-
         }
 
         public override void OnInspectorGUI()
         {
-            
             serializedObject.Update();
+            
+            // This has to be done here as we cannot use GUI.skin outside of an OnGUI function.
+            if(_iconButtonStyle == null)
+                _iconButtonStyle = GUI.skin.FindStyle("IconButton") ?? EditorGUIUtility.GetBuiltinSkin(EditorSkin.Inspector).FindStyle("IconButton");
 
-            if (!string.IsNullOrEmpty(errorMessage))
+            if (!string.IsNullOrEmpty(_errorMessage))
             {
-                EditorGUILayout.HelpBox(errorMessage, MessageType.Warning);
+                EditorGUILayout.HelpBox(_errorMessage, MessageType.Warning);
             }
-            
+
             GUILayout.BeginVertical("box");
-            
+
             var globalPalettePropertyMap = serializedObject.FindProperty(nameof(MaterialSwitchClip.globalMaterialProperties));
             GUILayout.BeginHorizontal();
             GUILayout.Label("Global Properties");
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button(SettingsGuiContent, EditorStyles.toolbarDropDown))
+            if (GUILayout.Button(_settingsIcon, EditorStyles.toolbarDropDown))
             {
                 //negative targetIndex is reserved for global properties
                 HandleContextClick(globalPalettePropertyMap, -1);
             }
+
             GUILayout.EndHorizontal();
-            
+
             //negative targetIndex is reserved for global properties
-            DrawPalettePropertyMapUI(globalPalettePropertyMap, null, -1);                        
+            DrawPalettePropertyMapUI(globalPalettePropertyMap, null, -1);
 
             EditorGUI.indentLevel += 1;
             EditorGUILayout.EndVertical();
             GUILayout.Space(16);
             GUILayout.BeginVertical("box");
             GUILayout.Label("Per Material Properties");
-            
+
             var materialPropertiesList = serializedObject.FindProperty(nameof(MaterialSwitchClip.materialPropertiesList));
             for (var i = 0; i < materialPropertiesList.arraySize; i++)
             {
@@ -171,6 +172,7 @@ namespace Unity.MaterialSwitch
                     DrawPalettePropertyMapUI(property, globalPalettePropertyMap, i);
                 }
             }
+
             GUILayout.EndVertical();
 
             if (serializedObject.ApplyModifiedProperties())
@@ -180,28 +182,29 @@ namespace Unity.MaterialSwitch
             }
         }
 
-
         private void DrawPalettePropertyMapUI(SerializedProperty ppm, SerializedProperty globalPalettePropertyMap, int index)
         {
+            SerializedProperty materialProperty = null;
             GUILayout.BeginVertical("box");
             EditorGUI.indentLevel--;
             if (globalPalettePropertyMap != null)
             {
                 //This is a per material ppm, so draw the material field.
                 GUILayout.BeginHorizontal();
-                EditorGUILayout.PropertyField(ppm.FindPropertyRelative(nameof(MaterialProperties.material)), GUILayout.MinWidth(384));
+                materialProperty = ppm.FindPropertyRelative(nameof(MaterialProperties.material));
+                EditorGUILayout.PropertyField(materialProperty, GUILayout.MinWidth(384));
                 GUILayout.FlexibleSpace();
-                if (GUILayout.Button(SettingsGuiContent, EditorStyles.toolbarDropDown))
+                if (GUILayout.Button(_settingsIcon, EditorStyles.toolbarDropDown))
                 {
                     HandleContextClick(ppm, index);
                 }
+
                 GUILayout.EndHorizontal();
-                
             }
 
             var textureProperty = ppm.FindPropertyRelative(nameof(MaterialProperties.texture));
             var globalTextureProperty = globalPalettePropertyMap?.FindPropertyRelative(nameof(MaterialProperties.texture));
-            
+
             EditorGUI.indentLevel += 1;
             EditorGUILayout.PropertyField(textureProperty, new GUIContent("Palette Texture"));
             if (textureProperty.objectReferenceValue != null)
@@ -211,62 +214,68 @@ namespace Unity.MaterialSwitch
                 {
                     GUILayout.BeginHorizontal();
                     EditorGUILayout.HelpBox("Texture is not marked as readable!", MessageType.Error);
-                    if (GUILayout.Button("Fix"))
-                        MakeTextureReadable(t);
+                    if (GUILayout.Button("Fix")) MakeTextureReadable(t);
                     GUILayout.EndHorizontal();
                 }
             }
 
-
-            DrawPropertyOverrideList(ppm, "showCoords", "Color Properties", "colorProperties",
-                (itemProperty) =>
+            DrawPropertyOverrideList(ppm, "showCoords", "Color Properties", "colorProperties", (itemProperty) =>
+            {
+                var displayNameProperty = itemProperty.FindPropertyRelative(nameof(ColorProperty.displayName));
+                GUILayout.BeginVertical("box");
+                GUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField($"{displayNameProperty.stringValue}");
+                GUILayout.FlexibleSpace();
+                ShowRemoveOverrideButton(itemProperty);
+                GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Sampled Color");
+                var texture = ppm.FindPropertyRelative(nameof(MaterialProperties.texture)).objectReferenceValue as Texture2D;
+                var globalPaletteTexture = globalTextureProperty?.objectReferenceValue as Texture2D;
+                var targetValueProperty = itemProperty.FindPropertyRelative(nameof(ColorProperty.targetValue));
+                if (texture == null && globalPaletteTexture == null)
                 {
-                    var displayNameProperty = itemProperty.FindPropertyRelative(nameof(ColorProperty.displayName));
-                    GUILayout.BeginVertical("box");
-                    GUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField($"{displayNameProperty.stringValue}");
-                    GUILayout.FlexibleSpace();
-                    ShowRemoveOverrideButton(itemProperty);
-                    GUILayout.EndHorizontal();
-                    GUILayout.BeginHorizontal();
-                    GUILayout.Label("Sampled Color");
-                    var texture = ppm.FindPropertyRelative(nameof(MaterialProperties.texture)).objectReferenceValue as Texture2D;
-                    var globalPaletteTexture = globalTextureProperty?.objectReferenceValue as Texture2D;
-                    if (texture == null && globalPaletteTexture == null)
+                    EditorGUILayout.PropertyField(targetValueProperty, GUIContent.none);
+                    // If there is no material, we cannot sample the original color.
+                    if(materialProperty != null)
                     {
-                        EditorGUILayout.PropertyField(itemProperty.FindPropertyRelative(nameof(ColorProperty.targetValue)),
-                            GUIContent.none);
-                    }
-                    else
-                    {
-                        var rect = GUILayoutUtility.GetRect(18, 18);
-                        var targetValueProperty = itemProperty.FindPropertyRelative(nameof(ColorProperty.targetValue));
-                        EditorGUI.DrawRect(rect, targetValueProperty.colorValue);
-                        GUILayout.EndHorizontal();
-                        GUILayout.BeginHorizontal();
-                        EditorGUILayout.PropertyField(itemProperty.FindPropertyRelative(nameof(ColorProperty.uv)));
-                        var textureToUse = texture == null ? globalPaletteTexture : texture;
-                        GUI.enabled = textureToUse != null;
-                        if (GUILayout.Button("Pick") || GUI.Button(rect, GUIContent.none, "label"))
+                       
+                        if (GUILayout.Button(_duplicateIcon, _iconButtonStyle, GUILayout.Width(22)))
                         {
-                            rect = GUIUtility.GUIToScreenRect(rect);
-                            CoordPickerWindow.Open(textureToUse, itemProperty, rect);
+                            var material = materialProperty.objectReferenceValue as Material;
+                            var propertyName = itemProperty.FindPropertyRelative(nameof(ColorProperty.propertyName)).stringValue;
+                            var color = material.GetColor(propertyName);
+                            targetValueProperty.colorValue = color;
                         }
                     }
-
-                    GUI.enabled = true;
+                }
+                else
+                {
+                    var rect = GUILayoutUtility.GetRect(18, 18);
+                    EditorGUI.DrawRect(rect, targetValueProperty.colorValue);
                     GUILayout.EndHorizontal();
-                    GUILayout.EndVertical();
-                });
+                    GUILayout.BeginHorizontal();
+                    EditorGUILayout.PropertyField(itemProperty.FindPropertyRelative(nameof(ColorProperty.uv)));
+                    var textureToUse = texture == null ? globalPaletteTexture : texture;
+                    GUI.enabled = textureToUse != null;
+                    if (GUILayout.Button("Pick") || GUI.Button(rect, GUIContent.none, "label"))
+                    {
+                        rect = GUIUtility.GUIToScreenRect(rect);
+                        CoordPickerWindow.Open(textureToUse, itemProperty, rect);
+                    }
+                }
 
+                GUI.enabled = true;
+                GUILayout.EndHorizontal();
+                GUILayout.EndVertical();
+            });
 
             DrawPropertyOverrideList(ppm, "showTextures", "Texture Properties", "textureProperties");
             DrawPropertyOverrideList(ppm, "showFloats", "Float Properties", "floatProperties", (itemProperty) =>
             {
                 GUILayout.BeginVertical("box");
                 GUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField(
-                    $"{itemProperty.FindPropertyRelative(nameof(FloatProperty.displayName)).stringValue}");
+                EditorGUILayout.LabelField($"{itemProperty.FindPropertyRelative(nameof(FloatProperty.displayName)).stringValue}");
                 GUILayout.FlexibleSpace();
                 ShowRemoveOverrideButton(itemProperty);
                 GUILayout.EndHorizontal();
@@ -291,21 +300,19 @@ namespace Unity.MaterialSwitch
                 GUILayout.EndVertical();
             });
 
-
             GUILayout.EndVertical();
         }
 
         private void ShowRemoveOverrideButton(SerializedProperty itemProperty)
         {
-            if (GUILayout.Button(RemoveButtonGuiContent, EditorStyles.toolbarButton))
+            if (GUILayout.Button(_trashIcon, _iconButtonStyle))
             {
                 var overrideBaseValueProperty = itemProperty.FindPropertyRelative(nameof(MaterialSwitchProperty.overrideBaseValue));
                 overrideBaseValueProperty.boolValue = false;
             }
         }
 
-        private void DrawPropertyOverrideList(SerializedProperty ppm, string togglePropertyPath, string heading,
-            string arrayPropertyPath, System.Action<SerializedProperty> guiMethod = null)
+        private void DrawPropertyOverrideList(SerializedProperty ppm, string togglePropertyPath, string heading, string arrayPropertyPath, System.Action<SerializedProperty> guiMethod = null)
         {
             var showPropertyListToggle = ppm.FindPropertyRelative(togglePropertyPath);
             showPropertyListToggle.boolValue = EditorGUILayout.Foldout(showPropertyListToggle.boolValue, heading);
@@ -319,26 +326,23 @@ namespace Unity.MaterialSwitch
 
                     for (var j = 0; j < propertyList.arraySize; j++)
                     {
-                        var itemProperty        = propertyList.GetArrayElementAtIndex(j);
+                        var itemProperty = propertyList.GetArrayElementAtIndex(j);
                         var displayNameProperty = itemProperty.FindPropertyRelative(nameof(MaterialSwitchProperty.displayName));
 
                         var overrideBaseValueProperty = itemProperty.FindPropertyRelative(nameof(MaterialSwitchProperty.overrideBaseValue));
-                        menu.AddItem(new GUIContent(displayNameProperty.stringValue),
-                            overrideBaseValueProperty.boolValue, ToggleOverrideBaseValueProperty, itemProperty);
+                        menu.AddItem(new GUIContent(displayNameProperty.stringValue), overrideBaseValueProperty.boolValue, ToggleOverrideBaseValueProperty, itemProperty);
                         if (!overrideBaseValueProperty.boolValue) continue;
                         if (guiMethod == null)
                         {
                             GUILayout.BeginVertical("box");
                             GUILayout.BeginHorizontal();
-                            EditorGUILayout.LabelField(
-                                $"{displayNameProperty.stringValue}");
+                            EditorGUILayout.LabelField($"{displayNameProperty.stringValue}");
                             GUILayout.FlexibleSpace();
                             ShowRemoveOverrideButton(itemProperty);
                             GUILayout.EndHorizontal();
 
                             //EditorGUILayout.PropertyField(itemProperty.FindPropertyRelative("baseValue"));
-                            EditorGUILayout.PropertyField(itemProperty.FindPropertyRelative("targetValue"),
-                                new GUIContent("New Value"));
+                            EditorGUILayout.PropertyField(itemProperty.FindPropertyRelative("targetValue"), new GUIContent("New Value"));
                             GUILayout.EndVertical();
                         }
                         else
@@ -352,7 +356,7 @@ namespace Unity.MaterialSwitch
                 }
             }
         }
-        
+
         void ShowDropDownButton(GenericMenu menu, string buttonLabel)
         {
             var buttonText = new GUIContent(buttonLabel);
@@ -365,7 +369,7 @@ namespace Unity.MaterialSwitch
 
         void ToggleOverrideBaseValueProperty(object property)
         {
-            var p                         = property as SerializedProperty;
+            var p = property as SerializedProperty;
             var overrideBaseValueProperty = p.FindPropertyRelative("overrideBaseValue");
             overrideBaseValueProperty.boolValue = !overrideBaseValueProperty.boolValue;
             p.serializedObject.ApplyModifiedProperties();

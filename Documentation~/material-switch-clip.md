@@ -11,8 +11,8 @@ and it contains two sections:
    To override the material property of each material separately. 
 
 
-Currently, we can override the following material properties:
-1. Texture
+You can override the following material properties:
+1. Texture (Sprites and sprite textures are not supported.)
 2. Color
 3. Float 
 

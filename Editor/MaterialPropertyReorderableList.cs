@@ -18,18 +18,27 @@ namespace Unity.MaterialSwitch
             _filterText = filter;
         }
 
-        private void DrawHeader(Rect rect)
+        private void DrawRow(Rect rect, System.Action<Rect> col1, System.Action<Rect> col2, System.Action<Rect> col3)
         {
             var cursor = rect;
             cursor.width = rect.width * 0.45f;
-            EditorGUI.LabelField(cursor, "Property", EditorStyles.boldLabel);
+            col1(cursor);
             cursor.x += cursor.width;
             cursor.width = rect.width * 0.1f;
             EditorGUIUtility.labelWidth = 48;
-            EditorGUI.LabelField(cursor, "Hide", EditorStyles.boldLabel);
+            col2(cursor);
             cursor.x += cursor.width;
             cursor.width = rect.width * 0.45f;
-            EditorGUI.LabelField(cursor, "Display Name", EditorStyles.boldLabel);
+            col3(cursor);
+        }
+
+        private void DrawHeader(Rect rect)
+        {
+            DrawRow(rect,
+                (r) => EditorGUI.LabelField(r, "Property", EditorStyles.boldLabel),
+                (r) => EditorGUI.LabelField(r, "Hide", EditorStyles.boldLabel),
+                (r) => EditorGUI.LabelField(r, "Display Name", EditorStyles.boldLabel)
+            );
         }
 
         private float ElementHeight(int i)
@@ -56,17 +65,12 @@ namespace Unity.MaterialSwitch
             property.isExpanded = true;
             var hiddenProperty = property.FindPropertyRelative(nameof(MaterialPropertyNameMap.PropertyDisplayName.hidden));
             var displayNameProperty = property.FindPropertyRelative(nameof(MaterialPropertyNameMap.PropertyDisplayName.displayName));
-            var cursor = rect;
 
-            cursor.width = rect.width * 0.45f;
-            EditorGUI.LabelField(cursor, property.displayName, EditorStyles.boldLabel);
-            cursor.x += cursor.width;
-            cursor.width = rect.width * 0.1f;
-            EditorGUIUtility.labelWidth = 48;
-            EditorGUI.PropertyField(cursor, hiddenProperty, GUIContent.none);
-            cursor.x += cursor.width;
-            cursor.width = rect.width * 0.45f;
-            EditorGUI.PropertyField(cursor, displayNameProperty, GUIContent.none);
+            DrawRow(rect,
+                (r) => EditorGUI.LabelField(r, property.displayName, EditorStyles.boldLabel),
+                (r) => EditorGUI.PropertyField(r, hiddenProperty, GUIContent.none),
+                (r) => EditorGUI.PropertyField(r, displayNameProperty, GUIContent.none)
+            );
         }
 
     }

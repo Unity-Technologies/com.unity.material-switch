@@ -26,6 +26,8 @@ namespace Unity.MaterialSwitch
         private GUIContent _duplicateIcon;
         private GUIContent _trashIcon;
         private GUIStyle _iconButtonStyle;
+        private RemapNameCache _remapNameCache;
+        
         
 
         void UpdateSampledColors()
@@ -69,8 +71,8 @@ namespace Unity.MaterialSwitch
             _settingsIcon.tooltip = "Settings";
             _duplicateIcon = EditorGUIUtility.IconContent("TreeEditor.Duplicate", "Copy original material color.");
             _trashIcon = EditorGUIUtility.IconContent("TreeEditor.Trash", "Remove override.");
-            _errorMessage = null;
-            
+            _remapNameCache = new RemapNameCache();
+            errorMessage = null;
             //when the editor is enabled, get the target clip and make sure it is up to date.
 
             PlayableDirector inspectedDirector = TimelineEditor.inspectedDirector;
@@ -188,8 +190,7 @@ namespace Unity.MaterialSwitch
             GUILayout.BeginVertical("box");
             EditorGUI.indentLevel--;
             SerializedProperty materialProperty = ppm.FindPropertyRelative(nameof(MaterialProperties.material));;
-            var material = materialProperty.objectReferenceValue as Material;
-            
+
             if (globalPalettePropertyMap != null)
             {
                 //This is a per material ppm, so draw the material field.
@@ -332,7 +333,7 @@ namespace Unity.MaterialSwitch
                     {
                         var itemProperty = propertyList.GetArrayElementAtIndex(j);
                         var propertyName = itemProperty.FindPropertyRelative(nameof(ColorProperty.propertyName)).stringValue;
-                        var displayName = MaterialSwitchEditorUtility.GetDisplayName(material, propertyName);
+                        var displayName = _remapNameCache.GetDisplayName(material, propertyName);
                         var overrideBaseValueProperty = itemProperty.FindPropertyRelative(nameof(MaterialSwitchProperty.overrideBaseValue));
                         menu.AddItem(new GUIContent(displayName), overrideBaseValueProperty.boolValue, ToggleOverrideBaseValueProperty, itemProperty);
                         if (!overrideBaseValueProperty.boolValue) continue;

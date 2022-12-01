@@ -72,21 +72,7 @@ public static class MaterialSwitchEditorUtility {
         return map;
     }
 
-    internal static string GetDisplayName(Material material, string propertyName)
-    {
-        if(_nameRemaps == null) CollectRemaps();
-        
-        if (material == null || material.shader == null || _nameRemaps == null)
-            return propertyName;
-        if (_nameRemaps.TryGetValue(material.shader, out var nameMap))
-        {
-            if (nameMap.TryGetValue(propertyName, out var remappedName))
-            {
-                return remappedName.displayName;
-            }
-        }
-        return propertyName;
-    }
+    
     
     internal static MaterialProperties CreateMaterialProperties(Material[] materials) {
         if(_nameRemaps == null) CollectRemaps();
@@ -118,7 +104,6 @@ public static class MaterialSwitchEditorUtility {
                     if (map.TryGetValue(mp.name, out var propertyName))
                     {
                         if (propertyName.hidden) continue;
-                        displayName = propertyName.displayName;
                     }
                 }
             }
@@ -171,10 +156,11 @@ public static class MaterialSwitchEditorUtility {
         return ppm;
     }
 
-    private static void CollectRemaps()
+    internal static void CollectRemaps()
     {
         var mapAssets = Resources.FindObjectsOfTypeAll<MaterialPropertyNameMap>();
-        _nameRemaps = new Dictionary<Shader, MaterialPropertyNameMap>();
+        _nameRemaps ??= new Dictionary<Shader, MaterialPropertyNameMap>();
+        _nameRemaps.Clear();
         foreach (var i in mapAssets)
             if (i != null && i.shader != null)
                 _nameRemaps[i.shader] = i;

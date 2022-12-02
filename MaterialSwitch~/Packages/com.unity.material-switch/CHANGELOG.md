@@ -4,6 +4,20 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.8.1-preview] - 2022-12-02
+
+### Added
+* add a button in MaterialSwitchClip to load source color from material
+* doc: add property name remap documentation 
+
+### Changed
+* deps: use com.unity.film-internal-utilities@0.16.2-preview 
+* change: change the layout of MaterialPropertyNameRemapEditor (searchbox)
+* doc: clarify that MaterialSwitchClip does not support sprites 
+
+### Fixed
+* fix: sync the remapping of MaterialSwitchClip property names  
+
 ## [0.8.0-preview] - 2022-11-24
 
 ### Added

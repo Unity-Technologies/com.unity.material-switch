@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -7,13 +5,15 @@ using Object = UnityEngine.Object;
 
 namespace Unity.MaterialSwitch
 {
-
     [CustomEditor(typeof(MaterialPropertyNameMap))]
     public class MaterialPropertyNameRemapEditor : Editor
     {
         private Dictionary<int, MaterialPropertyNameMap> _nameMaps = new Dictionary<int, MaterialPropertyNameMap>();
 
-       
+        private MaterialPropertyReorderableList _propertyList;
+
+        private string _filterText;
+        
         private void OnEnable()
         {
             var assets  = Resources.FindObjectsOfTypeAll<MaterialPropertyNameMap>();
@@ -44,6 +44,8 @@ namespace Unity.MaterialSwitch
             serializedObject.Update();
             var shaderProperty = serializedObject.FindProperty(nameof(MaterialPropertyNameMap.shader));
             var nameMapProperty = serializedObject.FindProperty(nameof(MaterialPropertyNameMap.nameMap));
+
+            
             
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(shaderProperty);
@@ -74,8 +76,18 @@ namespace Unity.MaterialSwitch
                     }
                 }
             }
-            
-            EditorGUILayout.PropertyField(nameMapProperty);
+            EditorGUI.BeginChangeCheck();
+            _filterText = EditorGUILayout.TextField("Search", _filterText);
+            if (EditorGUI.EndChangeCheck())
+            {
+                // the list needs to be recreated with a filter, as it cannot be filtered dynamically due to to caching in the ReorderableList class.
+                _propertyList = new MaterialPropertyReorderableList(serializedObject, nameMapProperty, _filterText);
+            }
+            else
+            {
+                _propertyList ??= new MaterialPropertyReorderableList(serializedObject, nameMapProperty, filter:null);
+            }
+            _propertyList.DoLayoutList();
             serializedObject.ApplyModifiedProperties();
         }
 

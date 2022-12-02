@@ -5,7 +5,7 @@ namespace Unity.MaterialSwitch
 {
     internal class RemapNameCache
     {
-        Dictionary<Shader,MaterialPropertyNameMap> _nameRemaps = null;
+        List<MaterialPropertyNameMap> _nameRemaps = null;
         
         internal (string displayName, bool hidden) GetDisplayName(Material material, string propertyName)
         {
@@ -16,12 +16,15 @@ namespace Unity.MaterialSwitch
             
             if (material != null && material.shader != null)
             {
-                if (_nameRemaps.TryGetValue(material.shader, out var nameMap))
+                foreach(var map in _nameRemaps)
                 {
-                    if (nameMap.TryGetValue(propertyName, out var remappedName))
+                    if(map.shader == material.shader)
                     {
-                        displayName = remappedName.displayName;
-                        isHidden = remappedName.hidden;
+                        if (map.TryGetValue(propertyName, out var remappedName))
+                        {
+                            displayName = remappedName.displayName;
+                            isHidden = remappedName.hidden;
+                        }
                     }
                 }
             }
@@ -31,13 +34,13 @@ namespace Unity.MaterialSwitch
         void CollectRemaps()
         {
             var mapAssets = Resources.FindObjectsOfTypeAll<MaterialPropertyNameMap>();
-            _nameRemaps ??= new Dictionary<Shader, MaterialPropertyNameMap>();
+            _nameRemaps ??= new List<MaterialPropertyNameMap>();
             _nameRemaps.Clear();
             foreach (var i in mapAssets)
             {
-                if (i != null && i.shader != null)
+                if (i != null)
                 {
-                    _nameRemaps[i.shader] = i;
+                    _nameRemaps.Add(i);
                 }
             }
         }

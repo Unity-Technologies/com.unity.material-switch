@@ -63,13 +63,19 @@ namespace Unity.MaterialSwitch
             e.Use();
         }
 
+        private void OnDisable()
+        {
+            EditorApplication.projectChanged -= OnProjectChanged;
+        }
+
         private void OnEnable()
         {
+            EditorApplication.projectChanged -= OnProjectChanged;
+            EditorApplication.projectChanged += OnProjectChanged;
             _settingsIcon = EditorGUIUtility.IconContent("d_SettingsIcon");
             _settingsIcon.tooltip = "Settings";
             _duplicateIcon = EditorGUIUtility.IconContent("TreeEditor.Duplicate", "Copy original material color.");
             _trashIcon = EditorGUIUtility.IconContent("TreeEditor.Trash", "Remove override.");
-            _remapNameCache = new RemapNameCache();
             _errorMessage = null;
             //when the editor is enabled, get the target clip and make sure it is up to date.
 
@@ -127,6 +133,7 @@ namespace Unity.MaterialSwitch
 
         public override void OnInspectorGUI()
         {
+            _remapNameCache ??= new RemapNameCache();
             serializedObject.Update();
             
             // This has to be done here as we cannot use GUI.skin outside of an OnGUI function.
@@ -385,6 +392,11 @@ namespace Unity.MaterialSwitch
             importer.isReadable = true;
             AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
             UpdateSampledColors();
+        }
+
+        void OnProjectChanged()
+        {
+            _remapNameCache = null;
         }
 
         

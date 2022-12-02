@@ -24,6 +24,7 @@ namespace Unity.MaterialSwitch
                         {
                             displayName = remappedName.displayName;
                             isHidden = remappedName.hidden;
+                            break;
                         }
                     }
                 }

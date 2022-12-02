@@ -2,7 +2,7 @@
   "displayName": "Material Switch",
   "name": "com.unity.material-switch",
   "unity": "2020.3",
-  "version": "0.8.0-preview",
+  "version": "0.8.1-preview",
   "description": "Provides tools for switch material attributes over a number of renderers at once.",
   "contributors": [
     "Simon Wittber <simonwittber@unity3d.com> (https://github.com/smnwttbr)",

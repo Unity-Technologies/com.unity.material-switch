@@ -15,7 +15,6 @@ namespace Unity.MaterialSwitch {
 /// </summary>
 public static class MaterialSwitchEditorUtility {
     
-    private static Dictionary<Shader,MaterialPropertyNameMap> _nameRemaps;
 
     [InitializeOnLoadMethod]
     static void InitCallbacks() {
@@ -75,7 +74,6 @@ public static class MaterialSwitchEditorUtility {
     
     
     internal static MaterialProperties CreateMaterialProperties(Material[] materials) {
-        if(_nameRemaps == null) CollectRemaps();
 
         MaterialProperties ppm = new MaterialProperties() {
             needsUpdate = false,
@@ -97,16 +95,6 @@ public static class MaterialSwitchEditorUtility {
             if (mp.flags.HasFlag(MaterialProperty.PropFlags.PerRendererData))
                 continue;
             var displayName = mp.displayName;
-            if (material.shader != null)
-            {
-                if (_nameRemaps.TryGetValue(material.shader, out var map))
-                {
-                    if (map.TryGetValue(mp.name, out var propertyName))
-                    {
-                        if (propertyName.hidden) continue;
-                    }
-                }
-            }
 
             if (mp.type == MaterialProperty.PropType.Color) {
                 ppm.colorProperties.Add(
@@ -155,15 +143,6 @@ public static class MaterialSwitchEditorUtility {
 
         return ppm;
     }
-
-    internal static void CollectRemaps()
-    {
-        var mapAssets = Resources.FindObjectsOfTypeAll<MaterialPropertyNameMap>();
-        _nameRemaps ??= new Dictionary<Shader, MaterialPropertyNameMap>();
-        _nameRemaps.Clear();
-        foreach (var i in mapAssets)
-            if (i != null && i.shader != null)
-                _nameRemaps[i.shader] = i;
-    }
+    
 }
 } //end namespace

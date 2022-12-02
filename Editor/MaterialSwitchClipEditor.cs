@@ -27,8 +27,6 @@ namespace Unity.MaterialSwitch
         private GUIContent _trashIcon;
         private GUIStyle _iconButtonStyle;
         private RemapNameCache _remapNameCache;
-        
-        
 
         void UpdateSampledColors()
         {
@@ -333,7 +331,9 @@ namespace Unity.MaterialSwitch
                     {
                         var itemProperty = propertyList.GetArrayElementAtIndex(j);
                         var propertyName = itemProperty.FindPropertyRelative(nameof(ColorProperty.propertyName)).stringValue;
-                        var displayName = _remapNameCache.GetDisplayName(material, propertyName);
+                        var (displayName, isHidden) = _remapNameCache.GetDisplayName(material, propertyName);
+                        if (isHidden)
+                            continue;
                         var overrideBaseValueProperty = itemProperty.FindPropertyRelative(nameof(MaterialSwitchProperty.overrideBaseValue));
                         menu.AddItem(new GUIContent(displayName), overrideBaseValueProperty.boolValue, ToggleOverrideBaseValueProperty, itemProperty);
                         if (!overrideBaseValueProperty.boolValue) continue;

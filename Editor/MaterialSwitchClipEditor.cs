@@ -70,7 +70,7 @@ namespace Unity.MaterialSwitch
             _duplicateIcon = EditorGUIUtility.IconContent("TreeEditor.Duplicate", "Copy original material color.");
             _trashIcon = EditorGUIUtility.IconContent("TreeEditor.Trash", "Remove override.");
             _remapNameCache = new RemapNameCache();
-            errorMessage = null;
+            _errorMessage = null;
             //when the editor is enabled, get the target clip and make sure it is up to date.
 
             PlayableDirector inspectedDirector = TimelineEditor.inspectedDirector;
@@ -184,7 +184,6 @@ namespace Unity.MaterialSwitch
 
         private void DrawPalettePropertyMapUI(SerializedProperty ppm, SerializedProperty globalPalettePropertyMap, int index)
         {
-            SerializedProperty materialProperty = null;
             GUILayout.BeginVertical("box");
             EditorGUI.indentLevel--;
             SerializedProperty materialProperty = ppm.FindPropertyRelative(nameof(MaterialProperties.material));;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Unity.MaterialSwitch
 {
-    public class RemapNameCache
+    internal class RemapNameCache
     {
         Dictionary<Shader,MaterialPropertyNameMap> _nameRemaps = null;
         

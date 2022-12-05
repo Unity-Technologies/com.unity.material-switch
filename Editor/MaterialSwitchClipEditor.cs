@@ -135,7 +135,7 @@ namespace Unity.MaterialSwitch
         {
             _remapNameCache ??= new RemapNameCache();
             serializedObject.Update();
-            
+
             // This has to be done here as we cannot use GUI.skin outside of an OnGUI function.
             if(_iconButtonStyle == null)
                 _iconButtonStyle = GUI.skin.FindStyle("IconButton") ?? EditorGUIUtility.GetBuiltinSkin(EditorSkin.Inspector).FindStyle("IconButton");
@@ -199,7 +199,9 @@ namespace Unity.MaterialSwitch
             {
                 //This is a per material ppm, so draw the material field.
                 GUILayout.BeginHorizontal();
+                GUI.enabled = false;
                 EditorGUILayout.PropertyField(materialProperty, GUILayout.MinWidth(384));
+                GUI.enabled = true;
                 GUILayout.FlexibleSpace();
                 if (GUILayout.Button(_settingsIcon, EditorStyles.toolbarDropDown))
                 {

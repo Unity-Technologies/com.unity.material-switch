@@ -148,16 +148,9 @@ namespace Unity.MaterialSwitch
             GUILayout.BeginVertical("box");
 
             var globalPalettePropertyMap = serializedObject.FindProperty(nameof(MaterialSwitchClip.globalMaterialProperties));
-            GUILayout.BeginHorizontal();
+            
             GUILayout.Label("Global Properties");
-            GUILayout.FlexibleSpace();
-            if (GUILayout.Button(_settingsIcon, EditorStyles.toolbarDropDown))
-            {
-                //negative targetIndex is reserved for global properties
-                HandleContextClick(globalPalettePropertyMap, -1);
-            }
-
-            GUILayout.EndHorizontal();
+            
 
             //negative targetIndex is reserved for global properties
             DrawPalettePropertyMapUI(globalPalettePropertyMap, null, -1);

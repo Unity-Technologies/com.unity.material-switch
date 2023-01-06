@@ -123,11 +123,11 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.toonshader": {
-      "version": "0.7.6-preview",
+      "version": "0.8.2-preview",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.render-pipelines.core": "7.0.0"
+        "com.unity.render-pipelines.core": "10.0.0"
       },
       "url": "https://packages.unity.com"
     },

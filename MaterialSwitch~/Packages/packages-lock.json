@@ -61,6 +61,17 @@
         "com.unity.timeline": "1.5.7"
       }
     },
+    "com.unity.render-pipelines.core": {
+      "version": "10.10.1",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.modules.physics": "1.0.0",
+        "com.unity.modules.jsonserialize": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.selection-groups": {
       "version": "0.7.4-preview",
       "depth": 1,
@@ -112,10 +123,12 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.toonshader": {
-      "version": "0.6.1-preview",
+      "version": "0.7.6-preview",
       "depth": 0,
       "source": "registry",
-      "dependencies": {},
+      "dependencies": {
+        "com.unity.render-pipelines.core": "7.0.0"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.ugui": {

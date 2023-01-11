@@ -4,6 +4,16 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.8.2-preview] - 2023-01-11
+
+### Changed
+* deps: use com.unity.selection-groups@0.8.0-preview
+
+### Fixed
+* fix: prevent material from being changed in MaterialSwitchClip
+* fix: removed copy button from global properties
+* fix: allow overriding texture properties with any texture type
+
 ## [0.8.1-preview] - 2022-12-02
 
 ### Added

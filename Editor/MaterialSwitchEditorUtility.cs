@@ -109,10 +109,11 @@ public static class MaterialSwitchEditorUtility {
 
             if (mp.type == MaterialProperty.PropType.Texture) {
                 ppm.textureProperties.Add(
-                    new TextureProperty() {
+                    new TextureProperty()
+                    {
                         propertyName = mp.name,
-                        propertyId   = Shader.PropertyToID(mp.name),
-                        baseValue    = (Texture2D)mp.textureValue
+                        propertyId = Shader.PropertyToID(mp.name),
+                        baseValue = mp.textureValue
                     }
                 );
             }

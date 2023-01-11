@@ -75,7 +75,7 @@ namespace Unity.MaterialSwitch
     /// A class for overriding texture property in MaterialSwitchClip
     /// </summary>
     [System.Serializable]
-    public class TextureProperty : MaterialProperty<Texture2D>
+    public class TextureProperty : MaterialProperty<Texture>
     {
         [SerializeField] internal RenderTexture finalTexture;
     }

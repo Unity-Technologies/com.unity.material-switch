@@ -108,17 +108,14 @@ public static class MaterialSwitchEditorUtility {
             }
 
             if (mp.type == MaterialProperty.PropType.Texture) {
-                if(mp.textureValue is Texture2D tex2D)
-                {
-                    ppm.textureProperties.Add(
-                        new TextureProperty()
-                        {
-                            propertyName = mp.name,
-                            propertyId = Shader.PropertyToID(mp.name),
-                            baseValue = tex2D
-                        }
-                    );
-                }
+                ppm.textureProperties.Add(
+                    new TextureProperty()
+                    {
+                        propertyName = mp.name,
+                        propertyId = Shader.PropertyToID(mp.name),
+                        baseValue = mp.textureValue
+                    }
+                );
             }
 
             if (mp.type == MaterialProperty.PropType.Float) {

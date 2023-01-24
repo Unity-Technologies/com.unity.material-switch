@@ -6,7 +6,6 @@ using UnityEngine.Serialization;
 
 namespace Unity.MaterialSwitch
 {
-
     /// <summary>
     /// A Timeline clip for changing and blending between material parameters.
     /// </summary>

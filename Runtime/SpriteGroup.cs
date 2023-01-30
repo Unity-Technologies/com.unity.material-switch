@@ -11,7 +11,7 @@ namespace Unity.MaterialSwitch
     internal class SpriteGroup : MonoBehaviour
     {
         public SpriteRenderer[] spriteRenderers;
-        public List<Sprite> defaultSprites;
+        public Dictionary<SpriteRenderer, Stack<Sprite>> spriteHistory = new Dictionary<SpriteRenderer, Stack<Sprite>>();
 
         void OnEnable()
         {
@@ -33,12 +33,6 @@ namespace Unity.MaterialSwitch
         {
             var group = GetComponent<SelectionGroups.SelectionGroup>();
             spriteRenderers = group.GetMemberComponents<SpriteRenderer>().ToArray();
-            defaultSprites ??= new List<Sprite>(spriteRenderers.Length);
-            defaultSprites.Clear();
-            foreach (var sr in spriteRenderers)
-            {
-                defaultSprites.Add(sr.sprite);    
-            }
         }
     }
 }

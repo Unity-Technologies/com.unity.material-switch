@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Playables;
 
 namespace Unity.MaterialSwitch
@@ -43,15 +44,30 @@ namespace Unity.MaterialSwitch
             {
                 for (var i = 0; i < spriteGroup.spriteRenderers.Length; i++)
                 {
-                    spriteGroup.spriteRenderers[i].sprite = spriteGroup.defaultSprites[i];
+                    var spriteRenderer = spriteGroup.spriteRenderers[i];
+                    if (spriteGroup.spriteHistory.TryGetValue(spriteRenderer, out var previousSprites))
+                    {
+                        if(previousSprites.Count > 0) 
+                            spriteRenderer.sprite = previousSprites.Pop();
+                    }
                 }
                 return;
             }
 
             var maxBehaviour = ((ScriptPlayable<SpriteSwitchPlayableBehaviour>) playable.GetInput(maxIndex)).GetBehaviour();
-            foreach (var sr in spriteGroup.spriteRenderers)
+            
+            for (var i = 0; i < spriteGroup.spriteRenderers.Length; i++)
             {
-                sr.sprite = maxBehaviour.clip.sprite;
+                var spriteRenderer = spriteGroup.spriteRenderers[i];
+                if (spriteRenderer.sprite != maxBehaviour.clip.sprite)
+                {
+                    if (!spriteGroup.spriteHistory.TryGetValue(spriteRenderer, out var previousSprites))
+                    {
+                        previousSprites = spriteGroup.spriteHistory[spriteRenderer] = new Stack<Sprite>();
+                    }
+                    previousSprites.Push(spriteRenderer.sprite);
+                    spriteRenderer.sprite = maxBehaviour.clip.sprite;
+                }
             }
         }
         

@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Serialization;
 
 namespace Unity.MaterialSwitch
 {
     public class SpriteSwitchClip : PlayableAsset
     {
-        public Sprite sprite;
+        public Texture2D spriteSheet;
         
         public override Playable CreatePlayable(PlayableGraph graph, GameObject owner)
         {

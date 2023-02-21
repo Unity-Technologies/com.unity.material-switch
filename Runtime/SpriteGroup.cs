@@ -10,8 +10,8 @@ namespace Unity.MaterialSwitch
     [RequireComponent(typeof(SelectionGroups.SelectionGroup))]
     internal class SpriteGroup : MonoBehaviour
     {
-        public SpriteRenderer[] spriteRenderers;
-        public Dictionary<SpriteRenderer, Stack<Sprite>> spriteHistory = new Dictionary<SpriteRenderer, Stack<Sprite>>();
+        [HideInInspector] [SerializeField] internal SpriteRenderer[] spriteRenderers;
+        
 
         void OnEnable()
         {

@@ -1,9 +1,8 @@
-﻿using UnityEngine;
-using UnityEngine.Playables;
+﻿using UnityEngine.Playables;
 
 namespace Unity.MaterialSwitch
 {
-    public class SpriteSwitchPlayableBehaviour : PlayableBehaviour
+    internal class SpriteSwitchPlayableBehaviour : PlayableBehaviour
     {
         public SpriteSwitchClip clip;
     }

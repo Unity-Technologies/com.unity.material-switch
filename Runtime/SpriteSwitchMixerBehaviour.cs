@@ -4,8 +4,10 @@ using UnityEngine.Playables;
 
 namespace Unity.MaterialSwitch
 {
-    public class SpriteSwitchMixerPlayableBehaviour : PlayableBehaviour
+    internal class SpriteSwitchMixerPlayableBehaviour : PlayableBehaviour
     {
+        private Dictionary<SpriteRenderer, MaterialPropertyBlock> _propertyBlocks = new Dictionary<SpriteRenderer, MaterialPropertyBlock>();
+        private static readonly int MainTex = Shader.PropertyToID("_MainTex");
 
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
@@ -15,6 +17,8 @@ namespace Unity.MaterialSwitch
             {
                 spriteGroup = group.gameObject.AddComponent<SpriteGroup>();
             }
+            
+            
             if (Application.isEditor && !Application.isPlaying)
             {
                 spriteGroup.CollectSpriteRenderers();
@@ -45,11 +49,7 @@ namespace Unity.MaterialSwitch
                 for (var i = 0; i < spriteGroup.spriteRenderers.Length; i++)
                 {
                     var spriteRenderer = spriteGroup.spriteRenderers[i];
-                    if (spriteGroup.spriteHistory.TryGetValue(spriteRenderer, out var previousSprites))
-                    {
-                        if(previousSprites.Count > 0) 
-                            spriteRenderer.sprite = previousSprites.Pop();
-                    }
+                    SetSpriteSheet(spriteRenderer, spriteRenderer.sprite.texture);
                 }
                 return;
             }
@@ -59,17 +59,30 @@ namespace Unity.MaterialSwitch
             for (var i = 0; i < spriteGroup.spriteRenderers.Length; i++)
             {
                 var spriteRenderer = spriteGroup.spriteRenderers[i];
-                if (spriteRenderer.sprite != maxBehaviour.clip.sprite)
-                {
-                    if (!spriteGroup.spriteHistory.TryGetValue(spriteRenderer, out var previousSprites))
-                    {
-                        previousSprites = spriteGroup.spriteHistory[spriteRenderer] = new Stack<Sprite>();
-                    }
-                    previousSprites.Push(spriteRenderer.sprite);
-                    spriteRenderer.sprite = maxBehaviour.clip.sprite;
-                }
+                SetSpriteSheet(spriteRenderer, maxBehaviour.clip.spriteSheet);
             }
         }
-        
+
+        private void SetSpriteSheet(SpriteRenderer spriteRenderer, Texture2D spriteSheet)
+        {
+            // This is required to override the animator controller which will also set the
+            // property block on this sprite renderer.
+            SpriteSwitchMonoBehaviour.OnLateUpdate(() =>
+            {
+                if (spriteSheet == null)
+                {
+                    spriteRenderer.SetPropertyBlock(null);
+                    return;
+                }
+
+                if (!_propertyBlocks.TryGetValue(spriteRenderer, out var propertyBlock))
+                    propertyBlock = new MaterialPropertyBlock();
+
+                spriteRenderer.GetPropertyBlock(propertyBlock);
+                _propertyBlocks[spriteRenderer] = propertyBlock;
+                propertyBlock.SetTexture(MainTex, spriteSheet);
+                spriteRenderer.SetPropertyBlock(propertyBlock);
+            });
+        }
     }
 }

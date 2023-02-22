@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Unity.MaterialSwitch
 {
+    [ExecuteAlways]
     internal class SpriteSwitchMonoBehaviour : MonoBehaviour
     {
         private static SpriteSwitchMonoBehaviour _instance;

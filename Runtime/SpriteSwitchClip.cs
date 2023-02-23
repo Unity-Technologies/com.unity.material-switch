@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 
 namespace Unity.MaterialSwitch
 {
-    public class SpriteSwitchClip : PlayableAsset
+    internal class SpriteSwitchClip : PlayableAsset
     {
         public Texture2D spriteSheet;
         

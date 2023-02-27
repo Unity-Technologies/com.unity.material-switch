@@ -4,18 +4,19 @@ using UnityEngine;
 
 namespace Unity.MaterialSwitch
 {
+    [AddComponentMenu("")]
     [ExecuteAlways]
-    internal class SpriteSwitchMonoBehaviour : MonoBehaviour
+    internal class SpriteSwitchEventInvoker : MonoBehaviour
     {
-        private static SpriteSwitchMonoBehaviour _instance;
+        private static SpriteSwitchEventInvoker _instance;
 
-        private static SpriteSwitchMonoBehaviour Instance
+        private static SpriteSwitchEventInvoker Instance
         {
             get
             {
                 if(_instance == null)
                 {
-                    _instance = new GameObject().AddComponent<SpriteSwitchMonoBehaviour>();
+                    _instance = new GameObject().AddComponent<SpriteSwitchEventInvoker>();
                     _instance.gameObject.hideFlags = HideFlags.HideAndDontSave;
                 }
                 return _instance;

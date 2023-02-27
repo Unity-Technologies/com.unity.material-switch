@@ -18,11 +18,11 @@ namespace Unity.MaterialSwitch
                 spriteGroup = group.gameObject.AddComponent<SpriteGroup>();
             }
             
-            
-            if (Application.isEditor && !Application.isPlaying)
-            {
-                spriteGroup.CollectSpriteRenderers();
-            }
+            // This code is disabled until we are sure it is not required.
+            // if (Application.isEditor && !Application.isPlaying)
+            // {
+            //     spriteGroup.CollectSpriteRenderers();
+            // }
             
             var inputCount = playable.GetInputCount();
 
@@ -67,7 +67,7 @@ namespace Unity.MaterialSwitch
         {
             // This is required to override the animator controller which will also set the
             // property block on this sprite renderer.
-            SpriteSwitchMonoBehaviour.OnLateUpdate(() =>
+            SpriteSwitchEventInvoker.OnLateUpdate(() =>
             {
                 if (spriteSheet == null)
                 {

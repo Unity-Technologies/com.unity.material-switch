@@ -25,41 +25,27 @@ namespace Unity.MaterialSwitch
             // }
             
             var inputCount = playable.GetInputCount();
-
-            var maxWeight = float.MinValue;
-            var maxIndex = -1;
-            //get total weight of all playables that are currently being mixed.
-            var totalWeight = 0f;
+            
             for (var i = 0; i < inputCount; i++)
             {
                 var weight = playable.GetInputWeight(i);
-                totalWeight += weight;
-                if (weight > maxWeight)
+                // the first input on the track with a weight greater than 0 will be the only clip processed, as we do not mix clips.
+                if (weight > 0)
                 {
-                    maxIndex = i;
-                    maxWeight = weight;
+                    var behaviour = ((ScriptPlayable<SpriteSwitchPlayableBehaviour>) playable.GetInput(i)).GetBehaviour();
+                    for (var j = 0; j < spriteGroup.spriteRenderers.Length; j++)
+                    {
+                        var spriteRenderer = spriteGroup.spriteRenderers[j];
+                        SetSpriteSheet(spriteRenderer, behaviour.clip.spriteSheet);
+                    }
+                    return;
                 }
             }
-
-            //weights should add up to 1.0, therefore calculate any missing weight using 1 - total.
-            var missingWeight = 1f - totalWeight;
-            //there is nothing to do (missing weight = 1 or total weight = 0)
-            if (missingWeight >= 1f)
-            {
-                for (var i = 0; i < spriteGroup.spriteRenderers.Length; i++)
-                {
-                    var spriteRenderer = spriteGroup.spriteRenderers[i];
-                    SetSpriteSheet(spriteRenderer, spriteRenderer.sprite.texture);
-                }
-                return;
-            }
-
-            var maxBehaviour = ((ScriptPlayable<SpriteSwitchPlayableBehaviour>) playable.GetInput(maxIndex)).GetBehaviour();
             
-            for (var i = 0; i < spriteGroup.spriteRenderers.Length; i++)
+            for (var j = 0; j < spriteGroup.spriteRenderers.Length; j++)
             {
-                var spriteRenderer = spriteGroup.spriteRenderers[i];
-                SetSpriteSheet(spriteRenderer, maxBehaviour.clip.spriteSheet);
+                var spriteRenderer = spriteGroup.spriteRenderers[j];
+                SetSpriteSheet(spriteRenderer, spriteRenderer.sprite.texture);
             }
         }
 

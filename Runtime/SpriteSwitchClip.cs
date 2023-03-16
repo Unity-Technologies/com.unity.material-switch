@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Serialization;
+using UnityEngine.Timeline;
 
 namespace Unity.MaterialSwitch
 {
-    internal class SpriteSwitchClip : PlayableAsset
+    internal class SpriteSwitchClip : PlayableAsset, ITimelineClipAsset
     {
         public Texture2D spriteSheet;
+        
+        public ClipCaps clipCaps => ClipCaps.None;
         
         public override Playable CreatePlayable(PlayableGraph graph, GameObject owner)
         {

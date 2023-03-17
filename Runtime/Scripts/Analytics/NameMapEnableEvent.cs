@@ -4,22 +4,14 @@ namespace Unity.MaterialSwitch {
 
 internal class NameMapEnableEvent : AnalyticsEvent {
 
-    internal NameMapEnableEvent(double duration, bool frameMarkers, int images, int width, int height) : base(
+    internal NameMapEnableEvent(int mappedProperties) : base(
         new EventData {
-            clipDuration = duration, 
-            showFrameMarkers = frameMarkers, 
-            numImages = images, 
-            imageResolutionWidth = width, 
-            imageResolutionHeight = height
+            numMappedProperties   = mappedProperties,
         }) 
     { }
     
     private class EventData : AnalyticsEventData {
-        public double clipDuration;
-        public bool   showFrameMarkers;
-        public int    numImages;
-        public int    imageResolutionWidth;
-        public int    imageResolutionHeight;
+        public double numMappedProperties;
     }
     
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------

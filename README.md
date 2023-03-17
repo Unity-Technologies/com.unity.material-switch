@@ -15,7 +15,7 @@
 
 ## Supported Unity Versions and Settings
 
-Unity 2019.4 or higher.
+Unity 2020.3.45 or higher.
 
 Please refer to the [installation](Documentation~/installation.md) page to install MaterialSwitch package.
 

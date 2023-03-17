@@ -4,9 +4,13 @@ Material Switch User Documentation
 # Overview
 Material Switch allows you to change and blend between material parameters using Timeline.
 
-# Requirements
-1. [Selection Groups](https://docs.unity3d.com/Packages/com.unity.selection-groups@latest), 
-   with data stored in the scene.   
+
+# Supported Unity Versions
+
+Unity 2020.3.45 or higher.
+
+# Dependencies
+1. [Selection Groups](https://docs.unity3d.com/Packages/com.unity.selection-groups@latest).   
    This is used to specify the set of renderers that have material parameters 
    we want to use in Timeline with a Material Switch clip. 
 

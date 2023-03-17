@@ -4,10 +4,11 @@ namespace Unity.MaterialSwitch {
 
 internal class MaterialSwitchTrackMixerEvent : AnalyticsEvent {
 
-    internal MaterialSwitchTrackMixerEvent(int clips) : base(new EventData { numClips = clips, }) { }
+    internal MaterialSwitchTrackMixerEvent(int clips, int materials) : base(new EventData { numClips = clips, numMaterials = materials}) { }
     
     private class EventData : AnalyticsEventData {
         public int numClips;
+        public int numMaterials;
     }
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------

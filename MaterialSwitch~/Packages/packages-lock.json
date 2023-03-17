@@ -15,7 +15,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.film-internal-utilities": {
-      "version": "0.18.1-preview",
+      "version": "0.18.2-preview",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -112,10 +112,11 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.toonshader": {
-      "version": "0.8.2-preview",
+      "version": "0.9.0-preview",
       "depth": 0,
       "source": "registry",
       "dependencies": {
+        "com.unity.film-internal-utilities": "0.18.2-preview",
         "com.unity.render-pipelines.core": "10.0.0"
       },
       "url": "https://packages.unity.com"

@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using Unity.Collections;
+using Unity.FilmInternalUtilities;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -38,6 +40,9 @@ namespace Unity.MaterialSwitch
                 nameMapIndex[i.propertyName] = i;
             }            
         }
-        
+
+        private void OnEnable() {
+            AnalyticsSender.SendEventInEditor(new NameMapEnableEvent(nameMap.Count));
+        }
     }
 }

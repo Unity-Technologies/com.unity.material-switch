@@ -1,4 +1,6 @@
-﻿using Unity.SelectionGroups;
+﻿using System.Collections.Generic;
+using Unity.FilmInternalUtilities;
+using Unity.SelectionGroups;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
@@ -14,7 +16,10 @@ namespace Unity.MaterialSwitch
         
         public override Playable CreateTrackMixer(UnityEngine.Playables.PlayableGraph graph, UnityEngine.GameObject go, int inputCount)
         {
-            var director = go.GetComponent<PlayableDirector>();
+#if UNITY_EDITOR
+            List<TimelineClip> clips        = new List<TimelineClip>(GetClips());
+            AnalyticsSender.SendEventInEditor(new SpriteSwitchTrackMixerEvent(clips.Count));            
+#endif                        
             return ScriptPlayable<SpriteSwitchMixerPlayableBehaviour>.Create(graph, inputCount);
         }
     }

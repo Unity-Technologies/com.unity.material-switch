@@ -10,6 +10,7 @@ using UnityEditor;
 
 namespace Unity.MaterialSwitch
 {
+    [AddComponentMenu("")]
     [ExecuteAlways]
     [RequireComponent(typeof(SelectionGroups.SelectionGroup))]
     internal class MaterialGroup : MonoBehaviour

@@ -6,6 +6,7 @@ using UnityEngine.Serialization;
 
 namespace Unity.MaterialSwitch
 {
+    [AddComponentMenu("")]
     [ExecuteAlways]
     [RequireComponent(typeof(SelectionGroups.SelectionGroup))]
     internal class SpriteGroup : MonoBehaviour

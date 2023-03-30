@@ -1,4 +1,8 @@
-﻿using System;
+﻿//[Note-sin: 2023-03-29] Comment this for debugging in the editor
+//#define DEBUG_SPRITE_SWITCH
+
+
+using System;
 using System.Collections.Generic;
 using Unity.FilmInternalUtilities;
 using UnityEngine;
@@ -17,6 +21,10 @@ namespace Unity.MaterialSwitch
             GetOrCreateInstance().actions.Add(action);
         }
 
+        void OnEnable() {
+            SetHideFlags(gameObject);
+        }
+        
         void LateUpdate()
         {
             foreach (var i in actions)
@@ -26,5 +34,12 @@ namespace Unity.MaterialSwitch
             actions.Clear();
         }
 
+        private static void SetHideFlags(GameObject go) {
+#if DEBUG_SPRITE_SWITCH
+            go.hideFlags = HideFlags.None;
+#else
+            go.hideFlags = HideFlags.HideInHierarchy;
+#endif
+        }
     }
 }

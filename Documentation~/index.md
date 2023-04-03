@@ -28,3 +28,6 @@ Unity 2020.3.45 or higher.
 
 # Features 
 1. [MaterialSwitchClip](material-switch-clip.md)
+1. [Sprite Switch Clip](sprite-switch-clip.md)
+1. [Property Name Remap](property-name-remap.md)
+

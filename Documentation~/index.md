@@ -2,7 +2,9 @@ Material Switch User Documentation
 ==================================
 
 # Overview
-Material Switch allows you to change and blend between material parameters using Timeline.
+
+Material Switch provides tools for switching and blending material parameters over a number of renderers 
+simultaneously using Timeline.
 
 
 # Supported Unity Versions

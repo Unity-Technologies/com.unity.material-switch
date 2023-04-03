@@ -30,6 +30,8 @@ Please refer to the [installation](Documentation~/installation.md) page to insta
 
 # Features
 1. [MaterialSwitchClip](Documentation~/material-switch-clip.md)
+1. [SpriteSwitchClip](Documentation~/sprite-switch-clip.md)
+1. [Property Name Remap](Documentation~/property-name-remap.md)
 
 # License
 - [License](LICENSE.md)

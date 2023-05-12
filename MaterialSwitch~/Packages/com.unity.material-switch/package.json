@@ -2,7 +2,7 @@
   "displayName": "Material Switch",
   "name": "com.unity.material-switch",
   "unity": "2020.3",
-  "version": "0.9.1-preview",
+  "version": "0.9.2-preview",
   "description": "Provides tools for switching and blending material parameters over a number of renderers simultaneously using Timeline.",
   "contributors": [
     "Simon Wittber <simonwittber@unity3d.com> (https://github.com/smnwttbr)",

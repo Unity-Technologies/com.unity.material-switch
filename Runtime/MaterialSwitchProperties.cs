@@ -7,7 +7,7 @@ namespace Unity.MaterialSwitch
     /// A non-generic base class for overriding material property in MaterialSwitchClip
     /// </summary>
     [Serializable]
-    public abstract class MaterialSwitchProperty
+    internal abstract class MaterialSwitchProperty
     {
         //[SerializeField] internal string displayName;
         [SerializeField] internal string propertyName;
@@ -32,7 +32,7 @@ namespace Unity.MaterialSwitch
     /// A generic base class for overriding material property in MaterialSwitchClip
     /// </summary>
     [Serializable]
-    public abstract class MaterialProperty<T> : MaterialSwitchProperty
+    internal abstract class MaterialProperty<T> : MaterialSwitchProperty
     {
         [SerializeField] internal T baseValue;
         [SerializeField] internal T targetValue;
@@ -48,7 +48,7 @@ namespace Unity.MaterialSwitch
     /// A class for overriding a float property in MaterialSwitchClip
     /// </summary>
     [System.Serializable]
-    public class FloatProperty : MaterialProperty<float>
+    internal class FloatProperty : MaterialProperty<float>
     {
 
     }
@@ -57,7 +57,7 @@ namespace Unity.MaterialSwitch
     /// A class for overriding a range property in MaterialSwitchClip
     /// </summary>
     [System.Serializable]
-    public class RangeProperty : FloatProperty
+    internal class RangeProperty : FloatProperty
     {
         [SerializeField] internal Vector2 rangeLimits;
     }
@@ -66,7 +66,7 @@ namespace Unity.MaterialSwitch
     /// A class for overriding a vector property in MaterialSwitchClip
     /// </summary>
     [System.Serializable]
-    public class VectorProperty : MaterialProperty<Vector4>
+    internal class VectorProperty : MaterialProperty<Vector4>
     {
 
     }
@@ -75,7 +75,7 @@ namespace Unity.MaterialSwitch
     /// A class for overriding texture property in MaterialSwitchClip
     /// </summary>
     [System.Serializable]
-    public class TextureProperty : MaterialProperty<Texture>
+    internal class TextureProperty : MaterialProperty<Texture>
     {
         [SerializeField] internal RenderTexture finalTexture;
     }
@@ -84,7 +84,7 @@ namespace Unity.MaterialSwitch
     /// A class for overriding color property in MaterialSwitchClip
     /// </summary>
     [System.Serializable]
-    public class ColorProperty : MaterialProperty<Color>
+    internal class ColorProperty : MaterialProperty<Color>
     {
         [SerializeField] internal Vector2 uv;
     }

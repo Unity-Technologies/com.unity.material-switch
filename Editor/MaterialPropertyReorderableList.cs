@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Unity.MaterialSwitch
 {
-    public class MaterialPropertyReorderableList : ReorderableList
+    internal class MaterialPropertyReorderableList : ReorderableList
     {
         private string _filterText = "";
 

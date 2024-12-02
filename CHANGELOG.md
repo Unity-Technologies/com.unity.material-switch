@@ -9,8 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 * made class MaterialSwitchTrack internal.
 * made class MaterialProperties internal.
+* made class MaterialPropertyReorderableList internal.
 
-* ## [0.9.2-preview] - 2023-05-11
+## [0.9.2-preview] - 2023-05-11
 
 ### Changed
 * doc: update SpriteSwitchClip documentation

@@ -8,7 +8,7 @@ namespace Unity.MaterialSwitch
     /// A class to store material properties 
     /// </summary>
     [System.Serializable]
-    public class MaterialProperties
+    internal class MaterialProperties
     {
         [SerializeField] internal Texture2D texture;
         [FormerlySerializedAs("colorCoordinates")] [SerializeField] internal List<ColorProperty> colorProperties = new List<ColorProperty>();

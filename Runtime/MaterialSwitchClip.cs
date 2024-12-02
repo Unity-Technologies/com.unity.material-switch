@@ -20,7 +20,7 @@ namespace Unity.MaterialSwitch
         /// Enumerate all material properties set in the clip
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<MaterialProperties> GetMaterialProperties() 
+        internal IEnumerable<MaterialProperties> GetMaterialProperties() 
         {
             foreach (MaterialProperties mp in materialPropertiesList) 
                 yield return mp;

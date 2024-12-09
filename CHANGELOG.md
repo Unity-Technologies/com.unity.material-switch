@@ -4,13 +4,13 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [0.10.0-preview] - 2025-12-09
+## [0.10.0-preview] - 2024-12-09
 
 ### Changed
-* made class MaterialSwitchTrack internal.
-* made class MaterialProperties internal.
-* made MaterialSwitchProperty and all subclasses internal.
-* made class MaterialPropertyReorderableList internal.
+* api: made class MaterialSwitchTrack internal.
+* api: made class MaterialProperties internal.
+* api: made MaterialSwitchProperty and all subclasses internal.
+* api: made class MaterialPropertyReorderableList internal.
 
 ## [0.9.2-preview] - 2023-05-11
 

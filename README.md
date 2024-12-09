@@ -11,7 +11,7 @@ simultaneously using Timeline.
 
 ## Supported Unity Versions and Settings
 
-Unity 2020.3.45 or higher.
+Unity 2021.3.45 or higher.
 
 Please refer to the [installation](Documentation~/installation.md) page to install MaterialSwitch package.
 

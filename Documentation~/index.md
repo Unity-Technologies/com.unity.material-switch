@@ -9,7 +9,7 @@ simultaneously using Timeline.
 
 # Supported Unity Versions
 
-Unity 2020.3.45 or higher.
+Unity 2021.3.45 or higher.
 
 # Dependencies
 1. [Selection Groups](https://docs.unity3d.com/Packages/com.unity.selection-groups@latest).   

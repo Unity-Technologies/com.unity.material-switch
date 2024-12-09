@@ -7,10 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.10.0-preview] - 2024-12-09
 
 ### Changed
-* api: made class MaterialSwitchTrack internal.
-* api: made class MaterialProperties internal.
-* api: made MaterialSwitchProperty and all subclasses internal.
-* api: made class MaterialPropertyReorderableList internal.
+* package: update minimum Unity version to 2021
+* api: made class MaterialSwitchTrack internal
+* api: made class MaterialProperties internal
+* api: made MaterialSwitchProperty and all subclasses internal
+* api: made class MaterialPropertyReorderableList internal
 
 ## [0.9.2-preview] - 2023-05-11
 
